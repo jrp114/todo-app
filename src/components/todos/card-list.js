@@ -22,6 +22,7 @@ export default function CardList(props) {
         </div>
         {props.items?.map((item, i) => (
           <Card
+            key={item.id}
             item={item}
             i={i}
             dragging={dragging}
