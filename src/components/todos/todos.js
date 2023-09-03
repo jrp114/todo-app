@@ -7,8 +7,7 @@ import {
   useMemo,
   useState,
 } from 'react';
-import Completed from './completed';
-import Todo from './todo';
+import CardList from './card-list';
 import TodosForm from './todos-form';
 
 const TodoContext = createContext(undefined);
@@ -38,33 +37,28 @@ export default function Todos() {
     refetch();
   }, []);
 
-  const addTodo = (t) => {
+  const addTodo = useCallback((t) => {
     axios.post(url, { ...t, status: 'todo' }).then((result) => {
       setTodos((prev) => {
         return [...prev, result.data];
       });
     });
-  };
-  const changeCompleted = (c) => {
-    setCompleted((prev) => {
-      return [...prev, c];
-    });
-  };
-  const removeTodo = (id) => {
+  }, []);
+  const removeTodo = useCallback((id) => {
     axios.delete(`${url}/${id}`).then((result) => {
       setTodos((prev) => {
         return prev.filter((t) => t.id !== id);
       });
     });
-  };
-  const removeCompleted = (id) => {
+  }, []);
+  const removeCompleted = useCallback((id) => {
     axios.delete(`${url}/${id}`).then((result) => {
       setCompleted((prev) => {
         return prev.filter((t) => t.id !== id);
       });
     });
-  };
-  const dropItem = (current, list) => {
+  }, []);
+  const dropItem = useCallback((current, list) => {
     if (current) {
       axios
         .put(`${url}/${current.id}`, {
@@ -75,24 +69,32 @@ export default function Todos() {
           refetch();
         });
     }
-  };
+  }, []);
   const state = useMemo(() => {
     return {
-      todos,
       setTodos: addTodo,
-      removeTodo,
-      dropItem,
-      completed,
-      setCompleted: changeCompleted,
-      removeCompleted,
     };
-  }, [todos, completed]);
+  }, []);
   return (
     <TodoContext.Provider value={state}>
       <TodosForm />
       <div className="flex flex-row">
-        <Todo current={current} setCurrent={setCurrent} />
-        <Completed current={current} setCurrent={setCurrent} />
+        <CardList
+          name="todo"
+          current={current}
+          setCurrent={setCurrent}
+          items={todos}
+          remove={removeTodo}
+          dropItem={dropItem}
+        />
+        <CardList
+          name="complete"
+          current={current}
+          setCurrent={setCurrent}
+          items={completed}
+          remove={removeCompleted}
+          dropItem={dropItem}
+        />
       </div>
     </TodoContext.Provider>
   );
