@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import { useEffect, useRef, useState } from 'react';
+import { useModalContext } from '../../modal-context';
 
 export default function Card(props) {
   const {
@@ -14,6 +15,7 @@ export default function Card(props) {
     setCurrent,
   } = props;
   const [clicked, setClicked] = useState(false);
+  const { setModal } = useModalContext();
   const ref = useRef();
   useEffect(() => {
     window.addEventListener('click', (event) => {
@@ -50,7 +52,12 @@ export default function Card(props) {
           </div>
           <button
             className="bg-red-500 text-white h-fit w-fit p-1 mr-1"
-            onClick={() => remove(item.id)}
+            onClick={() =>
+              setModal({
+                message: 'Are you sure you want to delete this?',
+                actions: [{ name: 'Delete', handle: () => remove(item.id) }],
+              })
+            }
           >
             Delete
           </button>
