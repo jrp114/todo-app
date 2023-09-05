@@ -30,7 +30,7 @@ export default function Card(props) {
       key={item.id}
       className={classNames('', {
         'text-green-500 font-bold': dragging && index === i,
-        'border h-52 bg-green-200': clicked,
+        'border p-2 bg-green-200': clicked,
       })}
       draggable
       onDragStart={() => {
@@ -46,12 +46,24 @@ export default function Card(props) {
     >
       {item.name}
       {clicked && (
-        <div className="flex flex-col justify-between gap-y-24 h-fit items-end max-w-xs">
+        <div className="flex flex-col justify-between h-fit items-end max-w-xs">
           <div className="italic text-sm text-red-500 mr-1 flex-wrap">
             {item.description}
           </div>
+          {item.tags && (
+            <div className="flex flex-row flex-wrap">
+              {item.tags?.map((tag, i) => (
+                <div
+                  key={(tag, i)}
+                  className="text-xs text-blue-500 bg-white mr-1 flex-wrap border  p-0.5 m-0.5"
+                >
+                  {tag}
+                </div>
+              ))}
+            </div>
+          )}
           <button
-            className="bg-red-500 text-white h-fit w-fit p-1 mr-1"
+            className="bg-red-500 text-white h-fit w-fit p-1 mr-1 mt-16"
             onClick={() =>
               setModal({
                 message: 'Are you sure you want to delete this?',

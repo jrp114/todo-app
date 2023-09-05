@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTodoContext } from './todos';
 
 export default function TodosForm() {
   const [step, setStep] = useState(0);
+  const [tags, setTags] = useState([]);
   const { setTodos } = useTodoContext();
   const {
     handleSubmit,
@@ -12,12 +13,24 @@ export default function TodosForm() {
     formState: { errors, isValid },
     setError,
     clearErrors,
+    getValues,
+    resetField,
   } = useForm();
+  const addTag = useCallback((tag) => {
+    const temp = tags;
+    temp.push(tag);
+    setTags(temp);
+    resetField('tag');
+  }, []);
   return (
     <div className="pl-5 pt-5">
       <form
         onSubmit={handleSubmit((v) => {
-          setTodos(v);
+          setTodos({
+            ...v,
+            tag: undefined,
+            tags,
+          });
           setStep(0);
           reset();
         })}
@@ -34,7 +47,19 @@ export default function TodosForm() {
             className="border bg-green-200"
           />
         )}
-        {step !== 1 && (
+        {step === 2 && (
+          <input {...register('tag')} className="border bg-green-200" />
+        )}
+        {step === 2 && (
+          <button
+            className="text-red border bg-green-400"
+            type="button"
+            onClick={() => addTag(getValues('tag'))}
+          >
+            Add Tag
+          </button>
+        )}
+        {step !== 3 && (
           <button
             className="text-red border bg-red-400"
             type="button"
@@ -50,7 +75,7 @@ export default function TodosForm() {
             Next
           </button>
         )}
-        {step === 1 && (
+        {step === 3 && (
           <button className="text-red border bg-red-400" type="submit">
             Submit
           </button>
