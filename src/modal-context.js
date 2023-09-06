@@ -44,6 +44,7 @@ export const ModalProvider = (props) => {
             <div className="flex justify-end pt-4 gap-x-4">
               {actions.map((action) => (
                 <button
+                  key={action.name}
                   className="bg-green-500 text-white p-1 rounded-md"
                   onClick={() => {
                     action.handle();
