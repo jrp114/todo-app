@@ -1,12 +1,13 @@
 import axios from 'axios';
 import { useCallback, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { useTodoContext } from '../../todos-context';
 import CardList from '../shared/card-list';
-import TodosForm from './todos-form';
+import FilterForm from './filter-form';
 
 const url = 'http://localhost:8501/todos';
 
-export default function Todos() {
+export default function Filter() {
   const {
     todos,
     completed,
@@ -17,8 +18,9 @@ export default function Todos() {
     setTodos,
     setCompleted,
   } = useTodoContext();
-  const refetch = useCallback(() => {
-    axios.get(url).then((result) => {
+  const { value: paramValue } = useParams();
+  const refetch = useCallback((value) => {
+    axios.get(url + `/filter?value=${value}`).then((result) => {
       const t = [];
       const c = [];
       result.data.forEach((r) => {
@@ -32,9 +34,6 @@ export default function Todos() {
       setCompleted(c);
     });
   }, []);
-  useEffect(() => {
-    refetch();
-  }, []);
   const dropItem = useCallback((current, list) => {
     if (current) {
       axios
@@ -43,14 +42,16 @@ export default function Todos() {
           status: list,
         })
         .then((result) => {
-          refetch();
+          refetch(paramValue);
         });
     }
   }, []);
 
+  useEffect(() => refetch(paramValue), [paramValue]);
+
   return (
     <>
-      <TodosForm />
+      <FilterForm />
       <div className="flex flex-row">
         <CardList
           name="todo"

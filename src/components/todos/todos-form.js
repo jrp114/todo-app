@@ -1,11 +1,11 @@
 import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useTodoContext } from './todos';
+import { useTodoContext } from '../../todos-context';
 
 export default function TodosForm() {
   const [step, setStep] = useState(0);
   const [tags, setTags] = useState([]);
-  const { setTodos } = useTodoContext();
+  const { addTodo } = useTodoContext();
   const {
     handleSubmit,
     register,
@@ -26,7 +26,7 @@ export default function TodosForm() {
     <div className="pl-5 pt-5">
       <form
         onSubmit={handleSubmit((v) => {
-          setTodos({
+          addTodo({
             ...v,
             tag: undefined,
             tags,
