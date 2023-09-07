@@ -10,7 +10,7 @@ import {
 const TodoContext = createContext(undefined);
 const url = 'http://localhost:8501/todos';
 
-export default function TodosProvider(props) {
+export default function TodosProvider({ children }) {
   const [current, setCurrent] = useState(undefined);
   const [todos, setTodos] = useState([]);
   const [completed, setCompleted] = useState([]);
@@ -50,9 +50,7 @@ export default function TodosProvider(props) {
       setCompleted,
     };
   }, [addTodo, todos, completed, current, removeTodo, removeCompleted]);
-  return (
-    <TodoContext.Provider value={state}>{props.children}</TodoContext.Provider>
-  );
+  return <TodoContext.Provider value={state}>{children}</TodoContext.Provider>;
 }
 
 export const useTodoContext = () => useContext(TodoContext);

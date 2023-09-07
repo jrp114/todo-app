@@ -1,4 +1,4 @@
-import {
+import React, {
   createContext,
   useCallback,
   useContext,
@@ -10,7 +10,7 @@ import {
 
 const ModalContext = createContext(undefined);
 
-export const ModalProvider = (props) => {
+export const ModalProvider = ({ children }) => {
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState('');
   const [actions, setActions] = useState(undefined);
@@ -64,7 +64,7 @@ export const ModalProvider = (props) => {
           </div>
         </div>
       )}
-      {props.children}
+      {children}
     </ModalContext.Provider>
   );
 };

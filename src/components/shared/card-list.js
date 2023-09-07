@@ -2,7 +2,14 @@ import { useEffect, useState } from 'react';
 import { useTodoContext } from '../../todos-context';
 import Card from './card';
 
-export default function CardList(props) {
+export default function CardList({
+  current,
+  name,
+  dropItem,
+  setCurrent,
+  items,
+  remove,
+}) {
   const [dragging, setDragging] = useState(false);
   const [index, setIndex] = useState(undefined);
   const { todos } = useTodoContext();
@@ -16,14 +23,14 @@ export default function CardList(props) {
           e.preventDefault();
         }}
         onDrop={() => {
-          props.dropItem(props.current, props.name);
-          props.setCurrent(undefined);
+          dropItem(current, name);
+          setCurrent(undefined);
         }}
       >
         <div className="text-xl text-orange-700 font-bold uppercase">
-          {props.name}
+          {name}
         </div>
-        {props.items?.map((item, i) => (
+        {items?.map((item, i) => (
           <Card
             key={item.id}
             item={item}
@@ -31,10 +38,10 @@ export default function CardList(props) {
             dragging={dragging}
             setDragging={setDragging}
             setIndex={setIndex}
-            items={props.items}
-            remove={props.remove}
+            items={items}
+            remove={remove}
             index={index}
-            setCurrent={props.setCurrent}
+            setCurrent={setCurrent}
           />
         ))}
       </div>

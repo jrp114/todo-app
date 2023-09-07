@@ -2,18 +2,17 @@ import classNames from 'classnames';
 import { useEffect, useRef, useState } from 'react';
 import { useModalContext } from '../../modal-context';
 
-export default function Card(props) {
-  const {
-    item,
-    i,
-    dragging,
-    index,
-    setDragging,
-    setIndex,
-    items,
-    remove,
-    setCurrent,
-  } = props;
+export default function Card({
+  item,
+  i,
+  dragging,
+  index,
+  setDragging,
+  setIndex,
+  items,
+  remove,
+  setCurrent,
+}) {
   const [clicked, setClicked] = useState(false);
   const { setModal } = useModalContext();
   const ref = useRef();
