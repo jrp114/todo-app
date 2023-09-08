@@ -38,7 +38,7 @@ export const ModalProvider = ({ children }) => {
       {show && (
         <div
           ref={outer}
-          className="w-full h-full fixed top-0 left-0 bg-black bg-opacity-50 flex justify-center items-center"
+          className="w-full h-full fixed top-0 left-0 bg-black bg-opacity-50 flex justify-center items-center overflow-auto"
         >
           <div className="bg-white p-4 rounded-md">
             <div className="text-lg">{message}</div>
