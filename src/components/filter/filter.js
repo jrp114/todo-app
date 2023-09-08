@@ -11,8 +11,7 @@ export default function Filter() {
   const {
     todos,
     completed,
-    removeTodo,
-    removeCompleted,
+    remove,
     current,
     setCurrent,
     setTodos,
@@ -47,7 +46,7 @@ export default function Filter() {
     }
   }, []);
 
-  useEffect(() => refetch(paramValue), [paramValue]);
+  useEffect(() => refetch(paramValue), [paramValue, todos, completed]);
 
   return (
     <>
@@ -58,7 +57,7 @@ export default function Filter() {
           current={current}
           setCurrent={setCurrent}
           items={todos}
-          remove={removeTodo}
+          remove={remove}
           dropItem={dropItem}
         />
         <CardList
@@ -66,7 +65,7 @@ export default function Filter() {
           current={current}
           setCurrent={setCurrent}
           items={completed}
-          remove={removeCompleted}
+          remove={remove}
           dropItem={dropItem}
         />
       </div>

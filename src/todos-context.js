@@ -22,18 +22,16 @@ export default function TodosProvider({ children }) {
       });
     });
   }, []);
-  const removeTodo = useCallback((id) => {
+  const remove = useCallback((id) => {
     axios.delete(`${url}/${id}`).then((result) => {
-      setTodos((prev) => {
-        return prev.filter((t) => t.id !== id);
-      });
-    });
-  }, []);
-  const removeCompleted = useCallback((id) => {
-    axios.delete(`${url}/${id}`).then((result) => {
-      setCompleted((prev) => {
-        return prev.filter((t) => t.id !== id);
-      });
+      if (result.data.status === 'todo')
+        setTodos((prev) => {
+          return prev.filter((t) => t.id !== id);
+        });
+      else
+        setCompleted((prev) => {
+          return prev.filter((t) => t.id !== id);
+        });
     });
   }, []);
 
@@ -44,12 +42,11 @@ export default function TodosProvider({ children }) {
       completed,
       current,
       setCurrent,
-      removeTodo,
-      removeCompleted,
+      remove,
       setTodos,
       setCompleted,
     };
-  }, [addTodo, todos, completed, current, removeTodo, removeCompleted]);
+  }, [addTodo, todos, completed, current, remove]);
   return <TodoContext.Provider value={state}>{children}</TodoContext.Provider>;
 }
 

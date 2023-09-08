@@ -10,8 +10,7 @@ export default function Todos() {
   const {
     todos,
     completed,
-    removeTodo,
-    removeCompleted,
+    remove,
     current,
     setCurrent,
     setTodos,
@@ -34,7 +33,7 @@ export default function Todos() {
   }, []);
   useEffect(() => {
     refetch();
-  }, []);
+  }, [todos, completed]);
   const dropItem = useCallback((current, list) => {
     if (current) {
       axios
@@ -57,7 +56,7 @@ export default function Todos() {
           current={current}
           setCurrent={setCurrent}
           items={todos}
-          remove={removeTodo}
+          remove={remove}
           dropItem={dropItem}
         />
         <CardList
@@ -65,7 +64,7 @@ export default function Todos() {
           current={current}
           setCurrent={setCurrent}
           items={completed}
-          remove={removeCompleted}
+          remove={remove}
           dropItem={dropItem}
         />
       </div>
