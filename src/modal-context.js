@@ -30,6 +30,7 @@ export const ModalProvider = ({ children }) => {
   const state = useMemo(() => {
     return {
       setModal,
+      setShowModal: setShow,
     };
   }, []);
   return (
@@ -48,7 +49,6 @@ export const ModalProvider = ({ children }) => {
                   className="bg-green-500 text-white p-1 rounded-md"
                   onClick={() => {
                     action.handle();
-                    setShow(false);
                   }}
                 >
                   {action.name}
