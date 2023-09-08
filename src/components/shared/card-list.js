@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { useTodoContext } from '../../todos-context';
+import { useState } from 'react';
 import Card from './card';
 
 export default function CardList({
@@ -12,9 +11,7 @@ export default function CardList({
 }) {
   const [dragging, setDragging] = useState(false);
   const [index, setIndex] = useState(undefined);
-  const { todos } = useTodoContext();
 
-  useEffect(() => console.log(todos));
   return (
     <div className="p-5">
       <div
