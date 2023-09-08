@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useTodoContext } from '../../todos-context';
+import { Button } from '../shared/button';
 
 export default function TodosForm() {
   const [step, setStep] = useState(0);
@@ -53,18 +54,13 @@ export default function TodosForm() {
           <input {...register('tag')} className="border bg-green-200" />
         )}
         {step === 2 && (
-          <button
-            className="text-red border bg-green-400"
-            type="button"
-            onClick={() => addTag(getValues('tag'))}
-          >
+          <Button variant="primary" onClick={() => addTag(getValues('tag'))}>
             Add Tag
-          </button>
+          </Button>
         )}
         {step !== 3 && (
-          <button
-            className="text-red border bg-red-400"
-            type="button"
+          <Button
+            variant="secondary"
             onClick={() => {
               if (isValid) {
                 setStep(step + 1);
@@ -75,20 +71,16 @@ export default function TodosForm() {
             }}
           >
             Next
-          </button>
+          </Button>
         )}
         {step === 3 && (
-          <button className="border bg-red-400" type="submit">
+          <Button variant="secondary" type="submit">
             Submit
-          </button>
+          </Button>
         )}
-        <button
-          className="text-white border bg-green-400"
-          type="button"
-          onClick={() => navigate('/filter/')}
-        >
+        <Button variant="primary" onClick={() => navigate('/filter/')}>
           Filter
-        </button>
+        </Button>
       </form>
       {(errors.name || errors.description) && (
         <span className="text-red-500">Required</span>

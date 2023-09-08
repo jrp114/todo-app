@@ -7,6 +7,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { Button } from './components/shared/button';
 
 const ModalContext = createContext(undefined);
 
@@ -44,22 +45,18 @@ export const ModalProvider = ({ children }) => {
             <div className="text-lg">{message}</div>
             <div className="flex justify-end pt-4 gap-x-4">
               {actions.map((action) => (
-                <button
-                  key={action.name}
-                  className="bg-green-500 text-white p-1 rounded-md"
+                <Button
+                  variant="primary"
                   onClick={() => {
                     action.handle();
                   }}
                 >
                   {action.name}
-                </button>
+                </Button>
               ))}
-              <button
-                className="bg-red-500 text-white p-1 rounded-md"
-                onClick={() => setShow(false)}
-              >
+              <Button variant="secondary" onClick={() => setShow(false)}>
                 Cancel
-              </button>
+              </Button>
             </div>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '../shared/button';
 
 export default function FilterForm() {
   const { handleSubmit, register } = useForm();
@@ -15,9 +16,9 @@ export default function FilterForm() {
           {...register('value', { required: true })}
           className="border bg-green-200"
         />
-        <button className="text-red border bg-red-400" type="submit">
+        <Button variant="secondary" type="submit">
           Filter
-        </button>
+        </Button>
       </form>
     </div>
   );

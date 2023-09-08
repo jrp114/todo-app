@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useModalContext } from '../../modal-context';
+import { Button } from './button';
 
 function Message(props) {
   const [comments, setComments] = useState([]);
@@ -47,9 +48,9 @@ function Message(props) {
               })}
             >
               <input {...register('comment')} className="border w-full" />
-              <button className="border bg-green-400" type="submit">
+              <Button type="submit" variant="primary">
                 Add
-              </button>
+              </Button>
             </form>
             {comments?.map((comment) => (
               <div className="text-sm text-blue-400 w-full p-.25">
