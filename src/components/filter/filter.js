@@ -46,7 +46,7 @@ export default function Filter() {
     }
   }, []);
 
-  useEffect(() => refetch(paramValue), [paramValue, todos, completed]);
+  useEffect(() => refetch(paramValue), [paramValue]);
 
   return (
     <>

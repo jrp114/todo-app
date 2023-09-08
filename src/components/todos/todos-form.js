@@ -1,10 +1,12 @@
 import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { useTodoContext } from '../../todos-context';
 
 export default function TodosForm() {
   const [step, setStep] = useState(0);
   const [tags, setTags] = useState([]);
+  const navigate = useNavigate();
   const { addTodo } = useTodoContext();
   const {
     handleSubmit,
@@ -76,10 +78,17 @@ export default function TodosForm() {
           </button>
         )}
         {step === 3 && (
-          <button className="text-red border bg-red-400" type="submit">
+          <button className="border bg-red-400" type="submit">
             Submit
           </button>
         )}
+        <button
+          className="text-white border bg-green-400"
+          type="button"
+          onClick={() => navigate('/filter/')}
+        >
+          Filter
+        </button>
       </form>
       {(errors.name || errors.description) && (
         <span className="text-red-500">Required</span>

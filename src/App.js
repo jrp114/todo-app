@@ -12,7 +12,7 @@ function App() {
         <TodosProvider>
           <Routes>
             <Route path="/" element={<Todos />} />
-            <Route path="/filter/:value" element={<Filter />} />
+            <Route path="/filter/:value?" element={<Filter />} />
           </Routes>
         </TodosProvider>
       </ModalProvider>

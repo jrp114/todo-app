@@ -33,7 +33,7 @@ export default function Todos() {
   }, []);
   useEffect(() => {
     refetch();
-  }, [todos, completed]);
+  }, []);
   const dropItem = useCallback((current, list) => {
     if (current) {
       axios
