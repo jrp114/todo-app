@@ -7,6 +7,7 @@ import { Button } from './button';
 
 function Message(props) {
   const [comments, setComments] = useState([]);
+  const [edit, setEdit] = useState(undefined);
   const { register, handleSubmit, resetField } = useForm();
 
   const refetch = useCallback(() => {
@@ -46,6 +47,7 @@ function Message(props) {
                 addComment(props.item.id, v.comment);
                 resetField('comment');
               })}
+              className="flex flex-row justify-end gap-2 pb-3"
             >
               <input {...register('comment')} className="border w-full" />
               <Button type="submit" variant="primary">
@@ -53,8 +55,33 @@ function Message(props) {
               </Button>
             </form>
             {comments?.map((comment) => (
-              <div className="text-sm text-blue-400 w-full p-.25">
-                {comment.text}
+              <div className=" flex justify-end p-1">
+                <div
+                  contentEditable={edit === comment.id}
+                  onBlur={(e) => {
+                    if (e.target.innerHTML !== comment.text) {
+                      axios
+                        .put(`http://localhost:8501/comments/${comment.id}`, {
+                          text: e.target.innerHTML,
+                        })
+                        .then((result) => {
+                          refetch();
+                        });
+                    }
+                  }}
+                  className={classNames('text-sm text-blue-400 w-full p-.25', {
+                    border: edit === comment.id,
+                  })}
+                >
+                  {comment.text}
+                </div>
+                <Button
+                  onClick={() => setEdit(comment.id)}
+                  size="sm"
+                  variant="secondary"
+                >
+                  Edit
+                </Button>
               </div>
             ))}
           </div>
