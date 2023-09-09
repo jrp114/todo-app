@@ -79,9 +79,11 @@ export default function TodosForm() {
             Submit
           </Button>
         )}
-        <Button variant="primary" onClick={() => navigate('/filter/')}>
-          Filter
-        </Button>
+        {step === 0 && (
+          <Button variant="primary" onClick={() => navigate('/filter/')}>
+            Filter
+          </Button>
+        )}
       </form>
       {(errors.name || errors.description) && (
         <span className="text-red-500">Required</span>
