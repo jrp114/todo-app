@@ -11,6 +11,7 @@ export default function FilterForm() {
         onSubmit={handleSubmit((v) => {
           navigate(`/filter/${v.value}`);
         })}
+        className="flex flex-row gap-1"
       >
         <input
           {...register('value', { required: true })}

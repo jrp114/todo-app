@@ -37,6 +37,7 @@ export default function TodosForm() {
           setStep(0);
           reset();
         })}
+        className="flex flex-row gap-1"
       >
         {step === 0 && (
           <input
