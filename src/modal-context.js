@@ -37,26 +37,33 @@ export const ModalProvider = ({ children }) => {
   return (
     <ModalContext.Provider value={state}>
       {show && (
-        <div
-          ref={outer}
-          className="w-full h-full fixed top-0 left-0 bg-black bg-opacity-50 flex justify-center items-center overflow-auto"
-        >
-          <div className="bg-white p-4 rounded-md">
-            <div className="text-lg">{message}</div>
-            <div className="flex justify-end pt-4 gap-x-4">
-              {actions.map((action) => (
-                <Button
-                  variant="primary"
-                  onClick={() => {
-                    action.handle();
-                  }}
-                >
-                  {action.name}
+        // full screen
+        <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50">
+          {/* outer layer */}
+          <div
+            ref={outer}
+            className="flex flex-col min-h-full items-center justify-center"
+          >
+            {/* container */}
+            <div className="bg-white p-6 text-lg">
+              {/* main dialog */}
+              {message}
+              <div className="flex justify-end pt-4 gap-x-4">
+                {/* action buttons */}
+                {actions.map((action) => (
+                  <Button
+                    variant="primary"
+                    onClick={() => {
+                      action.handle();
+                    }}
+                  >
+                    {action.name}
+                  </Button>
+                ))}
+                <Button variant="secondary" onClick={() => setShow(false)}>
+                  Cancel
                 </Button>
-              ))}
-              <Button variant="secondary" onClick={() => setShow(false)}>
-                Cancel
-              </Button>
+              </div>
             </div>
           </div>
         </div>
