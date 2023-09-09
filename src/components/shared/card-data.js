@@ -1,11 +1,10 @@
 import axios from 'axios';
 import classNames from 'classnames';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useModalContext } from '../../modal-context';
 import { Button } from './button';
 
-function Message(props) {
+export function CardDetail(props) {
   const [comments, setComments] = useState([]);
   const [edit, setEdit] = useState(undefined);
   const { register, handleSubmit, resetField } = useForm();
@@ -99,65 +98,6 @@ function Message(props) {
           </div>
         )}
       </div>
-    </div>
-  );
-}
-
-export default function Card({
-  item,
-  i,
-  dragging,
-  index,
-  setDragging,
-  setIndex,
-  items,
-  remove,
-  setCurrent,
-}) {
-  const { setModal, setShowModal } = useModalContext();
-  const ref = useRef();
-  return (
-    <div
-      ref={ref}
-      key={item.id}
-      className={classNames('', {
-        'text-green-500 font-bold': dragging && index === i,
-      })}
-      draggable
-      onDragStart={() => {
-        setDragging(true);
-        setIndex(i);
-        setCurrent(items[i]);
-      }}
-      onDragEnd={() => {
-        setDragging(false);
-        setIndex(undefined);
-      }}
-      onClick={() =>
-        setModal({
-          message: <Message item={item} />,
-          actions: [
-            {
-              name: 'Delete',
-              handle: () =>
-                setModal({
-                  message: 'Are you sure you want to delete this?',
-                  actions: [
-                    {
-                      name: 'Delete',
-                      handle: () => {
-                        remove(item.id);
-                        setShowModal(false);
-                      },
-                    },
-                  ],
-                }),
-            },
-          ],
-        })
-      }
-    >
-      {item.name}
     </div>
   );
 }

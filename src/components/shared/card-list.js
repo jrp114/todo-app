@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Card from './card';
+import CardItem from './card-item';
 
 export default function CardList({
   current,
@@ -28,7 +28,7 @@ export default function CardList({
           {name}
         </div>
         {items?.map((item, i) => (
-          <Card
+          <CardItem
             key={item.id}
             item={item}
             i={i}
