@@ -11,7 +11,7 @@ export function CardDetail(props) {
 
   const refetch = useCallback(() => {
     axios
-      .get(`http://localhost:8501/comments?todoId=${props.item.id}`)
+      .get(`${process.env.API_URL}/comments?todoId=${props.item.id}`)
       .then((result) => {
         setComments(result.data);
       });
@@ -19,7 +19,7 @@ export function CardDetail(props) {
 
   const addComment = useCallback((id, text) => {
     axios
-      .post('http://localhost:8501/comments', { todo_id: id, text })
+      .post(`${process.env.API_URL}/comments`, { todo_id: id, text })
       .then((result) => {
         refetch();
       });
@@ -60,7 +60,7 @@ export function CardDetail(props) {
                   onBlur={(e) => {
                     if (e.target.innerHTML !== comment.text) {
                       axios
-                        .put(`http://localhost:8501/comments/${comment.id}`, {
+                        .put(`${process.env.API_URL}/comments/${comment.id}`, {
                           text: e.target.innerHTML,
                         })
                         .then((result) => {

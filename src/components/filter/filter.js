@@ -5,7 +5,7 @@ import { useTodoContext } from '../../todos-context';
 import CardList from '../shared/card-list';
 import FilterForm from './filter-form';
 
-const url = 'http://localhost:8501/todos';
+const url = `${process.env.API_URL}/todos`;
 
 export default function Filter() {
   const {

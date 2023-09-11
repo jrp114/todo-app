@@ -8,7 +8,7 @@ import {
 } from 'react';
 
 const TodoContext = createContext(undefined);
-const url = 'http://localhost:8501/todos';
+const url = `${process.env.API_URL}/todos`;
 
 export default function TodosProvider({ children }) {
   const [current, setCurrent] = useState(undefined);
