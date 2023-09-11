@@ -4,7 +4,7 @@ import { useTodoContext } from '../../todos-context';
 import CardList from '../shared/card-list';
 import TodosForm from './todos-form';
 
-const url = `${process.env.API_URL}/todos`;
+const url = `${process.env.REACT_APP_API_URL}/todos`;
 
 export default function Todos() {
   const {
