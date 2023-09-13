@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useCallback, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import useQuery from '../../helpers/useQuery';
 import { useTodoContext } from '../../todos-context';
 import CardList from '../shared/card-list';
 import FilterForm from './filter-form';
@@ -8,31 +9,10 @@ import FilterForm from './filter-form';
 const url = `${process.env.REACT_APP_API_URL}/todos`;
 
 export default function Filter() {
-  const {
-    todos,
-    completed,
-    remove,
-    current,
-    setCurrent,
-    setTodos,
-    setCompleted,
-  } = useTodoContext();
+  const { todos, completed, remove, current, setCurrent, handleTodosSet } =
+    useTodoContext();
   const { value: paramValue } = useParams();
-  const refetch = useCallback((value) => {
-    axios.get(url + `/filter?value=${value}`).then((result) => {
-      const t = [];
-      const c = [];
-      result.data.forEach((r) => {
-        if (r.status === 'todo') {
-          t.push(r);
-        } else {
-          c.push(r);
-        }
-      });
-      setTodos(t);
-      setCompleted(c);
-    });
-  }, []);
+  const { refetch } = useQuery(`todos/filter?value=${paramValue}`, {});
   const dropItem = useCallback((current, list) => {
     if (current) {
       axios
@@ -41,12 +21,18 @@ export default function Filter() {
           status: list,
         })
         .then((result) => {
-          refetch(paramValue);
+          refetch().then((result) => {
+            handleTodosSet(result.data.data);
+          });
         });
     }
   }, []);
 
-  useEffect(() => refetch(paramValue), [paramValue]);
+  useEffect(() => {
+    refetch().then((result) => {
+      handleTodosSet(result.data.data);
+    });
+  }, [paramValue]);
 
   return (
     <>

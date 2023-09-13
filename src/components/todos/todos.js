@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useCallback, useEffect } from 'react';
+import useQuery from '../../helpers/useQuery';
 import { useTodoContext } from '../../todos-context';
 import CardList from '../shared/card-list';
 import TodosForm from './todos-form';
@@ -7,33 +8,14 @@ import TodosForm from './todos-form';
 const url = `${process.env.REACT_APP_API_URL}/todos`;
 
 export default function Todos() {
-  const {
-    todos,
-    completed,
-    remove,
-    current,
-    setCurrent,
-    setTodos,
-    setCompleted,
-  } = useTodoContext();
-  const refetch = useCallback(() => {
-    axios.get(url).then((result) => {
-      const t = [];
-      const c = [];
-      result.data.forEach((r) => {
-        if (r.status === 'todo') {
-          t.push(r);
-        } else {
-          c.push(r);
-        }
-      });
-      setTodos(t);
-      setCompleted(c);
-    });
-  }, []);
+  const { todos, completed, remove, current, setCurrent, handleTodosSet } =
+    useTodoContext();
+  const { data, loading, refetch } = useQuery('todos', {});
   useEffect(() => {
-    refetch();
-  }, []);
+    if (!loading) {
+      handleTodosSet(data);
+    }
+  }, [data, loading, handleTodosSet]);
   const dropItem = useCallback((current, list) => {
     if (current) {
       axios

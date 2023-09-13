@@ -2,6 +2,7 @@ import axios from 'axios';
 import classNames from 'classnames';
 import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import useQuery from '../../helpers/useQuery';
 import { Button } from './button';
 
 export function CardDetail(props) {
@@ -9,13 +10,16 @@ export function CardDetail(props) {
   const [edit, setEdit] = useState(undefined);
   const { register, handleSubmit, resetField } = useForm();
 
-  const refetch = useCallback(() => {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/comments?todoId=${props.item.id}`)
-      .then((result) => {
-        setComments(result.data);
-      });
-  }, []);
+  const { data, loading, refetch } = useQuery(
+    `comments?todoId=${props.item.id}`,
+    {},
+  );
+
+  useEffect(() => {
+    if (!loading) {
+      setComments(data);
+    }
+  }, [data, loading]);
 
   const addComment = useCallback((id, text) => {
     axios

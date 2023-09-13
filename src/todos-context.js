@@ -15,6 +15,22 @@ export default function TodosProvider({ children }) {
   const [todos, setTodos] = useState([]);
   const [completed, setCompleted] = useState([]);
 
+  const handleTodosSet = useCallback((result) => {
+    if (result) {
+      const t = [];
+      const c = [];
+      result.forEach((r) => {
+        if (r.status === 'todo') {
+          t.push(r);
+        } else {
+          c.push(r);
+        }
+      });
+      setTodos(t);
+      setCompleted(c);
+    }
+  }, []);
+
   const addTodo = useCallback((t) => {
     axios.post(url, { ...t, status: 'todo' }).then((result) => {
       setTodos((prev) => {
@@ -43,10 +59,9 @@ export default function TodosProvider({ children }) {
       current,
       setCurrent,
       remove,
-      setTodos,
-      setCompleted,
+      handleTodosSet,
     };
-  }, [addTodo, todos, completed, current, remove]);
+  }, [addTodo, todos, completed, current, remove, handleTodosSet]);
   return <TodoContext.Provider value={state}>{children}</TodoContext.Provider>;
 }
 
