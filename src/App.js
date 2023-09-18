@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AuthProvider from './auth-context';
 import Filter from './components/filter/filter';
 import { Login } from './components/login';
+import { Register } from './components/register';
 import Todos from './components/todos/todos';
 import { ModalProvider } from './modal-context';
 import './styles/App.css';
@@ -37,6 +38,7 @@ function App() {
               }
             />
             <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
           </Routes>
         </ModalProvider>
       </QueryClientProvider>
