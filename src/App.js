@@ -14,17 +14,31 @@ function App() {
   return (
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <ModalProvider>
-            <TodosProvider>
-              <Routes>
-                <Route path="/" element={<Todos />} />
-                <Route path="/filter/:value?" element={<Filter />} />
-                <Route path="/login" element={<Login />} />
-              </Routes>
-            </TodosProvider>
-          </ModalProvider>
-        </AuthProvider>
+        <ModalProvider>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <AuthProvider>
+                  <TodosProvider>
+                    <Todos />
+                  </TodosProvider>
+                </AuthProvider>
+              }
+            />
+            <Route
+              path="/filter/:value?"
+              element={
+                <AuthProvider>
+                  <TodosProvider>
+                    <Filter />
+                  </TodosProvider>
+                </AuthProvider>
+              }
+            />
+            <Route path="/login" element={<Login />} />
+          </Routes>
+        </ModalProvider>
       </QueryClientProvider>
     </BrowserRouter>
   );
