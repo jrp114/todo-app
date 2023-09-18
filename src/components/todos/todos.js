@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { useCallback, useEffect } from 'react';
-import useQuery from '../../helpers/useQuery';
+import { useCallback } from 'react';
+import { useAuthContext } from '../../auth-context';
 import { useTodoContext } from '../../todos-context';
 import CardList from '../shared/card-list';
 import TodosForm from './todos-form';
@@ -8,21 +8,25 @@ import TodosForm from './todos-form';
 const url = `${process.env.REACT_APP_API_URL}/todos`;
 
 export default function Todos() {
-  const { todos, completed, remove, current, setCurrent, handleTodosSet } =
+  const { refetch, todos, completed, remove, current, setCurrent } =
     useTodoContext();
-  const { data, loading, refetch } = useQuery('todos', {});
-  useEffect(() => {
-    if (!loading) {
-      handleTodosSet(data);
-    }
-  }, [data, loading, handleTodosSet]);
+  const { session } = useAuthContext();
+
   const dropItem = useCallback((current, list) => {
     if (current) {
       axios
-        .put(`${url}/${current.id}`, {
-          ...current,
-          status: list,
-        })
+        .put(
+          `${url}/${current.id}`,
+          {
+            ...current,
+            status: list,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${session.token}`,
+            },
+          },
+        )
         .then((result) => {
           refetch();
         });

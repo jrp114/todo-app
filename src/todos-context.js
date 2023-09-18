@@ -3,9 +3,13 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from 'react';
+import { useMutation, useQuery } from 'react-query';
+import { useNavigate } from 'react-router-dom';
+import { useAuthContext } from './auth-context';
 
 const TodoContext = createContext(undefined);
 const url = `${process.env.REACT_APP_API_URL}/todos`;
@@ -30,16 +34,49 @@ export default function TodosProvider({ children }) {
       setCompleted(c);
     }
   }, []);
-
-  const addTodo = useCallback((t) => {
-    axios.post(url, { ...t, status: 'todo' }).then((result) => {
+  const navigate = useNavigate();
+  const { session } = useAuthContext();
+  useEffect(() => {
+    if (!session) {
+      navigate('/login');
+    }
+  }, [session]);
+  const { refetch } = useQuery('todos', {
+    queryFn: () =>
+      axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${session.token}`,
+        },
+      }),
+    onSuccess: (result) => {
+      handleTodosSet(result.data);
+    },
+  });
+  const { mutate: addTodo } = useMutation({
+    mutationFn: (t) =>
+      axios.post(
+        url,
+        { ...t, status: 'todo' },
+        {
+          headers: {
+            Authorization: `Bearer ${session.token}`,
+          },
+        },
+      ),
+    onSuccess: (result) => {
       setTodos((prev) => {
         return [...prev, result.data];
       });
-    });
-  }, []);
-  const remove = useCallback((id) => {
-    axios.delete(`${url}/${id}`).then((result) => {
+    },
+  });
+  const { mutate: remove } = useMutation({
+    mutationFn: (id) =>
+      axios.delete(`${url}/${id}`, {
+        headers: {
+          Authorization: `Bearer ${session.token}`,
+        },
+      }),
+    onSuccess: (result, id) => {
       if (result.data.status === 'todo')
         setTodos((prev) => {
           return prev.filter((t) => t.id !== id);
@@ -48,8 +85,8 @@ export default function TodosProvider({ children }) {
         setCompleted((prev) => {
           return prev.filter((t) => t.id !== id);
         });
-    });
-  }, []);
+    },
+  });
 
   const state = useMemo(() => {
     return {
@@ -60,8 +97,9 @@ export default function TodosProvider({ children }) {
       setCurrent,
       remove,
       handleTodosSet,
+      refetch,
     };
-  }, [addTodo, todos, completed, current, remove, handleTodosSet]);
+  }, [addTodo, todos, completed, current, remove, handleTodosSet, refetch]);
   return <TodoContext.Provider value={state}>{children}</TodoContext.Provider>;
 }
 

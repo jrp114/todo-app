@@ -2,18 +2,35 @@ import axios from 'axios';
 import classNames from 'classnames';
 import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import useQuery from '../../helpers/useQuery';
+import { useQuery } from 'react-query';
+import { useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../../auth-context';
 import { Button } from './button';
 
 export function CardDetail(props) {
   const [comments, setComments] = useState([]);
   const [edit, setEdit] = useState(undefined);
   const { register, handleSubmit, resetField } = useForm();
-
-  const { data, loading, refetch } = useQuery(
-    `comments?todoId=${props.item.id}`,
-    {},
-  );
+  const navigate = useNavigate();
+  const { session } = useAuthContext();
+  useEffect(() => {
+    if (!session) {
+      navigate('/login');
+    }
+  }, [session]);
+  const { data, loading, refetch } = useQuery('comments', {
+    queryFn: () =>
+      axios
+        .get(
+          `${process.env.REACT_APP_API_URL}/comments?todoId=${props.item.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${session.token}`,
+            },
+          },
+        )
+        .then((res) => res.data),
+  });
 
   useEffect(() => {
     if (!loading) {
