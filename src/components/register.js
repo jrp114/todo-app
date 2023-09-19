@@ -17,7 +17,7 @@ export function Register() {
       <div className="flex flex-col justify-center items-center gap-4">
         <div className="text-2xl">Register</div>
         <form
-          onSubmit={handleSubmit(async (v) => {
+          onSubmit={handleSubmit((v) => {
             if (v.password !== v.confirmPassword) {
               setError('confirmPassword', {
                 type: 'manual',
@@ -25,15 +25,21 @@ export function Register() {
               });
               return;
             }
-            const result = await axios.post(
-              `${process.env.REACT_APP_API_URL}/users`,
-              v,
-            );
-            localStorage.setItem(
-              'todo-app-session',
-              JSON.stringify(result?.data),
-            );
-            navigate('/');
+            axios
+              .post(`${process.env.REACT_APP_API_URL}/users`, v)
+              .then((result) => {
+                localStorage.setItem(
+                  'todo-app-session',
+                  JSON.stringify(result?.data),
+                );
+                navigate('/');
+              })
+              .catch((e) => {
+                setError('email', {
+                  type: 'manual',
+                  message: 'Email already exists',
+                });
+              });
           })}
           className="flex flex-col justify-center items-center gap-4"
         >
@@ -42,6 +48,9 @@ export function Register() {
             className="border"
             placeholder="Email"
           />
+          {errors.email && (
+            <div className="text-red-500">{errors.email.message}</div>
+          )}
           <input
             {...register('password', { required: true })}
             type="password"
