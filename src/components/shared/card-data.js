@@ -46,10 +46,6 @@ export function CardDetail(props) {
       });
   }, []);
 
-  useEffect(() => {
-    refetch();
-  }, []);
-
   return (
     <div className="flex flex-col justify-between h-fit items-end max-w-xs">
       <div className="w-full flex flex-row justify-center text-2xl">
