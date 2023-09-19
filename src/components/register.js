@@ -1,7 +1,20 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import * as yup from 'yup';
 import { Button } from './shared/button';
+
+const schema = yup.object().shape({
+  email: yup
+    .string()
+    .email('Email must be in a valid format')
+    .required('Email is required'),
+  password: yup.string().required('Password is required'),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref('password'), null], 'Passwords must match'),
+});
 
 export function Register() {
   const {
@@ -10,7 +23,9 @@ export function Register() {
     formState: { errors },
     setError,
     clearErrors,
-  } = useForm();
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
   const navigate = useNavigate();
   return (
     <div className="flex flex-col justify-center items-center h-screen">
@@ -18,13 +33,6 @@ export function Register() {
         <div className="text-2xl">Register</div>
         <form
           onSubmit={handleSubmit((v) => {
-            if (v.password !== v.confirmPassword) {
-              setError('confirmPassword', {
-                type: 'manual',
-                message: 'Passwords do not match',
-              });
-              return;
-            }
             axios
               .post(`${process.env.REACT_APP_API_URL}/users`, v)
               .then((result) => {
@@ -48,9 +56,6 @@ export function Register() {
             className="border"
             placeholder="Email"
           />
-          {errors.email && (
-            <div className="text-red-500">{errors.email.message}</div>
-          )}
           <input
             {...register('password', { required: true })}
             type="password"
@@ -64,9 +69,20 @@ export function Register() {
             placeholder="Confirm Password"
             onChange={() => clearErrors('confirmPassword')}
           />
-          {errors.confirmPassword && (
-            <div className="text-red-500">{errors.confirmPassword.message}</div>
-          )}
+          <div className="flex flex-col items-center">
+            {errors.email && (
+              <div className="text-red-500">{errors.email.message}</div>
+            )}
+            {errors.password && (
+              <div className="text-red-500">{errors.password.message}</div>
+            )}
+            {errors.confirmPassword && (
+              <div className="text-red-500">
+                {errors.confirmPassword.message}
+              </div>
+            )}
+          </div>
+
           <Button type="submit" variant="primary">
             Register
           </Button>
