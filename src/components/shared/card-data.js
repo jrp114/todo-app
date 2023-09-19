@@ -91,6 +91,7 @@ export function CardDetail(props) {
                   className={classNames('text-sm text-blue-400 w-full p-.25', {
                     border: edit === comment.id,
                   })}
+                  suppressContentEditableWarning={true}
                 >
                   {comment.text}
                 </div>
