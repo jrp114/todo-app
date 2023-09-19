@@ -50,8 +50,9 @@ export const ModalProvider = ({ children }) => {
               {message}
               <div className="flex justify-end pt-4 gap-x-4">
                 {/* action buttons */}
-                {actions.map((action) => (
+                {actions.map((action, i) => (
                   <Button
+                    key={`action-${i}`}
                     variant="primary"
                     onClick={() => {
                       action.handle();

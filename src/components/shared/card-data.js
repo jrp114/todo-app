@@ -71,7 +71,7 @@ export function CardDetail(props) {
               </Button>
             </form>
             {comments?.map((comment) => (
-              <div className=" flex justify-end p-1">
+              <div key={comment.id} className=" flex justify-end p-1">
                 <div
                   contentEditable={edit === comment.id}
                   onBlur={(e) => {
@@ -109,7 +109,7 @@ export function CardDetail(props) {
           <div className="flex flex-row flex-wrap">
             {props.item.tags?.map((tag, i) => (
               <div
-                key={(tag, i)}
+                key={`tag-${i}`}
                 className="text-xs text-blue-500 bg-white mr-1 flex-wrap border  p-0.5 m-0.5"
               >
                 {tag}
