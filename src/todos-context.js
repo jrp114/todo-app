@@ -42,12 +42,14 @@ export default function TodosProvider({ children }) {
     }
   }, [session]);
   const { refetch } = useQuery('todos', {
-    queryFn: () =>
-      axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${session.token}`,
-        },
-      }),
+    queryFn: session?.token
+      ? () =>
+          axios.get(url, {
+            headers: {
+              Authorization: `Bearer ${session.token}`,
+            },
+          })
+      : () => void 0,
     onSuccess: (result) => {
       handleTodosSet(result.data);
     },
