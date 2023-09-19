@@ -1,50 +1,26 @@
-import axios from 'axios';
 import classNames from 'classnames';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useQuery } from 'react-query';
-import { useNavigate } from 'react-router-dom';
-import { useAuthContext } from '../../auth-context';
+import {
+  useAddCommentMutation,
+  useCommentsQuery,
+  useUpdateCommentMutation,
+} from '../../api';
 import { Button } from './button';
 
 export function CardDetail(props) {
   const [comments, setComments] = useState([]);
   const [edit, setEdit] = useState(undefined);
   const { register, handleSubmit, resetField } = useForm();
-  const navigate = useNavigate();
-  const { session } = useAuthContext();
-  useEffect(() => {
-    if (!session) {
-      navigate('/login');
-    }
-  }, [session]);
-  const { data, loading, refetch } = useQuery('comments', {
-    queryFn: () =>
-      axios
-        .get(
-          `${process.env.REACT_APP_API_URL}/comments?todoId=${props.item.id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${session.token}`,
-            },
-          },
-        )
-        .then((res) => res.data),
-  });
+  const { data, loading, refetch } = useCommentsQuery(props.item.id);
+  const { mutate: addComment } = useAddCommentMutation(refetch);
+  const { mutate: updateComment } = useUpdateCommentMutation(refetch);
 
   useEffect(() => {
     if (!loading) {
       setComments(data);
     }
   }, [data, loading]);
-
-  const addComment = useCallback((id, text) => {
-    axios
-      .post(`${process.env.REACT_APP_API_URL}/comments`, { todo_id: id, text })
-      .then((result) => {
-        refetch();
-      });
-  }, []);
 
   return (
     <div className="flex flex-col justify-between h-fit items-end max-w-xs">
@@ -60,7 +36,7 @@ export function CardDetail(props) {
             <label>Comments</label>
             <form
               onSubmit={handleSubmit((v) => {
-                addComment(props.item.id, v.comment);
+                addComment({ id: props.item.id, text: v.comment });
                 resetField('comment');
               })}
               className="flex flex-row justify-end gap-2 pb-3"
@@ -76,16 +52,10 @@ export function CardDetail(props) {
                   contentEditable={edit === comment.id}
                   onBlur={(e) => {
                     if (e.target.innerHTML !== comment.text) {
-                      axios
-                        .put(
-                          `${process.env.REACT_APP_API_URL}/comments/${comment.id}`,
-                          {
-                            text: e.target.innerHTML,
-                          },
-                        )
-                        .then((result) => {
-                          refetch();
-                        });
+                      updateComment({
+                        id: comment.id,
+                        text: e.target.innerHTML,
+                      });
                     }
                   }}
                   className={classNames('text-sm text-blue-400 w-full p-.25', {

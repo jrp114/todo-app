@@ -1,29 +1,22 @@
-import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { useLoginMutation } from '../api';
 import { Button } from './shared/button';
 
 export function Login() {
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
+  const { mutate } = useLoginMutation(
+    () => navigate('/'),
+    () => navigate('/login'),
+  );
   return (
     <div className="flex flex-col justify-center items-center h-screen">
       <div className="flex flex-col justify-center items-center gap-4">
         <div className="text-2xl">Login</div>
         <form
           onSubmit={handleSubmit((v) => {
-            axios
-              .post(`${process.env.REACT_APP_API_URL}/users/login`, v)
-              .then((result) => {
-                localStorage.setItem(
-                  'todo-app-session',
-                  JSON.stringify(result?.data),
-                );
-                navigate('/');
-              })
-              .catch((e) => {
-                navigate('/login');
-              });
+            mutate(v);
           })}
           className="flex flex-col justify-center items-center gap-4"
         >

@@ -1,8 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
+import { useRegisterMutation } from '../api';
 import { Button } from './shared/button';
 
 const schema = yup.object().shape({
@@ -27,27 +27,22 @@ export function Register() {
     resolver: yupResolver(schema),
   });
   const navigate = useNavigate();
+  const { mutate } = useRegisterMutation(
+    () => navigate('/'),
+    () => {
+      setError('email', {
+        type: 'manual',
+        message: 'Email already exists',
+      });
+    },
+  );
   return (
     <div className="flex flex-col justify-center items-center h-screen">
       <div className="flex flex-col justify-center items-center gap-4">
         <div className="text-2xl">Register</div>
         <form
           onSubmit={handleSubmit((v) => {
-            axios
-              .post(`${process.env.REACT_APP_API_URL}/users`, v)
-              .then((result) => {
-                localStorage.setItem(
-                  'todo-app-session',
-                  JSON.stringify(result?.data),
-                );
-                navigate('/');
-              })
-              .catch((e) => {
-                setError('email', {
-                  type: 'manual',
-                  message: 'Email already exists',
-                });
-              });
+            mutate(v);
           })}
           className="flex flex-col justify-center items-center gap-4"
         >

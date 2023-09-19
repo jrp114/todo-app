@@ -1,18 +1,17 @@
-import axios from 'axios';
 import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
   useState,
 } from 'react';
-import { useMutation, useQuery } from 'react-query';
-import { useNavigate } from 'react-router-dom';
-import { useAuthContext } from './auth-context';
+import {
+  useAddTodoMutation,
+  useRemoveTodoMutation,
+  useTodosQuery,
+} from './api';
 
 const TodoContext = createContext(undefined);
-const url = `${process.env.REACT_APP_API_URL}/todos`;
 
 export default function TodosProvider({ children }) {
   const [current, setCurrent] = useState(undefined);
@@ -34,61 +33,13 @@ export default function TodosProvider({ children }) {
       setCompleted(c);
     }
   }, []);
-  const navigate = useNavigate();
-  const { session } = useAuthContext();
-  useEffect(() => {
-    if (!session) {
-      navigate('/login');
-    }
-  }, [session]);
-  const { refetch } = useQuery('todos', {
-    queryFn: session?.token
-      ? () =>
-          axios.get(url, {
-            headers: {
-              Authorization: `Bearer ${session.token}`,
-            },
-          })
-      : () => void 0,
-    onSuccess: (result) => {
-      handleTodosSet(result.data);
-    },
-  });
-  const { mutate: addTodo } = useMutation({
-    mutationFn: (t) =>
-      axios.post(
-        url,
-        { ...t, status: 'todo' },
-        {
-          headers: {
-            Authorization: `Bearer ${session.token}`,
-          },
-        },
-      ),
-    onSuccess: (result) => {
-      setTodos((prev) => {
-        return [...prev, result.data];
-      });
-    },
-  });
-  const { mutate: remove } = useMutation({
-    mutationFn: (id) =>
-      axios.delete(`${url}/${id}`, {
-        headers: {
-          Authorization: `Bearer ${session.token}`,
-        },
-      }),
-    onSuccess: (result, id) => {
-      if (result.data.status === 'todo')
-        setTodos((prev) => {
-          return prev.filter((t) => t.id !== id);
-        });
-      else
-        setCompleted((prev) => {
-          return prev.filter((t) => t.id !== id);
-        });
-    },
-  });
+  const { refetch } = useTodosQuery(handleTodosSet);
+  const { mutate: addTodo } = useAddTodoMutation(setTodos);
+  const { mutate: remove } = useRemoveTodoMutation(
+    setTodos,
+    setCompleted,
+    refetch,
+  );
 
   const state = useMemo(() => {
     return {
