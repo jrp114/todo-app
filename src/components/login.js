@@ -11,16 +11,19 @@ export function Login() {
       <div className="flex flex-col justify-center items-center gap-4">
         <div className="text-2xl">Login</div>
         <form
-          onSubmit={handleSubmit(async (v) => {
-            const result = await axios.post(
-              `${process.env.REACT_APP_API_URL}/users/login`,
-              v,
-            );
-            localStorage.setItem(
-              'todo-app-session',
-              JSON.stringify(result?.data),
-            );
-            navigate('/');
+          onSubmit={handleSubmit((v) => {
+            axios
+              .post(`${process.env.REACT_APP_API_URL}/users/login`, v)
+              .then((result) => {
+                localStorage.setItem(
+                  'todo-app-session',
+                  JSON.stringify(result?.data),
+                );
+                navigate('/');
+              })
+              .catch((e) => {
+                navigate('/login');
+              });
           })}
           className="flex flex-col justify-center items-center gap-4"
         >
