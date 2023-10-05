@@ -1,7 +1,6 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AuthProvider from './auth-context';
-import Filter from './components/filter/filter';
 import { Login } from './components/login';
 import { Register } from './components/register';
 import Todos from './components/todos/todos';
@@ -23,14 +22,6 @@ function App() {
                 element={
                   <TodosProvider>
                     <Todos />
-                  </TodosProvider>
-                }
-              />
-              <Route
-                path="/filter/:value?"
-                element={
-                  <TodosProvider>
-                    <Filter />
                   </TodosProvider>
                 }
               />

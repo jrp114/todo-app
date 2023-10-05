@@ -19,6 +19,7 @@ export default function TodosProvider({ children }) {
   const [completed, setCompleted] = useState([]);
 
   const handleTodosSet = useCallback((result) => {
+    console.log(result);
     if (result) {
       const t = [];
       const c = [];
