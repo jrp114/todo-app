@@ -20,9 +20,12 @@ export default function CardItem({
     <div
       ref={ref}
       key={item.id}
-      className={classNames('', {
-        'text-green-500 font-bold': dragging && index === i,
-      })}
+      className={classNames(
+        'border shadow-md border-gray-300 rounded-lg min-h-[60px] min-w-[150px] p-3 bg-white hover:bg-gray-200 cursor-pointer',
+        {
+          'text-green-500 font-bold': dragging && index === i,
+        },
+      )}
       draggable
       onDragStart={() => {
         setDragging(true);
@@ -57,7 +60,19 @@ export default function CardItem({
         })
       }
     >
-      {item.name}
+      <div className="flex flex-col items-start">
+        <div className="flex flex-row flex-wrap">
+          {item.tags?.map((tag, i) => (
+            <div
+              key={`tag-${i}`}
+              className="text-xs text-blue-500 bg-white mr-1 flex-wrap border  p-0.5 m-0.5"
+            >
+              {tag}
+            </div>
+          ))}
+        </div>
+        {item.name}
+      </div>
     </div>
   );
 }
