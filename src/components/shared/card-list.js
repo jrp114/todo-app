@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import TodosForm from '../todos/todos-form';
 import CardItem from './card-item';
 
 export default function CardList({
@@ -71,8 +72,10 @@ export default function CardList({
           {addTodo && (
             <div
               ref={ref}
-              className="border shadow-md border-gray-300 rounded-lg min-h-[60px] min-w-[150px] p-3 mt-4 bg-white hover:bg-gray-200 cursor-pointer"
-            ></div>
+              className="border shadow-md border-gray-300 rounded-lg min-h-[60px] min-w-[150px] p-3 mt-4 bg-white cursor-pointer"
+            >
+              <TodosForm done={() => setAddTodo(false)} />
+            </div>
           )}
         </div>
       </div>
