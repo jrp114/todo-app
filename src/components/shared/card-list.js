@@ -45,21 +45,23 @@ export default function CardList({
           <div className="text-xl text-orange-700 font-bold uppercase">
             {name}
           </div>
-          <div className="flex flex-col gap-2 pt-2">
-            {items?.map((item, i) => (
-              <CardItem
-                key={item.id}
-                item={item}
-                i={i}
-                dragging={dragging}
-                setDragging={setDragging}
-                setIndex={setIndex}
-                items={items}
-                remove={remove}
-                index={index}
-                setCurrent={setCurrent}
-              />
-            ))}
+          <div className="overflow-y-auto max-h-screen">
+            <div className="flex flex-col gap-2 pt-2">
+              {items?.map((item, i) => (
+                <CardItem
+                  key={item.id}
+                  item={item}
+                  i={i}
+                  dragging={dragging}
+                  setDragging={setDragging}
+                  setIndex={setIndex}
+                  items={items}
+                  remove={remove}
+                  index={index}
+                  setCurrent={setCurrent}
+                />
+              ))}
+            </div>
           </div>
           {name === 'todo' && !addTodo && (
             <div
