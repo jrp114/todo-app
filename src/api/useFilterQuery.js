@@ -17,6 +17,9 @@ export default function useFilterQuery(value) {
 
   const { refetch } = useQuery('filter', {
     queryFn: () => {
+      if (!value) {
+        return;
+      }
       ref.current = new AbortController();
       const signal = ref.current.signal;
       return axios.get(
