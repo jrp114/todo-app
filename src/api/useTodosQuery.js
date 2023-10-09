@@ -13,6 +13,7 @@ export default function useTodosQuery(successHandler) {
     }
   }, [session]);
   const { refetch } = useQuery('todos', {
+    retry: 0,
     queryFn: session?.token
       ? () =>
           axios.get(`${process.env.REACT_APP_API_URL}/todos`, {
@@ -23,6 +24,10 @@ export default function useTodosQuery(successHandler) {
       : () => void 0,
     onSuccess: (result) => {
       successHandler(result.data);
+    },
+    onError: (err) => {
+      console.log(err);
+      navigate('/login');
     },
   });
   return { refetch };
