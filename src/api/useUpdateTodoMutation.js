@@ -5,19 +5,23 @@ import { useAuthContext } from '../auth-context';
 export default function useUpdateTodoMutation(current, successHandler) {
   const { session } = useAuthContext();
   const { mutate } = useMutation({
-    mutationFn: (list) =>
-      axios.put(
+    mutationFn: ({ list, position }) => {
+      return axios.put(
         `${process.env.REACT_APP_API_URL}/todos/${current.id}`,
         {
           ...current,
           status: list,
+          position,
+          origin: current.status,
+          originalPosition: current.position,
         },
         {
           headers: {
             Authorization: `Bearer ${session.token}`,
           },
         },
-      ),
+      );
+    },
     onSuccess: () => successHandler(),
   });
   return { mutate };

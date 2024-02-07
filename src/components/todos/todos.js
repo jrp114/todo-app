@@ -28,9 +28,9 @@ export default function Todos() {
     }
   }, [filterText]);
 
-  const dropItem = useCallback((current, list) => {
+  const dropItem = useCallback((current, list, position) => {
     if (current) {
-      mutate(list);
+      mutate({ list, position, origin });
     }
   }, []);
 

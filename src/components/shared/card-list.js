@@ -36,10 +36,6 @@ export default function CardList({
         onDragOver={(e) => {
           e.preventDefault();
         }}
-        onDrop={() => {
-          dropItem(current, name);
-          setCurrent(undefined);
-        }}
       >
         <div className="bg-gray-100 rounded-lg p-3">
           <div className="text-xl text-orange-700 font-bold uppercase">
@@ -47,11 +43,29 @@ export default function CardList({
           </div>
           <div className="overflow-y-auto max-h-screen">
             <div className="flex flex-col gap-2 pt-2">
-              {items?.map((item, i) => (
+              {items?.length > 0 ? (
+                items?.map((item, i) => (
+                  <CardItem
+                    key={item.id}
+                    item={item}
+                    i={i}
+                    dragging={dragging}
+                    setDragging={setDragging}
+                    setIndex={setIndex}
+                    items={items}
+                    remove={remove}
+                    index={index}
+                    setCurrent={setCurrent}
+                    current={current}
+                    dropItem={dropItem}
+                    name={name}
+                  />
+                ))
+              ) : (
                 <CardItem
-                  key={item.id}
-                  item={item}
-                  i={i}
+                  key="empty"
+                  item={null}
+                  i={0}
                   dragging={dragging}
                   setDragging={setDragging}
                   setIndex={setIndex}
@@ -59,8 +73,11 @@ export default function CardList({
                   remove={remove}
                   index={index}
                   setCurrent={setCurrent}
+                  current={current}
+                  dropItem={dropItem}
+                  name={name}
                 />
-              ))}
+              )}
             </div>
           </div>
           {name === 'todo' && !addTodo && (

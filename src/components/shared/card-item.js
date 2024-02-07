@@ -13,13 +13,16 @@ export default function CardItem({
   items,
   remove,
   setCurrent,
+  current,
+  dropItem,
+  name,
 }) {
   const { setModal, setShowModal } = useModalContext();
   const ref = useRef();
   return (
     <div
       ref={ref}
-      key={item.id}
+      key={item?.id || 'empty'}
       className={classNames(
         'border shadow-md border-gray-300 rounded-lg min-h-[60px] min-w-[150px] p-3 bg-white hover:bg-gray-200 cursor-pointer',
         {
@@ -35,6 +38,9 @@ export default function CardItem({
       onDragEnd={() => {
         setDragging(false);
         setIndex(undefined);
+      }}
+      onDrop={(e) => {
+        dropItem(current, name, e.target.id, item.status);
       }}
       onClick={() =>
         setModal({
@@ -60,9 +66,9 @@ export default function CardItem({
         })
       }
     >
-      <div className="flex flex-col items-start">
+      <div id={item?.position} className="flex flex-col items-start">
         <div className="flex flex-row flex-wrap">
-          {item.tags?.map((tag, i) => (
+          {item?.tags?.map((tag, i) => (
             <div
               key={`tag-${i}`}
               className="text-xs text-blue-500 bg-white mr-1 flex-wrap border  p-0.5 m-0.5"
@@ -71,7 +77,7 @@ export default function CardItem({
             </div>
           ))}
         </div>
-        {item.name}
+        {item?.name}
       </div>
     </div>
   );
