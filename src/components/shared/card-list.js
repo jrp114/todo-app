@@ -4,14 +4,13 @@ import CardItem from './card-item';
 
 export default function CardList({
   current,
-  name,
+  listCategory,
   dropItem,
   setCurrent,
   items,
   remove,
 }) {
   const [dragging, setDragging] = useState(false);
-  const [index, setIndex] = useState(undefined);
   const [addTodo, setAddTodo] = useState(false);
   const ref = useRef();
 
@@ -39,7 +38,7 @@ export default function CardList({
       >
         <div className="bg-gray-100 rounded-lg p-3">
           <div className="text-xl text-orange-700 font-bold uppercase">
-            {name}
+            {listCategory}
           </div>
           <div className="overflow-y-auto max-h-screen">
             <div className="flex flex-col gap-2 pt-2">
@@ -51,14 +50,12 @@ export default function CardList({
                     i={i}
                     dragging={dragging}
                     setDragging={setDragging}
-                    setIndex={setIndex}
                     items={items}
                     remove={remove}
-                    index={index}
                     setCurrent={setCurrent}
                     current={current}
                     dropItem={dropItem}
-                    name={name}
+                    name={listCategory}
                   />
                 ))
               ) : (
@@ -68,19 +65,17 @@ export default function CardList({
                   i={0}
                   dragging={dragging}
                   setDragging={setDragging}
-                  setIndex={setIndex}
                   items={items}
                   remove={remove}
-                  index={index}
                   setCurrent={setCurrent}
                   current={current}
                   dropItem={dropItem}
-                  name={name}
+                  name={listCategory}
                 />
               )}
             </div>
           </div>
-          {name === 'todo' && !addTodo && (
+          {listCategory === 'todo' && !addTodo && (
             <div
               className="p-2 cursor-pointer"
               onClick={() => setAddTodo(true)}

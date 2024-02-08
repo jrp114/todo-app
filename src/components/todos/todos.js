@@ -30,7 +30,7 @@ export default function Todos() {
 
   const dropItem = useCallback((current, list, position) => {
     if (current) {
-      mutate({ list, position, origin });
+      mutate({ list, position });
     }
   }, []);
 
@@ -63,7 +63,7 @@ export default function Todos() {
 
       <div className="flex flex-row">
         <CardList
-          name="todo"
+          listCategory="todo"
           current={current}
           setCurrent={setCurrent}
           items={todos}
@@ -71,7 +71,7 @@ export default function Todos() {
           dropItem={dropItem}
         />
         <CardList
-          name="complete"
+          listCategory="complete"
           current={current}
           setCurrent={setCurrent}
           items={completed}
