@@ -2,6 +2,15 @@ import { useEffect, useRef, useState } from 'react';
 import TodosForm from '../todos/todos-form';
 import CardItem from './card-item';
 
+interface CardListProps {
+  current: any;
+  listCategory: string;
+  dropItem: (current: any, list: string, position: number | null) => void;
+  setCurrent: (current: any) => void;
+  items: any;
+  remove: (id: string) => void;
+}
+
 export default function CardList({
   current,
   listCategory,
@@ -9,14 +18,14 @@ export default function CardList({
   setCurrent,
   items,
   remove,
-}) {
+}: CardListProps) {
   const [dragging, setDragging] = useState(false);
   const [addTodo, setAddTodo] = useState(false);
-  const ref = useRef();
+  const ref = useRef<any>();
 
   useEffect(() => {
     // we want to close the new todo if we escape or click outside
-    const handleClose = (e) => {
+    const handleClose = (e: any) => {
       if (
         (ref.current && !ref.current.contains(e.target)) ||
         e.key === 'Escape'
@@ -43,7 +52,7 @@ export default function CardList({
           <div className="overflow-y-auto max-h-screen">
             <div className="flex flex-col gap-2 pt-2">
               {items?.length > 0 ? (
-                items?.map((item, i) => (
+                items?.map((item: any, i: number) => (
                   <CardItem
                     key={item.id}
                     item={item}

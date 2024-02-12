@@ -8,19 +8,17 @@ import {
 } from '../../api';
 import { Button } from './button';
 
-export function CardDetail(props) {
+export function CardDetail(props: any) {
   const [comments, setComments] = useState([]);
   const [edit, setEdit] = useState(undefined);
   const { register, handleSubmit, resetField } = useForm();
-  const { data, loading, refetch } = useCommentsQuery(props.item.id);
+  const { data, refetch } = useCommentsQuery(props.item.id);
   const { mutate: addComment } = useAddCommentMutation(refetch);
   const { mutate: updateComment } = useUpdateCommentMutation(refetch);
 
   useEffect(() => {
-    if (!loading) {
-      setComments(data);
-    }
-  }, [data, loading]);
+    setComments(data);
+  }, [data]);
 
   return (
     <div className="flex flex-col justify-between h-fit items-end max-w-xs">
@@ -46,7 +44,7 @@ export function CardDetail(props) {
                 Add
               </Button>
             </form>
-            {comments?.map((comment) => (
+            {comments?.map((comment: any) => (
               <div key={comment.id} className=" flex justify-end p-1">
                 <div
                   contentEditable={edit === comment.id}
@@ -78,7 +76,7 @@ export function CardDetail(props) {
         </div>
         {props.item.tags && (
           <div className="flex flex-row flex-wrap">
-            {props.item.tags?.map((tag, i) => (
+            {props.item.tags?.map((tag: any, i: number) => (
               <div
                 key={`tag-${i}`}
                 className="text-xs text-blue-500 bg-white mr-1 flex-wrap border  p-0.5 m-0.5"

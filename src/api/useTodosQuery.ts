@@ -4,7 +4,7 @@ import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../auth-context';
 
-export default function useTodosQuery(successHandler) {
+export default function useTodosQuery(successHandler: any) {
   const { session } = useAuthContext();
   const navigate = useNavigate();
   useEffect(() => {
@@ -22,7 +22,7 @@ export default function useTodosQuery(successHandler) {
             },
           })
       : () => void 0,
-    onSuccess: (result) => {
+    onSuccess: (result: any) => {
       successHandler(result.data);
     },
     onError: (err) => {

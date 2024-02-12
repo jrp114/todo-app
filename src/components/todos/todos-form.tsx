@@ -3,7 +3,11 @@ import { useForm } from 'react-hook-form';
 import { useTodoContext } from '../../todos-context';
 import { Button } from '../shared/button';
 
-export default function TodosForm({ done }) {
+interface TodosFormProps {
+  done: () => void;
+}
+
+export default function TodosForm({ done }: TodosFormProps) {
   const [step, setStep] = useState(0);
   const [tags, setTags] = useState([]);
   const { addTodo } = useTodoContext();
@@ -17,9 +21,9 @@ export default function TodosForm({ done }) {
     getValues,
     resetField,
   } = useForm();
-  const addTag = useCallback((tag) => {
+  const addTag = useCallback((tag: string) => {
     const temp = tags;
-    temp.push(tag);
+    temp.push(tag as never);
     setTags(temp);
     resetField('tag');
   }, []);
@@ -73,7 +77,7 @@ export default function TodosForm({ done }) {
                 setStep(step + 1);
                 clearErrors();
               } else {
-                setError('name');
+                setError('name', {});
               }
             }}
           >

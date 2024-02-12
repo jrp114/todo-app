@@ -1,3 +1,4 @@
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useLoginMutation } from '../api';
@@ -15,7 +16,7 @@ export function Login() {
       <div className="flex flex-col justify-center items-center gap-4">
         <div className="text-2xl">Login</div>
         <form
-          onSubmit={handleSubmit((v) => {
+          onSubmit={handleSubmit((v: any) => {
             mutate(v);
           })}
           className="flex flex-col justify-center items-center gap-4"

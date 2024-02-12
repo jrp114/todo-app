@@ -9,13 +9,27 @@ import React, {
 } from 'react';
 import { Button } from './components/shared/button';
 
-const ModalContext = createContext(undefined);
+interface ModalContextProps {
+  children: React.ReactNode;
+}
 
-export const ModalProvider = ({ children }) => {
+interface Action {
+  name: string;
+  handle: () => void;
+}
+
+interface SetModalProps {
+  message: React.ReactNode | string;
+  actions: Array<Action>;
+}
+
+const ModalContext = createContext<any>(undefined);
+
+export const ModalProvider = ({ children }: ModalContextProps) => {
   const [show, setShow] = useState(false);
-  const [message, setMessage] = useState('');
-  const [actions, setActions] = useState(undefined);
-  const outer = useRef();
+  const [message, setMessage] = useState<React.ReactNode | string>('');
+  const [actions, setActions] = useState<Array<Action>>([]);
+  const outer = useRef<any>();
   useEffect(() => {
     window.addEventListener('click', (event) => {
       if (outer.current === event.target) {
@@ -23,7 +37,7 @@ export const ModalProvider = ({ children }) => {
       }
     });
   }, []);
-  const setModal = useCallback(({ message, actions }) => {
+  const setModal = useCallback(({ message, actions }: SetModalProps) => {
     setActions(actions);
     setShow(true);
     setMessage(message);
@@ -50,7 +64,7 @@ export const ModalProvider = ({ children }) => {
               {message}
               <div className="flex justify-end pt-4 gap-x-4">
                 {/* action buttons */}
-                {actions.map((action, i) => (
+                {actions.map((action: Action, i: number) => (
                   <Button
                     key={`action-${i}`}
                     variant="primary"

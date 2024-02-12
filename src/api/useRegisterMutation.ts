@@ -1,7 +1,10 @@
 import axios from 'axios';
 import { useMutation } from 'react-query';
 
-export default function useRegisterMutation(successHandler, errorHandler) {
+export default function useRegisterMutation(
+  successHandler: any,
+  errorHandler: any,
+) {
   const { mutate } = useMutation({
     mutationFn: (v) => axios.post(`${process.env.REACT_APP_API_URL}/users`, v),
     onSuccess: (result) => {

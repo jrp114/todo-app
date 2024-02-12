@@ -4,10 +4,10 @@ import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../auth-context';
 
-export default function useFilterQuery(value) {
+export default function useFilterQuery(value: string) {
   const { session } = useAuthContext();
   const navigate = useNavigate();
-  const ref = useRef();
+  const ref = useRef<any>();
 
   useEffect(() => {
     if (!session) {

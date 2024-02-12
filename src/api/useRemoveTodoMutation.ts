@@ -2,7 +2,11 @@ import axios from 'axios';
 import { useMutation } from 'react-query';
 import { useAuthContext } from '../auth-context';
 
-export default function useRemoveTodoMutation(setTodos, setCompleted, refetch) {
+export default function useRemoveTodoMutation(
+  setTodos: any,
+  setCompleted: any,
+  refetch: any,
+) {
   const { session } = useAuthContext();
   const { mutate } = useMutation({
     mutationFn: (id) =>
@@ -13,12 +17,12 @@ export default function useRemoveTodoMutation(setTodos, setCompleted, refetch) {
       }),
     onSuccess: (result, id) => {
       if (result.data.status === 'todo')
-        setTodos((prev) => {
-          return prev.filter((t) => t.id !== id);
+        setTodos((prev: any) => {
+          return prev.filter((t: any) => t.id !== id);
         });
       else
-        setCompleted((prev) => {
-          return prev.filter((t) => t.id !== id);
+        setCompleted((prev: any) => {
+          return prev.filter((t: any) => t.id !== id);
         });
       refetch();
     },

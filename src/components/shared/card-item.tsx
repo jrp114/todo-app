@@ -3,6 +3,19 @@ import { useRef, useState } from 'react';
 import { useModalContext } from '../../modal-context';
 import { CardDetail } from './card-data';
 
+interface CardItemProps {
+  item: any;
+  i: number;
+  dragging: boolean;
+  setDragging: (dragging: boolean) => void;
+  items: any;
+  remove: (id: string) => void;
+  setCurrent: (current: any) => void;
+  current: any;
+  dropItem: (current: any, list: string, position: number | null) => void;
+  name: string;
+}
+
 export default function CardItem({
   item,
   i,
@@ -14,12 +27,12 @@ export default function CardItem({
   current,
   dropItem,
   name,
-}) {
+}: CardItemProps) {
   const { setModal, setShowModal } = useModalContext();
-  const [index, setIndex] = useState(undefined);
+  const [index, setIndex] = useState<number | null>(null);
   const [over, setOver] = useState(false);
-  const [dropArea, setDropArea] = useState(null);
-  const ref = useRef();
+  const [dropArea, setDropArea] = useState<number | null>(null);
+  const ref = useRef<any>();
   return (
     <div
       ref={ref}
@@ -38,7 +51,7 @@ export default function CardItem({
         setIndex(i);
         setCurrent(items[i]);
       }}
-      onDragOver={(e) => {
+      onDragOver={(e: any) => {
         setOver(true);
         if (e.target.id && e.target.id !== '') {
           setDropArea(e.target.id);
@@ -47,7 +60,7 @@ export default function CardItem({
       onDragLeave={() => setOver(false)}
       onDragEnd={() => {
         setDragging(false);
-        setIndex(undefined);
+        setIndex(null);
       }}
       onDrop={(e) => {
         dropItem(current, name, dropArea);
@@ -79,7 +92,7 @@ export default function CardItem({
     >
       <div className="flex flex-col items-start">
         <div className="flex flex-row flex-wrap">
-          {item?.tags?.map((tag, i) => (
+          {item?.tags?.map((tag: string, i: number) => (
             <div
               key={`tag-${i}`}
               className="text-xs text-blue-500 bg-white mr-1 flex-wrap border  p-0.5 m-0.5"

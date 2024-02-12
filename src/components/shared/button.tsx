@@ -1,10 +1,12 @@
+import React from 'react';
+
 export function Button({
   type = 'button',
   onClick,
   variant = 'primary',
   size = 'md',
   children,
-}) {
+}: any) {
   let classes = 'text-white p-1 rounded-md flex items-center justify-center';
   if (variant === 'primary') classes += ' bg-primary';
   else if (variant === 'secondary') classes += ' bg-secondary';

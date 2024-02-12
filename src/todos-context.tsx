@@ -11,18 +11,22 @@ import {
   useTodosQuery,
 } from './api';
 
-const TodoContext = createContext(undefined);
+interface TodoContextProps {
+  children: React.ReactNode;
+}
 
-export default function TodosProvider({ children }) {
+const TodoContext = createContext<any>(undefined);
+
+export default function TodosProvider({ children }: TodoContextProps) {
   const [current, setCurrent] = useState(undefined);
-  const [todos, setTodos] = useState([]);
-  const [completed, setCompleted] = useState([]);
+  const [todos, setTodos] = useState<any>([]);
+  const [completed, setCompleted] = useState<any>([]);
 
-  const handleTodosSet = useCallback((result) => {
+  const handleTodosSet = useCallback((result: any) => {
     if (result) {
-      const t = [];
-      const c = [];
-      result.forEach((r) => {
+      const t: Array<any> = [];
+      const c: Array<any> = [];
+      result.forEach((r: any) => {
         if (r.status === 'todo') {
           t.push(r);
         } else {

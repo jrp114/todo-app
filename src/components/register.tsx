@@ -1,4 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
@@ -13,7 +14,7 @@ const schema = yup.object().shape({
   password: yup.string().required('Password is required'),
   confirmPassword: yup
     .string()
-    .oneOf([yup.ref('password'), null], 'Passwords must match'),
+    .oneOf([yup.ref('password')], 'Passwords must match'),
 });
 
 export function Register() {
@@ -41,7 +42,7 @@ export function Register() {
       <div className="flex flex-col justify-center items-center gap-4">
         <div className="text-2xl">Register</div>
         <form
-          onSubmit={handleSubmit((v) => {
+          onSubmit={handleSubmit((v: any) => {
             mutate(v);
           })}
           className="flex flex-col justify-center items-center gap-4"

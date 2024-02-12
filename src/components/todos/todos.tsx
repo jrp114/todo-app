@@ -28,15 +28,18 @@ export default function Todos() {
     }
   }, [filterText]);
 
-  const dropItem = useCallback((current, list, position) => {
-    if (current) {
-      mutate({ list, position });
-    }
-  }, []);
+  const dropItem = useCallback(
+    (current: any, list: string, position: number | null) => {
+      if (current) {
+        mutate({ list, position });
+      }
+    },
+    [],
+  );
 
-  const debounce = useCallback((fn, delay) => {
-    let timeout;
-    return (...args) => {
+  const debounce = useCallback((fn: any, delay: number) => {
+    let timeout: ReturnType<typeof setTimeout>;
+    return (...args: Array<any>) => {
       clearTimeout(timeout);
       timeout = setTimeout(() => fn(...args), delay);
     };

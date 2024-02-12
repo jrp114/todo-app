@@ -1,16 +1,20 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
-const AuthContext = createContext(undefined);
+interface AuthContextProps {
+  children: React.ReactNode;
+}
 
-export default function AuthProvider({ children }) {
+const AuthContext = createContext<any>(undefined);
+
+export default function AuthProvider({ children }: AuthContextProps) {
   const [session, setSession] = useState(() => {
-    return JSON.parse(localStorage.getItem('todo-app-session'));
+    return JSON.parse(localStorage.getItem('todo-app-session') as string);
   });
 
   useEffect(() => {
     const updateSession = () => {
       const updatedSession = JSON.parse(
-        localStorage.getItem('todo-app-session'),
+        localStorage.getItem('todo-app-session') as string,
       );
       setSession(updatedSession);
     };
