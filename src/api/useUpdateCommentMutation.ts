@@ -7,7 +7,7 @@ export default function useUpdateCommentMutation(successHandler: any) {
   const { mutate } = useMutation({
     mutationFn: ({ id, text }: any) =>
       axios.put(
-        `${process.env.REACT_APP_API_URL}/comments/${id}`,
+        `${import.meta.env.VITE_APP_API_URL}/comments/${id}`,
         {
           text,
         },

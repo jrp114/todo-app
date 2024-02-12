@@ -16,7 +16,7 @@ export default function useTodosQuery(successHandler: any) {
     retry: 0,
     queryFn: session?.token
       ? () =>
-          axios.get(`${process.env.REACT_APP_API_URL}/todos`, {
+          axios.get(`${import.meta.env.VITE_APP_API_URL}/todos`, {
             headers: {
               Authorization: `Bearer ${session.token}`,
             },

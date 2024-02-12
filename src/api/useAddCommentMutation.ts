@@ -12,7 +12,7 @@ export default function useAddCommentMutation(successHandler: () => void) {
   const { mutate } = useMutation({
     mutationFn: ({ id, text }: AddCommentMutationProps) =>
       axios.post(
-        `${process.env.REACT_APP_API_URL}/comments`,
+        `${import.meta.env.VITE_APP_API_URL}/comments`,
         {
           todo_id: id,
           text,

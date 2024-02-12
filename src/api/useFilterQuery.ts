@@ -23,7 +23,7 @@ export default function useFilterQuery(value: string) {
       ref.current = new AbortController();
       const signal = ref.current.signal;
       return axios.get(
-        `${process.env.REACT_APP_API_URL}/todos/filter?value=${value}`,
+        `${import.meta.env.VITE_APP_API_URL}/todos/filter?value=${value}`,
         {
           signal,
           headers: {

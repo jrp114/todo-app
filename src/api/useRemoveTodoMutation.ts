@@ -10,7 +10,7 @@ export default function useRemoveTodoMutation(
   const { session } = useAuthContext();
   const { mutate } = useMutation({
     mutationFn: (id) =>
-      axios.delete(`${process.env.REACT_APP_API_URL}/todos/${id}`, {
+      axios.delete(`${import.meta.env.VITE_APP_API_URL}/todos/${id}`, {
         headers: {
           Authorization: `Bearer ${session.token}`,
         },

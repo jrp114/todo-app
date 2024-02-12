@@ -10,7 +10,7 @@ export default function useUpdateTodoMutation(
   const { mutate } = useMutation({
     mutationFn: ({ list, position }: any) => {
       return axios.put(
-        `${process.env.REACT_APP_API_URL}/todos/${current.id}`,
+        `${import.meta.env.VITE_APP_API_URL}/todos/${current.id}`,
         {
           ...current,
           status: list,

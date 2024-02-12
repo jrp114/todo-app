@@ -7,7 +7,7 @@ export default function useCommentsQuery(id: any) {
   const { data, refetch } = useQuery('comments', {
     queryFn: () =>
       axios
-        .get(`${process.env.REACT_APP_API_URL}/comments?todoId=${id}`, {
+        .get(`${import.meta.env.VITE_APP_API_URL}/comments?todoId=${id}`, {
           headers: {
             Authorization: `Bearer ${session.token}`,
           },

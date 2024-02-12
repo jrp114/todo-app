@@ -7,7 +7,7 @@ export default function useLoginMutation(
 ) {
   const { mutate } = useMutation({
     mutationFn: (v) =>
-      axios.post(`${process.env.REACT_APP_API_URL}/users/login`, v),
+      axios.post(`${import.meta.env.VITE_APP_API_URL}/users/login`, v),
     onSuccess: (result) => {
       localStorage.setItem('todo-app-session', JSON.stringify(result?.data));
       successHandler();

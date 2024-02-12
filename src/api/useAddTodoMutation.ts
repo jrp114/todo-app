@@ -8,7 +8,7 @@ export default function useAddTodoMutation(successHandler: Dispatch<any>) {
   const { mutate } = useMutation({
     mutationFn: (t: Array<any>) =>
       axios.post(
-        `${process.env.REACT_APP_API_URL}/todos`,
+        `${import.meta.env.VITE_APP_API_URL}/todos`,
         { ...t, status: 'todo' },
         {
           headers: {
