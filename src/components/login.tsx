@@ -1,16 +1,11 @@
-import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import { useLoginMutation } from '../api';
 import { Button } from './shared/button';
 
 export function Login() {
   const { register, handleSubmit } = useForm();
-  const navigate = useNavigate();
-  const { mutate } = useLoginMutation(
-    () => navigate('/'),
-    () => navigate('/login'),
-  );
+  const { mutate } = useLoginMutation();
+
   return (
     <div className="flex flex-col justify-center items-center h-screen">
       <div className="flex flex-col justify-center items-center gap-4">

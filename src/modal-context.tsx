@@ -7,6 +7,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { useAuthContext } from './auth-context';
 import { Button } from './components/shared/button';
 
 interface ModalContextProps {
@@ -29,6 +30,7 @@ export const ModalProvider = ({ children }: ModalContextProps) => {
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState<React.ReactNode | string>('');
   const [actions, setActions] = useState<Array<Action>>([]);
+  const { session } = useAuthContext();
   const outer = useRef<any>();
   useEffect(() => {
     window.addEventListener('click', (event) => {
@@ -37,6 +39,11 @@ export const ModalProvider = ({ children }: ModalContextProps) => {
       }
     });
   }, []);
+  useEffect(() => {
+    if (!session) {
+      setShow(false);
+    }
+  }, [session]);
   const setModal = useCallback(({ message, actions }: SetModalProps) => {
     setActions(actions);
     setShow(true);
