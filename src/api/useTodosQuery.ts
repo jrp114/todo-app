@@ -9,8 +9,8 @@ export default function useTodosQuery(successHandler: any, value?: string) {
   const navigate = useNavigate();
   const ref = useRef<any>();
 
-  const handleSeparate = (result: AxiosResponse) => {
-    if (result.data) {
+  const handleSeparate = (result?: AxiosResponse) => {
+    if (result?.data) {
       const t: Array<any> = [];
       const c: Array<any> = [];
       result.data.forEach((r: any) => {
@@ -39,7 +39,7 @@ export default function useTodosQuery(successHandler: any, value?: string) {
             },
           })
       : () => void 0,
-    onSuccess: (result: AxiosResponse) => {
+    onSuccess: (result) => {
       handleSeparate(result);
     },
     onError: (err) => {
@@ -64,7 +64,7 @@ export default function useTodosQuery(successHandler: any, value?: string) {
         },
       );
     },
-    onSuccess: (result: AxiosResponse) => {
+    onSuccess: (result) => {
       handleSeparate(result);
     },
   });
