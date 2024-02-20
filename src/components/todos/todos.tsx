@@ -1,18 +1,39 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useFilterQuery, useUpdateTodoMutation } from '../../api';
-import { useTodoContext } from '../../todos-context';
+import {
+  useAddTodoMutation,
+  useFilterQuery,
+  useRemoveTodoMutation,
+  useTodosQuery,
+  useUpdateTodoMutation,
+} from '../../api';
 import CardList from '../shared/card-list';
 
 export default function Todos() {
-  const {
+  const [current, setCurrent] = useState(undefined);
+  const [todos, setTodos] = useState<any>([]);
+  const [completed, setCompleted] = useState<any>([]);
+  const handleTodosSet = useCallback((result: any) => {
+    if (result) {
+      const t: Array<any> = [];
+      const c: Array<any> = [];
+      result.forEach((r: any) => {
+        if (r.status === 'todo') {
+          t.push(r);
+        } else {
+          c.push(r);
+        }
+      });
+      setTodos(t);
+      setCompleted(c);
+    }
+  }, []);
+  const { refetch } = useTodosQuery(handleTodosSet);
+  const { mutate: addTodo } = useAddTodoMutation(setTodos);
+  const { mutate: remove } = useRemoveTodoMutation(
+    setTodos,
+    setCompleted,
     refetch,
-    todos,
-    completed,
-    remove,
-    current,
-    setCurrent,
-    handleTodosSet,
-  } = useTodoContext();
+  );
   const { mutate } = useUpdateTodoMutation(current, refetch);
   const [filterText, setFilterText] = useState('');
   const { refetch: filterRefetch, ref } = useFilterQuery(filterText);
@@ -72,6 +93,7 @@ export default function Todos() {
           items={todos}
           remove={remove}
           dropItem={dropItem}
+          add={addTodo}
         />
         <CardList
           listCategory="complete"
@@ -80,6 +102,7 @@ export default function Todos() {
           items={completed}
           remove={remove}
           dropItem={dropItem}
+          add={addTodo}
         />
       </div>
     </>

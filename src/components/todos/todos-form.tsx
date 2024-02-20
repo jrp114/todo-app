@@ -1,16 +1,15 @@
 import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useTodoContext } from '../../todos-context';
 import { Button } from '../shared/button';
 
 interface TodosFormProps {
   done: () => void;
+  add: (v: any) => void;
 }
 
-export default function TodosForm({ done }: TodosFormProps) {
+export default function TodosForm({ done, add }: TodosFormProps) {
   const [step, setStep] = useState(0);
   const [tags, setTags] = useState([]);
-  const { addTodo } = useTodoContext();
   const {
     handleSubmit,
     register,
@@ -32,7 +31,7 @@ export default function TodosForm({ done }: TodosFormProps) {
     <div>
       <form
         onSubmit={handleSubmit((v) => {
-          addTodo({
+          add({
             ...v,
             tag: undefined,
             tags,

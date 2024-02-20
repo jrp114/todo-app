@@ -6,7 +6,6 @@ import { Register } from './components/register';
 import Todos from './components/todos/todos';
 import { ModalProvider } from './modal-context';
 import './styles/App.css';
-import TodosProvider from './todos-context';
 
 function App() {
   const queryClient = new QueryClient();
@@ -17,14 +16,7 @@ function App() {
         <AuthProvider>
           <ModalProvider>
             <Routes>
-              <Route
-                path="/"
-                element={
-                  <TodosProvider>
-                    <Todos />
-                  </TodosProvider>
-                }
-              />
+              <Route path="/" element={<Todos />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
             </Routes>

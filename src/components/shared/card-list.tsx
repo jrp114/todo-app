@@ -8,7 +8,8 @@ interface CardListProps {
   dropItem: (current: any, list: string, position: number | null) => void;
   setCurrent: (current: any) => void;
   items: any;
-  remove: (id: string) => void;
+  remove: (id: any) => void;
+  add: (v: any) => void;
 }
 
 export default function CardList({
@@ -18,6 +19,7 @@ export default function CardList({
   setCurrent,
   items,
   remove,
+  add,
 }: CardListProps) {
   const [dragging, setDragging] = useState(false);
   const [addTodo, setAddTodo] = useState(false);
@@ -97,7 +99,7 @@ export default function CardList({
               ref={ref}
               className="border shadow-md border-gray-300 rounded-lg min-h-[60px] min-w-[150px] p-3 mt-4 bg-white cursor-pointer"
             >
-              <TodosForm done={() => setAddTodo(false)} />
+              <TodosForm done={() => setAddTodo(false)} add={add} />
             </div>
           )}
         </div>
