@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import {
   useAddTodoMutation,
-  useFilterQuery,
   useRemoveTodoMutation,
   useTodosQuery,
   useUpdateTodoMutation,
@@ -12,22 +11,14 @@ export default function Todos() {
   const [current, setCurrent] = useState(undefined);
   const [todos, setTodos] = useState<any>([]);
   const [completed, setCompleted] = useState<any>([]);
-  const handleTodosSet = useCallback((result: any) => {
-    if (result) {
-      const t: Array<any> = [];
-      const c: Array<any> = [];
-      result.forEach((r: any) => {
-        if (r.status === 'todo') {
-          t.push(r);
-        } else {
-          c.push(r);
-        }
-      });
-      setTodos(t);
-      setCompleted(c);
-    }
+  const [filterText, setFilterText] = useState('');
+
+  const handleTodosSet = useCallback((t: any, c: any) => {
+    setTodos(t);
+    setCompleted(c);
   }, []);
-  const { refetch } = useTodosQuery(handleTodosSet);
+
+  const { refetch, filter, ref } = useTodosQuery(handleTodosSet, filterText);
   const { mutate: addTodo } = useAddTodoMutation(setTodos);
   const { mutate: remove } = useRemoveTodoMutation(
     setTodos,
@@ -35,20 +26,15 @@ export default function Todos() {
     refetch,
   );
   const { mutate } = useUpdateTodoMutation(current, refetch);
-  const [filterText, setFilterText] = useState('');
-  const { refetch: filterRefetch, ref } = useFilterQuery(filterText);
 
   useEffect(() => {
     // we want to show everything if no filter is defined
     if (filterText === '') {
       refetch();
     } else {
-      filterRefetch().then((result) => {
-        handleTodosSet(result?.data?.data);
-      });
+      filter();
     }
   }, [filterText]);
-
   const dropItem = useCallback(
     (current: any, list: string, position: number | null) => {
       if (current) {
@@ -57,7 +43,6 @@ export default function Todos() {
     },
     [],
   );
-
   const debounce = useCallback((fn: any, delay: number) => {
     let timeout: ReturnType<typeof setTimeout>;
     return (...args: Array<any>) => {

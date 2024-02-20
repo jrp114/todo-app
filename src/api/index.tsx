@@ -1,7 +1,6 @@
 import useAddCommentMutation from './useAddCommentMutation';
 import useAddTodoMutation from './useAddTodoMutation';
 import useCommentsQuery from './useCommentsQuery';
-import useFilterQuery from './useFilterQuery';
 import useLoginMutation from './useLoginMutation';
 import useRegisterMutation from './useRegisterMutation';
 import useRemoveTodoMutation from './useRemoveTodoMutation';
@@ -13,7 +12,6 @@ export {
   useAddCommentMutation,
   useAddTodoMutation,
   useCommentsQuery,
-  useFilterQuery,
   useLoginMutation,
   useRegisterMutation,
   useRemoveTodoMutation,
