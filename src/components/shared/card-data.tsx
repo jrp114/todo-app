@@ -1,16 +1,27 @@
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { Maybe } from 'yup';
 import {
   useAddCommentMutation,
   useCommentsQuery,
   useUpdateCommentMutation,
 } from '../../api';
+import { Todo } from '../todos/todos';
 import { Button } from './button';
 
-export function CardDetail(props: any) {
-  const [comments, setComments] = useState([]);
-  const [edit, setEdit] = useState(undefined);
+interface CardDetailProps {
+  item: Todo;
+}
+
+interface Comment {
+  id: number;
+  text: string;
+}
+
+export function CardDetail(props: CardDetailProps) {
+  const [comments, setComments] = useState<Array<Comment>>([]);
+  const [edit, setEdit] = useState<Maybe<number>>(undefined);
   const { register, handleSubmit, resetField } = useForm();
   const { data, refetch } = useCommentsQuery(props.item.id);
   const { mutate: addComment } = useAddCommentMutation(refetch);
@@ -23,12 +34,12 @@ export function CardDetail(props: any) {
   return (
     <div className="flex flex-col justify-between h-fit items-end max-w-xs">
       <div className="w-full flex flex-row justify-center text-2xl">
-        {props.item.name}
+        {props.item?.name}
       </div>
       <div className="w-full flex flex-col justify-between items-end gap-16">
         <div>
           <div className="italic text-sm text-red-500 flex-wrap">
-            {props.item.description}
+            {props.item?.description}
           </div>
           <div className="mt-3 text-sm">
             <label>Comments</label>
@@ -44,7 +55,7 @@ export function CardDetail(props: any) {
                 Add
               </Button>
             </form>
-            {comments?.map((comment: any) => (
+            {comments?.map((comment) => (
               <div key={comment.id} className=" flex justify-end p-1">
                 <div
                   contentEditable={edit === comment.id}
@@ -76,7 +87,7 @@ export function CardDetail(props: any) {
         </div>
         {props.item.tags && (
           <div className="flex flex-row flex-wrap">
-            {props.item.tags?.map((tag: any, i: number) => (
+            {props.item.tags?.map((tag: string, i: number) => (
               <div
                 key={`tag-${i}`}
                 className="text-xs text-blue-500 bg-white mr-1 flex-wrap border  p-0.5 m-0.5"

@@ -1,9 +1,10 @@
 import { useForm } from 'react-hook-form';
 import { useLoginMutation } from '../api';
+import { LoginMutationFunctionArgs } from '../api/useLoginMutation';
 import { Button } from './shared/button';
 
 export function Login() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm<LoginMutationFunctionArgs>();
   const { mutate } = useLoginMutation();
 
   return (
@@ -11,7 +12,7 @@ export function Login() {
       <div className="flex flex-col justify-center items-center gap-4">
         <div className="text-2xl">Login</div>
         <form
-          onSubmit={handleSubmit((v: any) => {
+          onSubmit={handleSubmit((v) => {
             mutate(v);
           })}
           className="flex flex-col justify-center items-center gap-4"

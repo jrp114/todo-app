@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useQuery } from 'react-query';
 import { useAuthContext } from '../auth-context';
 
-export default function useCommentsQuery(id: any) {
+export default function useCommentsQuery(id?: number) {
   const { session } = useAuthContext();
   const { data, refetch } = useQuery('comments', {
     queryFn: () =>

@@ -1,15 +1,16 @@
 import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button } from '../shared/button';
+import { Todo } from './todos';
 
 interface TodosFormProps {
   done: () => void;
-  add: (v: any) => void;
+  add: (v: Todo) => void;
 }
 
 export default function TodosForm({ done, add }: TodosFormProps) {
   const [step, setStep] = useState(0);
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState<Array<string>>([]);
   const {
     handleSubmit,
     register,
@@ -19,10 +20,10 @@ export default function TodosForm({ done, add }: TodosFormProps) {
     clearErrors,
     getValues,
     resetField,
-  } = useForm();
+  } = useForm<Todo & { tag: string }>();
   const addTag = useCallback((tag: string) => {
     const temp = tags;
-    temp.push(tag as never);
+    temp.push(tag);
     setTags(temp);
     resetField('tag');
   }, []);
@@ -33,7 +34,7 @@ export default function TodosForm({ done, add }: TodosFormProps) {
         onSubmit={handleSubmit((v) => {
           add({
             ...v,
-            tag: undefined,
+            // tag: undefined,
             tags,
           });
           setStep(0);

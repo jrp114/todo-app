@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { Maybe } from 'yup';
 import {
   useAddTodoMutation,
   useRemoveTodoMutation,
@@ -7,13 +8,22 @@ import {
 } from '../../api';
 import CardList from '../shared/card-list';
 
-export default function Todos() {
-  const [current, setCurrent] = useState(undefined);
-  const [todos, setTodos] = useState<any>([]);
-  const [completed, setCompleted] = useState<any>([]);
-  const [filterText, setFilterText] = useState('');
+export interface Todo {
+  id: number;
+  name: string;
+  description: string;
+  status: string;
+  tags: Array<string>;
+  position: number;
+}
 
-  const handleTodosSet = useCallback((t: any, c: any) => {
+export default function Todos() {
+  const [current, setCurrent] = useState<Maybe<Todo>>(undefined);
+  const [todos, setTodos] = useState<Array<Todo>>([]);
+  const [completed, setCompleted] = useState<Array<Todo>>([]);
+  const [filterText, setFilterText] = useState<string>('');
+
+  const handleTodosSet = useCallback((t: Array<Todo>, c: Array<Todo>) => {
     setTodos(t);
     setCompleted(c);
   }, []);
@@ -25,7 +35,7 @@ export default function Todos() {
     setCompleted,
     refetch,
   );
-  const { mutate } = useUpdateTodoMutation(current, refetch);
+  const { mutate } = useUpdateTodoMutation(refetch, current);
 
   useEffect(() => {
     // we want to show everything if no filter is defined
@@ -36,18 +46,19 @@ export default function Todos() {
     }
   }, [filterText]);
   const dropItem = useCallback(
-    (current: any, list: string, position: number | null) => {
+    (current: Maybe<Todo>, list: string, position: number) => {
+      console.log('dropItem', current, list, position);
       if (current) {
         mutate({ list, position });
       }
     },
     [],
   );
-  const debounce = useCallback((fn: any, delay: number) => {
+  const debounce = useCallback((fn: () => void, delay: number) => {
     let timeout: ReturnType<typeof setTimeout>;
     return (...args: Array<any>) => {
       clearTimeout(timeout);
-      timeout = setTimeout(() => fn(...args), delay);
+      timeout = setTimeout(() => fn(), delay);
     };
   }, []);
 

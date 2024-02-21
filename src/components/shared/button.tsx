@@ -1,4 +1,10 @@
-import React from 'react';
+interface ButtonProps {
+  type?: 'button' | 'submit' | 'reset';
+  onClick?: () => void;
+  variant?: 'primary' | 'secondary';
+  size?: 'sm' | 'md' | 'lg';
+  children: React.ReactNode;
+}
 
 export function Button({
   type = 'button',
@@ -6,7 +12,7 @@ export function Button({
   variant = 'primary',
   size = 'md',
   children,
-}: any) {
+}: ButtonProps) {
   let classes = 'text-white p-1 rounded-md flex items-center justify-center';
   if (variant === 'primary') classes += ' bg-primary';
   else if (variant === 'secondary') classes += ' bg-secondary';

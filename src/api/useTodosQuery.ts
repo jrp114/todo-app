@@ -3,17 +3,21 @@ import { useEffect, useRef } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../auth-context';
+import { Todo } from '../components/todos/todos';
 
-export default function useTodosQuery(successHandler: any, value?: string) {
+export default function useTodosQuery(
+  successHandler: (a: Array<Todo>, b: Array<Todo>) => void,
+  value?: string,
+) {
   const { session } = useAuthContext();
   const navigate = useNavigate();
   const ref = useRef<any>();
 
   const handleSeparate = (result?: AxiosResponse) => {
     if (result?.data) {
-      const t: Array<any> = [];
-      const c: Array<any> = [];
-      result.data.forEach((r: any) => {
+      const t: Array<Todo> = [];
+      const c: Array<Todo> = [];
+      result.data.forEach((r: Todo) => {
         if (r.status === 'todo') {
           t.push(r);
         } else {

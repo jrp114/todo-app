@@ -1,19 +1,22 @@
 import classNames from 'classnames';
 import { useRef, useState } from 'react';
+import { Maybe } from 'yup';
 import { useModalContext } from '../../modal-context';
+import { Todo } from '../todos/todos';
 import { CardDetail } from './card-data';
 
 interface CardItemProps {
-  item: any;
+  item: Maybe<Todo>;
   i: number;
   dragging: boolean;
   setDragging: (dragging: boolean) => void;
-  items: any;
+  items: Array<Todo>;
   remove: (id: string) => void;
-  setCurrent: (current: any) => void;
-  current: any;
-  dropItem: (current: any, list: string, position: number | null) => void;
+  setCurrent: (current: Todo) => void;
+  current: Maybe<Todo>;
+  dropItem: (current: Maybe<Todo>, list: string, position: number) => void;
   name: string;
+  key: number | string;
 }
 
 export default function CardItem({
@@ -27,16 +30,17 @@ export default function CardItem({
   current,
   dropItem,
   name,
+  key,
 }: CardItemProps) {
   const { setModal, setShowModal } = useModalContext();
   const [index, setIndex] = useState<number | null>(null);
   const [over, setOver] = useState(false);
-  const [dropArea, setDropArea] = useState<number | null>(null);
+  const [dropArea, setDropArea] = useState<number>();
   const ref = useRef<any>();
   return (
     <div
       ref={ref}
-      id={item?.position}
+      id={item?.position.toString()}
       key={item?.id || 'empty'}
       className={classNames(
         'border shadow-md border-gray-300 rounded-lg min-h-[60px] min-w-[150px] p-3 bg-white hover:bg-gray-200 cursor-pointer',
@@ -63,12 +67,14 @@ export default function CardItem({
         setIndex(null);
       }}
       onDrop={(e) => {
-        dropItem(current, name, dropArea);
+        if (dropArea) {
+          dropItem(current, name, dropArea);
+        }
         setOver(false);
       }}
       onClick={() =>
         setModal({
-          message: <CardDetail item={item} />,
+          message: item && <CardDetail item={item} />,
           actions: [
             {
               name: 'Delete',
@@ -79,7 +85,7 @@ export default function CardItem({
                     {
                       name: 'Delete',
                       handle: () => {
-                        remove(item.id);
+                        remove(item?.id?.toString() || '');
                         setShowModal(false);
                       },
                     },

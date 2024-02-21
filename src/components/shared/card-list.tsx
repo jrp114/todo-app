@@ -1,15 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
+import { Maybe } from 'yup';
+import { Todo } from '../todos/todos';
 import TodosForm from '../todos/todos-form';
 import CardItem from './card-item';
 
 interface CardListProps {
-  current: any;
+  current: Maybe<Todo>;
   listCategory: string;
-  dropItem: (current: any, list: string, position: number | null) => void;
-  setCurrent: (current: any) => void;
-  items: any;
-  remove: (id: any) => void;
-  add: (v: any) => void;
+  dropItem: (current: Maybe<Todo>, list: string, position: number) => void;
+  setCurrent: (current: Todo) => void;
+  items: Array<Todo>;
+  remove: (id: string) => void;
+  add: (v: Todo) => void;
 }
 
 export default function CardList({
@@ -54,7 +56,7 @@ export default function CardList({
           <div className="overflow-y-auto max-h-screen">
             <div className="flex flex-col gap-2 pt-2">
               {items?.length > 0 ? (
-                items?.map((item: any, i: number) => (
+                items?.map((item: Todo, i: number) => (
                   <CardItem
                     key={item.id}
                     item={item}

@@ -3,8 +3,8 @@ import { useMutation } from 'react-query';
 import { useAuthContext } from '../auth-context';
 
 interface AddCommentMutationProps {
-  id: number;
-  text: string;
+  id?: number;
+  text?: string;
 }
 
 export default function useAddCommentMutation(successHandler: () => void) {

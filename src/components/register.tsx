@@ -1,9 +1,9 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { useRegisterMutation } from '../api';
+import { RegisterMutationFunctionArgs } from '../api/useRegisterMutation';
 import { Button } from './shared/button';
 
 const schema = yup.object().shape({
@@ -42,8 +42,8 @@ export function Register() {
       <div className="flex flex-col justify-center items-center gap-4">
         <div className="text-2xl">Register</div>
         <form
-          onSubmit={handleSubmit((v: any) => {
-            mutate(v);
+          onSubmit={handleSubmit((v) => {
+            mutate(v as RegisterMutationFunctionArgs);
           })}
           className="flex flex-col justify-center items-center gap-4"
         >

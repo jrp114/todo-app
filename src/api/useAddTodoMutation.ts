@@ -1,12 +1,13 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { Dispatch } from 'react';
 import { useMutation } from 'react-query';
 import { useAuthContext } from '../auth-context';
+import { Todo } from '../components/todos/todos';
 
 export default function useAddTodoMutation(successHandler: Dispatch<any>) {
   const { session } = useAuthContext();
   const { mutate } = useMutation({
-    mutationFn: (t: Array<any>) =>
+    mutationFn: (t: Todo) =>
       axios.post(
         `${import.meta.env.VITE_APP_API_URL}/todos`,
         { ...t, status: 'todo' },
@@ -17,7 +18,7 @@ export default function useAddTodoMutation(successHandler: Dispatch<any>) {
         },
       ),
     onSuccess: (result) => {
-      successHandler((prev: any) => {
+      successHandler((prev: AxiosResponse['data']) => {
         return [...prev, result.data];
       });
     },

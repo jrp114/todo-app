@@ -2,10 +2,15 @@ import axios from 'axios';
 import { useMutation } from 'react-query';
 import { useAuthContext } from '../auth-context';
 
-export default function useUpdateCommentMutation(successHandler: any) {
+interface UpdateCommentMutationFunctionArgs {
+  id: number;
+  text: string;
+}
+
+export default function useUpdateCommentMutation(successHandler: () => void) {
   const { session } = useAuthContext();
   const { mutate } = useMutation({
-    mutationFn: ({ id, text }: any) =>
+    mutationFn: ({ id, text }: UpdateCommentMutationFunctionArgs) =>
       axios.put(
         `${import.meta.env.VITE_APP_API_URL}/comments/${id}`,
         {
