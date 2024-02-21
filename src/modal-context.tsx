@@ -9,6 +9,7 @@ import React, {
 } from 'react';
 import { useAuthContext } from './auth-context';
 import { Button } from './components/shared/button';
+import { useOutsideClick } from './components/shared/useOutsideClick';
 
 interface ModalContextProps {
   children: React.ReactNode;
@@ -32,13 +33,8 @@ export const ModalProvider = ({ children }: ModalContextProps) => {
   const [actions, setActions] = useState<Array<Action>>([]);
   const { session } = useAuthContext();
   const outer = useRef<any>();
-  useEffect(() => {
-    window.addEventListener('click', (event) => {
-      if (outer.current === event.target) {
-        setShow(false);
-      }
-    });
-  }, []);
+  useOutsideClick(outer, () => setShow(false));
+
   useEffect(() => {
     if (!session) {
       setShow(false);

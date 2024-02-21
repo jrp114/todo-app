@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Maybe } from 'yup';
 import { Todo } from '../todos/todos';
 import TodosForm from '../todos/todos-form';
 import CardItem from './card-item';
+import { useOutsideClick } from './useOutsideClick';
 
 interface CardListProps {
   current: Maybe<Todo>;
@@ -26,20 +27,7 @@ export default function CardList({
   const [dragging, setDragging] = useState(false);
   const [addTodo, setAddTodo] = useState(false);
   const ref = useRef<any>();
-
-  useEffect(() => {
-    // we want to close the new todo if we escape or click outside
-    const handleClose = (e: any) => {
-      if (
-        (ref.current && !ref.current.contains(e.target)) ||
-        e.key === 'Escape'
-      ) {
-        setAddTodo(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClose);
-    document.addEventListener('keydown', handleClose);
-  }, [ref]);
+  useOutsideClick(ref, () => setAddTodo(false));
 
   return (
     <div className="p-5">
