@@ -7,7 +7,7 @@ import CardItem from './card-item';
 interface CardListProps {
   current: Maybe<Todo>;
   listCategory: string;
-  dropItem: (current: Maybe<Todo>, list: string, position: number) => void;
+  dropItem: (list: string, position: number) => void;
   setCurrent: (current: Todo) => void;
   items: Array<Todo>;
   remove: (id: string) => void;
@@ -74,14 +74,7 @@ export default function CardList({
               ) : (
                 <CardItem
                   key="empty"
-                  item={null}
                   i={0}
-                  dragging={dragging}
-                  setDragging={setDragging}
-                  items={items}
-                  remove={remove}
-                  setCurrent={setCurrent}
-                  current={current}
                   dropItem={dropItem}
                   name={listCategory}
                 />

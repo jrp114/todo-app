@@ -45,15 +45,9 @@ export default function Todos() {
       filter();
     }
   }, [filterText]);
-  const dropItem = useCallback(
-    (current: Maybe<Todo>, list: string, position: number) => {
-      console.log('dropItem', current, list, position);
-      if (current) {
-        mutate({ list, position });
-      }
-    },
-    [],
-  );
+  const dropItem = useCallback((list: string, position: number) => {
+    mutate({ list, position });
+  }, []);
   const debounce = useCallback((fn: () => void, delay: number) => {
     let timeout: ReturnType<typeof setTimeout>;
     return (...args: Array<any>) => {

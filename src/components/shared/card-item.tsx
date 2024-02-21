@@ -6,17 +6,16 @@ import { Todo } from '../todos/todos';
 import { CardDetail } from './card-data';
 
 interface CardItemProps {
-  item: Maybe<Todo>;
+  item?: Maybe<Todo>;
   i: number;
-  dragging: boolean;
-  setDragging: (dragging: boolean) => void;
-  items: Array<Todo>;
-  remove: (id: string) => void;
-  setCurrent: (current: Todo) => void;
-  current: Maybe<Todo>;
-  dropItem: (current: Maybe<Todo>, list: string, position: number) => void;
+  dragging?: boolean;
+  setDragging?: (dragging: boolean) => void;
+  items?: Array<Todo>;
+  remove?: (id: string) => void;
+  setCurrent?: (current: Todo) => void;
+  current?: Maybe<Todo>;
+  dropItem: (list: string, position: number) => void;
   name: string;
-  key: number | string;
 }
 
 export default function CardItem({
@@ -30,12 +29,11 @@ export default function CardItem({
   current,
   dropItem,
   name,
-  key,
 }: CardItemProps) {
   const { setModal, setShowModal } = useModalContext();
   const [index, setIndex] = useState<number | null>(null);
   const [over, setOver] = useState(false);
-  const [dropArea, setDropArea] = useState<number>();
+  const [dropArea, setDropArea] = useState<number>(0);
   const ref = useRef<any>();
   return (
     <div
@@ -51,9 +49,9 @@ export default function CardItem({
       )}
       draggable
       onDragStart={() => {
-        setDragging(true);
+        setDragging && setDragging(true);
         setIndex(i);
-        setCurrent(items[i]);
+        setCurrent && items && setCurrent(items[i]);
       }}
       onDragOver={(e: any) => {
         setOver(true);
@@ -63,13 +61,11 @@ export default function CardItem({
       }}
       onDragLeave={() => setOver(false)}
       onDragEnd={() => {
-        setDragging(false);
+        setDragging && setDragging(false);
         setIndex(null);
       }}
       onDrop={(e) => {
-        if (dropArea) {
-          dropItem(current, name, dropArea);
-        }
+        dropItem(name, dropArea);
         setOver(false);
       }}
       onClick={() =>
@@ -85,7 +81,7 @@ export default function CardItem({
                     {
                       name: 'Delete',
                       handle: () => {
-                        remove(item?.id?.toString() || '');
+                        remove && item?.id && remove(item.id.toString());
                         setShowModal(false);
                       },
                     },
