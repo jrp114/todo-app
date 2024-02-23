@@ -8,14 +8,14 @@ export function Login() {
   const { mutate } = useLoginMutation();
 
   return (
-    <div className="flex flex-col justify-center items-center h-screen">
-      <div className="flex flex-col justify-center items-center gap-4">
+    <div className="flex h-screen flex-col items-center justify-center">
+      <div className="flex flex-col items-center justify-center gap-4">
         <div className="text-2xl">Login</div>
         <form
           onSubmit={handleSubmit((v) => {
             mutate(v);
           })}
-          className="flex flex-col justify-center items-center gap-4"
+          className="flex flex-col items-center justify-center gap-4"
         >
           <input
             {...register('email', { required: true })}

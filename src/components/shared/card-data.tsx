@@ -32,13 +32,13 @@ export function CardDetail(props: CardDetailProps) {
   }, [data]);
 
   return (
-    <div className="flex flex-col justify-between h-fit items-end max-w-xs">
-      <div className="w-full flex flex-row justify-center text-2xl">
+    <div className="flex h-fit max-w-xs flex-col items-end justify-between">
+      <div className="flex w-full flex-row justify-center text-2xl">
         {props.item?.name}
       </div>
-      <div className="w-full flex flex-col justify-between items-end gap-16">
+      <div className="flex w-full flex-col items-end justify-between gap-16">
         <div>
-          <div className="italic text-sm text-red-500 flex-wrap">
+          <div className="flex-wrap text-sm italic text-red-500">
             {props.item?.description}
           </div>
           <div className="mt-3 text-sm">
@@ -50,7 +50,7 @@ export function CardDetail(props: CardDetailProps) {
               })}
               className="flex flex-row justify-end gap-2 pb-3"
             >
-              <input {...register('comment')} className="border w-full" />
+              <input {...register('comment')} className="w-full border" />
               <Button type="submit" variant="primary">
                 Add
               </Button>
@@ -67,7 +67,7 @@ export function CardDetail(props: CardDetailProps) {
                       });
                     }
                   }}
-                  className={classNames('text-sm text-blue-400 w-full p-.25', {
+                  className={classNames('p-.25 w-full text-sm text-blue-400', {
                     border: edit === comment.id,
                   })}
                   suppressContentEditableWarning={true}
@@ -90,7 +90,7 @@ export function CardDetail(props: CardDetailProps) {
             {props.item.tags?.map((tag: string, i: number) => (
               <div
                 key={`tag-${i}`}
-                className="text-xs text-blue-500 bg-white mr-1 flex-wrap border  p-0.5 m-0.5"
+                className="m-0.5 mr-1 flex-wrap border bg-white p-0.5  text-xs text-blue-500"
               >
                 {tag}
               </div>

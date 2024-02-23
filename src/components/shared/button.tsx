@@ -1,3 +1,5 @@
+import classNames from 'classnames';
+
 interface ButtonProps {
   type?: 'button' | 'submit' | 'reset';
   onClick?: () => void;
@@ -13,14 +15,21 @@ export function Button({
   size = 'md',
   children,
 }: ButtonProps) {
-  let classes = 'text-white p-1 rounded-md flex items-center justify-center';
-  if (variant === 'primary') classes += ' bg-primary';
-  else if (variant === 'secondary') classes += ' bg-secondary';
-  if (size === 'sm') classes += ' text-[12px] h-6';
-  else if (size === 'lg') classes += ' text-lg';
-  else classes += ' text-base';
   return (
-    <button className={classes} type={type} onClick={onClick}>
+    <button
+      className={classNames(
+        'flex items-center justify-center rounded-md p-1 text-white',
+        {
+          'bg-primary': variant === 'primary',
+          'bg-secondary': variant === 'secondary',
+          'h-6 text-[12px]': size === 'sm',
+          'text-lg': size === 'lg',
+          'text-base': size === 'md',
+        },
+      )}
+      type={type}
+      onClick={onClick}
+    >
       {children}
     </button>
   );

@@ -41,9 +41,9 @@ export default function CardItem({
       id={item?.position.toString()}
       key={item?.id || 'empty'}
       className={classNames(
-        'border shadow-md border-gray-300 rounded-lg min-h-[60px] min-w-[150px] p-3 bg-white hover:bg-gray-200 cursor-pointer',
+        'min-h-[60px] min-w-[150px] cursor-pointer rounded-lg border border-gray-300 bg-white p-3 shadow-md hover:bg-gray-200',
         {
-          'text-green-500 font-bold': dragging && index === i,
+          'font-bold text-green-500': dragging && index === i,
           'border border-dashed border-red-500 bg-green-100': over,
         },
       )}
@@ -97,7 +97,7 @@ export default function CardItem({
           {item?.tags?.map((tag: string, i: number) => (
             <div
               key={`tag-${i}`}
-              className="text-xs text-blue-500 bg-white mr-1 flex-wrap border  p-0.5 m-0.5"
+              className="m-0.5 mr-1 flex-wrap border bg-white p-0.5 text-xs text-blue-500"
             >
               {tag}
             </div>

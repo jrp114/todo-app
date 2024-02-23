@@ -38,14 +38,14 @@ export function Register() {
     },
   );
   return (
-    <div className="flex flex-col justify-center items-center h-screen">
-      <div className="flex flex-col justify-center items-center gap-4">
+    <div className="flex h-screen flex-col items-center justify-center">
+      <div className="flex flex-col items-center justify-center gap-4">
         <div className="text-2xl">Register</div>
         <form
           onSubmit={handleSubmit((v) => {
             mutate(v as RegisterMutationFunctionArgs);
           })}
-          className="flex flex-col justify-center items-center gap-4"
+          className="flex flex-col items-center justify-center gap-4"
         >
           <input
             {...register('email', { required: true })}

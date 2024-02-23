@@ -59,13 +59,13 @@ export const ModalProvider = ({ children }: ModalContextProps) => {
           {/* outer layer */}
           <div
             ref={outer}
-            className="flex flex-col min-h-full items-center justify-center"
+            className="flex min-h-full flex-col items-center justify-center"
           >
             {/* container */}
             <div className="bg-white p-6 text-lg">
               {/* main dialog */}
               {message}
-              <div className="flex justify-end pt-4 gap-x-4">
+              <div className="flex justify-end gap-x-4 pt-4">
                 {/* action buttons */}
                 {actions.map((action: Action, i: number) => (
                   <Button

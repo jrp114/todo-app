@@ -37,11 +37,11 @@ export default function CardList({
           e.preventDefault();
         }}
       >
-        <div className="bg-gray-100 rounded-lg p-3">
-          <div className="text-xl text-orange-700 font-bold uppercase">
+        <div className="rounded-lg bg-gray-100 p-3">
+          <div className="text-xl font-bold uppercase text-orange-700">
             {listCategory}
           </div>
-          <div className="overflow-y-auto max-h-screen">
+          <div className="max-h-screen overflow-y-auto">
             <div className="flex flex-col gap-2 pt-2">
               {items?.length > 0 ? (
                 items?.map((item: Todo, i: number) => (
@@ -71,7 +71,7 @@ export default function CardList({
           </div>
           {listCategory === 'todo' && !addTodo && (
             <div
-              className="p-2 cursor-pointer"
+              className="cursor-pointer p-2"
               onClick={() => setAddTodo(true)}
             >
               Add something todo
@@ -80,7 +80,7 @@ export default function CardList({
           {addTodo && (
             <div
               ref={ref}
-              className="border shadow-md border-gray-300 rounded-lg min-h-[60px] min-w-[150px] p-3 mt-4 bg-white cursor-pointer"
+              className="mt-4 min-h-[60px] min-w-[150px] cursor-pointer rounded-lg border border-gray-300 bg-white p-3 shadow-md"
             >
               <TodosForm done={() => setAddTodo(false)} add={add} />
             </div>
