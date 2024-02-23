@@ -37,11 +37,14 @@ export default function useTodosQuery(
     retry: 0,
     queryFn: session?.token
       ? () =>
-          axios.get(`${import.meta.env.VITE_APP_API_URL}/todos`, {
-            headers: {
-              Authorization: `Bearer ${session.token}`,
+          axios.get(
+            `${import.meta.env.VITE_APP_API_URL}/todos?accountId=${session.accountId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${session.token}`,
+              },
             },
-          })
+          )
       : () => void 0,
     onSuccess: (result) => {
       handleSeparate(result);
@@ -59,7 +62,7 @@ export default function useTodosQuery(
       ref.current = new AbortController();
       const signal = ref.current.signal;
       return axios.get(
-        `${import.meta.env.VITE_APP_API_URL}/todos/filter?value=${value}`,
+        `${import.meta.env.VITE_APP_API_URL}/todos/filter?value=${value}&accountId=${session.accountId}`,
         {
           signal,
           headers: {

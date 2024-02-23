@@ -10,7 +10,7 @@ export default function useAddTodoMutation(successHandler: Dispatch<any>) {
     mutationFn: (t: Todo) =>
       axios.post(
         `${import.meta.env.VITE_APP_API_URL}/todos`,
-        { ...t, status: 'todo' },
+        { ...t, status: 'todo', accountId: session.accountId },
         {
           headers: {
             Authorization: `Bearer ${session.token}`,
