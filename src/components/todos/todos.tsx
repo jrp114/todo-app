@@ -7,6 +7,7 @@ import {
   useUpdateTodoMutation,
 } from '../../api';
 import CardList from '../shared/card-list';
+import { Filter } from './filter';
 
 export interface Todo {
   id: number;
@@ -57,33 +58,10 @@ export default function Todos() {
   const dropItem = useCallback((projectId: number, position: number) => {
     mutate({ projectId, position });
   }, []);
-  const debounce = useCallback((fn: () => void, delay: number) => {
-    let timeout: ReturnType<typeof setTimeout>;
-    return (...args: Array<any>) => {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => fn(), delay);
-    };
-  }, []);
 
   return (
     <>
-      <div className="pl-5 pt-5">
-        <input
-          placeholder="Filter"
-          onChange={(e) => {
-            // in case the previous network request is ongoing
-            // when the next one fires we want to abort
-            if (ref.current) {
-              ref.current.abort();
-            }
-            debounce(async () => {
-              setFilterText(e.target.value);
-            }, 2000)();
-          }}
-          className="border bg-green-200 p-1"
-        />
-      </div>
-
+      <Filter abortControllerRef={ref} setFilterText={setFilterText} />
       <div className="flex flex-row">
         {Object.keys(separatedProjects).map((p) => (
           <CardList
