@@ -9,6 +9,7 @@ import {
 } from '../api';
 import { Todo } from '../feature-main/main';
 import { Button } from './button';
+import { InputField } from './input-field';
 
 interface CardDetailProps {
   item: Todo;
@@ -50,7 +51,7 @@ export function CardDetail(props: CardDetailProps) {
               })}
               className="flex flex-row justify-end gap-2 pb-3"
             >
-              <input {...register('comment')} className="w-full border" />
+              <InputField register={register('comment')} classes="w-full" />
               <Button type="submit" variant="primary">
                 Add
               </Button>

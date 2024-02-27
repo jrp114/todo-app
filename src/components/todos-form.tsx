@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Todo } from '../feature-main/main';
 import { Button } from './button';
+import { InputField } from './input-field';
 
 interface TodosFormProps {
   done: () => void;
@@ -45,10 +46,10 @@ export default function TodosForm({ done, add, listId }: TodosFormProps) {
         className="flex flex-row gap-1"
       >
         {step === 0 && (
-          <input
-            placeholder="Enter a name"
-            {...register('name', { required: true })}
-            className="border p-1"
+          <InputField
+            register={register('name', { required: true })}
+            label="Enter a name"
+            classes="p-1"
           />
         )}
         {step === 1 && (
@@ -59,11 +60,7 @@ export default function TodosForm({ done, add, listId }: TodosFormProps) {
           />
         )}
         {step === 2 && (
-          <input
-            placeholder="Enter a tag"
-            {...register('tag')}
-            className="border p-1"
-          />
+          <InputField register={register('tag')} label="Tag" classes="p-1" />
         )}
         {step === 2 && (
           <Button variant="primary" onClick={() => addTag(getValues('tag'))}>

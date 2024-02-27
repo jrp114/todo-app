@@ -5,6 +5,7 @@ import * as yup from 'yup';
 import { useRegisterMutation } from '../api';
 import { RegisterMutationFunctionArgs } from '../api/useRegisterMutation';
 import { Button } from '../components/button';
+import { InputField } from '../components/input-field';
 
 const schema = yup.object().shape({
   // TODO: add validation for the account name
@@ -49,22 +50,17 @@ export function Register() {
           className="flex flex-col items-center justify-center gap-4"
         >
           {/* TODO: add field for account name */}
-          <input
-            {...register('email', { required: true })}
-            className="border"
-            placeholder="Email"
+          <InputField
+            register={register('email', { required: true })}
+            label="Email"
           />
-          <input
-            {...register('password', { required: true })}
-            type="password"
-            className="border"
-            placeholder="Password"
+          <InputField
+            register={register('password', { required: true })}
+            label="Password"
           />
-          <input
-            {...register('confirmPassword', { required: true })}
-            type="password"
-            className="border"
-            placeholder="Confirm Password"
+          <InputField
+            register={register('confirmPassword', { required: true })}
+            label="Confirm Password"
             onChange={() => clearErrors('confirmPassword')}
           />
           <div className="flex flex-col items-center">

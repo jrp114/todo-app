@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import { useLoginMutation } from '../api';
 import { LoginMutationFunctionArgs } from '../api/useLoginMutation';
 import { Button } from '../components/button';
+import { InputField } from '../components/input-field';
 
 export function Login() {
   const { register, handleSubmit } = useForm<LoginMutationFunctionArgs>();
@@ -17,16 +18,13 @@ export function Login() {
           })}
           className="flex flex-col items-center justify-center gap-4"
         >
-          <input
-            {...register('email', { required: true })}
-            className="border"
-            placeholder="Email"
+          <InputField
+            register={register('email', { required: true })}
+            label="Email"
           />
-          <input
-            {...register('password', { required: true })}
-            type="password"
-            className="border"
-            placeholder="Password"
+          <InputField
+            register={register('password', { required: true })}
+            label="Password"
           />
           <Button type="submit" variant="primary">
             Login

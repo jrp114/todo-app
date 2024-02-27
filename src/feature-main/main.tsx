@@ -6,8 +6,7 @@ import {
   useTodosQuery,
   useUpdateTodoMutation,
 } from '../api';
-import CardList from '../components/card-list';
-import { Filter } from '../components/filter';
+import { CardList, Filter } from '../components';
 
 export interface Todo {
   id: number;
