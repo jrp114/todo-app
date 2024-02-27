@@ -4,6 +4,7 @@ import { Maybe } from 'yup';
 import { useModalContext } from '../../modal-context';
 import { Todo } from '../todos/todos';
 import { CardDetail } from './card-data';
+import { Tag } from './tag';
 
 interface CardItemProps {
   item?: Maybe<Todo>;
@@ -13,9 +14,8 @@ interface CardItemProps {
   items?: Array<Todo>;
   remove?: (id: string) => void;
   setCurrent?: (current: Todo) => void;
-  current?: Maybe<Todo>;
   dropItem: (projectId: number, position: number) => void;
-  listId?: string;
+  listId?: number;
 }
 
 export default function CardItem({
@@ -26,7 +26,6 @@ export default function CardItem({
   items,
   remove,
   setCurrent,
-  current,
   dropItem,
   listId,
 }: CardItemProps) {
@@ -65,7 +64,7 @@ export default function CardItem({
         setIndex(null);
       }}
       onDrop={(e) => {
-        listId && dropItem(parseInt(listId), dropArea);
+        listId && dropItem(listId, dropArea);
         setOver(false);
       }}
       onClick={() =>
@@ -94,14 +93,7 @@ export default function CardItem({
     >
       <div className="flex flex-col items-start">
         <div className="flex flex-row flex-wrap">
-          {item?.tags?.map((tag: string, i: number) => (
-            <div
-              key={`tag-${i}`}
-              className="m-0.5 mr-1 flex-wrap border bg-white p-0.5 text-xs text-blue-500"
-            >
-              {tag}
-            </div>
-          ))}
+          {item?.tags?.map((tag: string, i: number) => <Tag tag={tag} i={i} />)}
         </div>
         {item?.name}
       </div>

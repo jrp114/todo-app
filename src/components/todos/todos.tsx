@@ -66,8 +66,6 @@ export default function Todos() {
         {Object.keys(separatedProjects).map((p) => (
           <CardList
             key={p}
-            listCategory={separatedProjects[p][0].projectName}
-            listId={separatedProjects[p][0].projectId}
             current={current}
             setCurrent={setCurrent}
             items={separatedProjects[p]}

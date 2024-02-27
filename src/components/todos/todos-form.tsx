@@ -6,7 +6,7 @@ import { Todo } from './todos';
 interface TodosFormProps {
   done: () => void;
   add: (v: Todo) => void;
-  listId: string;
+  listId: number;
 }
 
 export default function TodosForm({ done, add, listId }: TodosFormProps) {
@@ -36,7 +36,7 @@ export default function TodosForm({ done, add, listId }: TodosFormProps) {
           add({
             ...v,
             tags,
-            projectId: parseInt(listId),
+            projectId: listId,
           });
           setStep(0);
           reset();
