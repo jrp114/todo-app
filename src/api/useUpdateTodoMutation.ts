@@ -5,7 +5,7 @@ import { useAuthContext } from '../auth-context';
 import { Todo } from '../components/todos/todos';
 
 interface UpdateTodoMutationFunctionArgs {
-  list: string;
+  projectId: number;
   position: number;
 }
 
@@ -15,14 +15,14 @@ export default function useUpdateTodoMutation(
 ) {
   const { session } = useAuthContext();
   const { mutate } = useMutation({
-    mutationFn: ({ list, position }: UpdateTodoMutationFunctionArgs) => {
+    mutationFn: ({ projectId, position }: UpdateTodoMutationFunctionArgs) => {
       return axios.put(
         `${import.meta.env.VITE_APP_API_URL}/todos/${current?.id}`,
         {
           ...current,
-          status: list,
+          projectId,
           position,
-          origin: current?.status,
+          origin: current?.projectId,
           originalPosition: current?.position,
         },
         {

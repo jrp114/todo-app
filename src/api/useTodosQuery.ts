@@ -1,44 +1,29 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import { useEffect, useRef } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../auth-context';
-import { Todo } from '../components/todos/todos';
 
 export default function useTodosQuery(
-  successHandler: (a: Array<Todo>, b: Array<Todo>) => void,
+  successHandler: (v: any) => void,
   value?: string,
 ) {
   const { session } = useAuthContext();
   const navigate = useNavigate();
   const ref = useRef<any>();
 
-  const handleSeparate = (result?: AxiosResponse) => {
-    if (result?.data) {
-      const t: Array<Todo> = [];
-      const c: Array<Todo> = [];
-      result.data.forEach((r: Todo) => {
-        if (r.status === 'todo') {
-          t.push(r);
-        } else {
-          c.push(r);
-        }
-      });
-      successHandler(t, c);
-    }
-  };
-
   useEffect(() => {
     if (!session) {
       navigate('/login');
     }
   }, [session]);
+
   const { refetch } = useQuery('todos', {
     retry: 0,
     queryFn: session?.token
       ? () =>
           axios.get(
-            `${import.meta.env.VITE_APP_API_URL}/todos?accountId=${session.accountId}`,
+            `${import.meta.env.VITE_APP_API_URL}/projects/todos?userId=${session.userId}`,
             {
               headers: {
                 Authorization: `Bearer ${session.token}`,
@@ -47,7 +32,7 @@ export default function useTodosQuery(
           )
       : () => void 0,
     onSuccess: (result) => {
-      handleSeparate(result);
+      successHandler(result?.data);
     },
     onError: (err) => {
       console.log(err);
@@ -62,7 +47,7 @@ export default function useTodosQuery(
       ref.current = new AbortController();
       const signal = ref.current.signal;
       return axios.get(
-        `${import.meta.env.VITE_APP_API_URL}/todos/filter?value=${value}&accountId=${session.accountId}`,
+        `${import.meta.env.VITE_APP_API_URL}/projects/todos/filter?value=${value}&userId=${session.userId}`,
         {
           signal,
           headers: {
@@ -72,7 +57,7 @@ export default function useTodosQuery(
       );
     },
     onSuccess: (result) => {
-      handleSeparate(result);
+      successHandler(result?.data);
     },
   });
   return { refetch, filter, ref };

@@ -14,8 +14,8 @@ interface CardItemProps {
   remove?: (id: string) => void;
   setCurrent?: (current: Todo) => void;
   current?: Maybe<Todo>;
-  dropItem: (list: string, position: number) => void;
-  name: string;
+  dropItem: (projectId: number, position: number) => void;
+  listId?: string;
 }
 
 export default function CardItem({
@@ -28,7 +28,7 @@ export default function CardItem({
   setCurrent,
   current,
   dropItem,
-  name,
+  listId,
 }: CardItemProps) {
   const { setModal, setShowModal } = useModalContext();
   const [index, setIndex] = useState<number | null>(null);
@@ -65,7 +65,7 @@ export default function CardItem({
         setIndex(null);
       }}
       onDrop={(e) => {
-        dropItem(name, dropArea);
+        listId && dropItem(parseInt(listId), dropArea);
         setOver(false);
       }}
       onClick={() =>

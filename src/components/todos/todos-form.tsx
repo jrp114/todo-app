@@ -6,9 +6,10 @@ import { Todo } from './todos';
 interface TodosFormProps {
   done: () => void;
   add: (v: Todo) => void;
+  listId: string;
 }
 
-export default function TodosForm({ done, add }: TodosFormProps) {
+export default function TodosForm({ done, add, listId }: TodosFormProps) {
   const [step, setStep] = useState(0);
   const [tags, setTags] = useState<Array<string>>([]);
   const {
@@ -34,8 +35,8 @@ export default function TodosForm({ done, add }: TodosFormProps) {
         onSubmit={handleSubmit((v) => {
           add({
             ...v,
-            // tag: undefined,
             tags,
+            projectId: parseInt(listId),
           });
           setStep(0);
           reset();
