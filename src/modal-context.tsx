@@ -8,8 +8,8 @@ import React, {
   useState,
 } from 'react';
 import { useAuthContext } from './auth-context';
-import { Button } from './components/shared/button';
-import { useOutsideClick } from './components/shared/useOutsideClick';
+import { Button } from './components/button';
+import { useOutsideClick } from './components/useOutsideClick';
 
 interface ModalContextProps {
   children: React.ReactNode;

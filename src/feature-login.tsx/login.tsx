@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useLoginMutation } from '../api';
 import { LoginMutationFunctionArgs } from '../api/useLoginMutation';
-import { Button } from './shared/button';
+import { Button } from '../components/button';
 
 export function Login() {
   const { register, handleSubmit } = useForm<LoginMutationFunctionArgs>();

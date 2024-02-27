@@ -1,9 +1,9 @@
 import { useRef, useState } from 'react';
 import { Maybe } from 'yup';
-import { Todo } from '../todos/todos';
-import TodosForm from '../todos/todos-form';
+import { Todo } from '../feature-main/main';
 import CardItem from './card-item';
 import { PlusButton } from './plus-button';
+import TodosForm from './todos-form';
 import { useOutsideClick } from './useOutsideClick';
 
 interface CardListProps {

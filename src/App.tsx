@@ -1,9 +1,9 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AuthProvider from './auth-context';
-import { Login } from './components/login';
-import { Register } from './components/register';
-import Todos from './components/todos/todos';
+import { Login } from './feature-login.tsx/login';
+import { Todos } from './feature-main/main';
+import { Register } from './feature-register/register';
 import { ModalProvider } from './modal-context';
 import './styles/App.css';
 

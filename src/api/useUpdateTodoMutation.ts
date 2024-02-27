@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useMutation } from 'react-query';
 import { Maybe } from 'yup';
 import { useAuthContext } from '../auth-context';
-import { Todo } from '../components/todos/todos';
+import { Todo } from '../feature-main/main';
 
 interface UpdateTodoMutationFunctionArgs {
   projectId: number;

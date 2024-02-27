@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Button } from '../shared/button';
-import { Todo } from './todos';
+import { Todo } from '../feature-main/main';
+import { Button } from './button';
 
 interface TodosFormProps {
   done: () => void;

@@ -6,7 +6,7 @@ import {
   useMutation,
 } from 'react-query';
 import { useAuthContext } from '../auth-context';
-import { Todo } from '../components/todos/todos';
+import { Todo } from '../feature-main/main';
 
 export default function useAddTodoMutation(
   refetch: <TPageData>(

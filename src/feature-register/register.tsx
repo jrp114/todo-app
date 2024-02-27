@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { useRegisterMutation } from '../api';
 import { RegisterMutationFunctionArgs } from '../api/useRegisterMutation';
-import { Button } from './shared/button';
+import { Button } from '../components/button';
 
 const schema = yup.object().shape({
   // TODO: add validation for the account name

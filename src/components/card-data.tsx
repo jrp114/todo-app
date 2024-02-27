@@ -6,8 +6,8 @@ import {
   useAddCommentMutation,
   useCommentsQuery,
   useUpdateCommentMutation,
-} from '../../api';
-import { Todo } from '../todos/todos';
+} from '../api';
+import { Todo } from '../feature-main/main';
 import { Button } from './button';
 
 interface CardDetailProps {

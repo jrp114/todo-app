@@ -5,9 +5,9 @@ import {
   useRemoveTodoMutation,
   useTodosQuery,
   useUpdateTodoMutation,
-} from '../../api';
-import CardList from '../shared/card-list';
-import { Filter } from './filter';
+} from '../api';
+import CardList from '../components/card-list';
+import { Filter } from '../components/filter';
 
 export interface Todo {
   id: number;
@@ -20,7 +20,7 @@ export interface Todo {
   projectId: number;
 }
 
-export default function Todos() {
+export function Todos() {
   const [current, setCurrent] = useState<Maybe<Todo>>(undefined);
   const [projects, setProjects] = useState<Array<Todo>>([]);
   const [filterText, setFilterText] = useState<string>('');

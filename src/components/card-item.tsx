@@ -1,8 +1,8 @@
 import classNames from 'classnames';
 import { useRef, useState } from 'react';
 import { Maybe } from 'yup';
-import { useModalContext } from '../../modal-context';
-import { Todo } from '../todos/todos';
+import { Todo } from '../feature-main/main';
+import { useModalContext } from '../modal-context';
 import { CardDetail } from './card-data';
 import { Tag } from './tag';
 
