@@ -1,13 +1,12 @@
 import classNames from 'classnames';
 import { useRef, useState } from 'react';
-import { Maybe } from 'yup';
 import { Todo } from '../feature-main/main';
 import { useModalContext } from '../modal-context';
 import { CardDetail } from './card-data';
 import { Tag } from './tag';
 
 interface CardItemProps {
-  item?: Maybe<Todo>;
+  item: Todo;
   i: number;
   dragging?: boolean;
   setDragging?: (dragging: boolean) => void;
@@ -93,7 +92,9 @@ export default function CardItem({
     >
       <div className="flex flex-col items-start">
         <div className="flex flex-row flex-wrap">
-          {item?.tags?.map((tag: string, i: number) => <Tag tag={tag} i={i} />)}
+          {item.tags.map((tag: string, i: number) => (
+            <Tag key={`tag-${i}`} tag={tag} />
+          ))}
         </div>
         {item?.name}
       </div>
