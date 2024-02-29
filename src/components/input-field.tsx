@@ -3,6 +3,7 @@ interface InputFieldProps {
   register?: any;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   classes?: string;
+  type?: string;
 }
 
 export function InputField(props: InputFieldProps) {
@@ -12,6 +13,7 @@ export function InputField(props: InputFieldProps) {
       className={`border ${props.classes ? props.classes : ''}`}
       placeholder={props.label}
       onChange={props.onChange}
+      type={props.type || 'text'}
     />
   );
 }

@@ -25,6 +25,7 @@ export function Login() {
           <InputField
             register={register('password', { required: true })}
             label="Password"
+            type="password"
           />
           <Button type="submit" variant="primary">
             Login
