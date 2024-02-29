@@ -1,5 +1,4 @@
 import { useRef, useState } from 'react';
-import { Maybe } from 'yup';
 import { Todo } from '../feature-main/main';
 import CardItem from './card-item';
 import { PlusButton } from './plus-button';
@@ -7,7 +6,6 @@ import TodosForm from './todos-form';
 import { useOutsideClick } from './useOutsideClick';
 
 interface CardListProps {
-  current: Maybe<Todo>;
   dropItem: (projectId: number, position: number) => void;
   setCurrent: (current: Todo) => void;
   items: Array<Todo>;
@@ -16,7 +14,6 @@ interface CardListProps {
 }
 
 export default function CardList({
-  current,
   dropItem,
   setCurrent,
   items,
@@ -57,25 +54,20 @@ export default function CardList({
           )}
           <div className="max-h-screen overflow-y-auto">
             <div className="flex flex-col gap-2 pt-2">
-              {items?.length > 0 ? (
-                items?.map((item: Todo, i: number) => (
-                  <CardItem
-                    key={item.id}
-                    item={item}
-                    i={i}
-                    dragging={dragging}
-                    setDragging={setDragging}
-                    items={items}
-                    remove={remove}
-                    setCurrent={setCurrent}
-                    dropItem={dropItem}
-                    listId={items[0].projectId}
-                  />
-                ))
-              ) : (
-                // TODO: Handle the case where a current project ID has no todos
-                <CardItem key="empty" i={0} dropItem={dropItem} />
-              )}
+              {items.map((item: Todo, i: number) => (
+                <CardItem
+                  key={item.id}
+                  item={item}
+                  i={i}
+                  dragging={dragging}
+                  setDragging={setDragging}
+                  items={items}
+                  remove={remove}
+                  setCurrent={setCurrent}
+                  dropItem={dropItem}
+                  listId={items[0].projectId}
+                />
+              ))}
             </div>
           </div>
         </div>

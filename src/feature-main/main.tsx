@@ -7,6 +7,7 @@ import {
   useUpdateTodoMutation,
 } from '../api';
 import { CardList, Filter } from '../components';
+import { ProjectList } from '../components/project-list';
 
 export interface Todo {
   id: number;
@@ -23,6 +24,7 @@ export function Todos() {
   const [current, setCurrent] = useState<Maybe<Todo>>(undefined);
   const [projects, setProjects] = useState<Array<Todo>>([]);
   const [filterText, setFilterText] = useState<string>('');
+  const [selected, setSelected] = useState<Array<number>>([]);
 
   const handleSetProjects = useCallback((p: Array<any>) => {
     setProjects(p);
@@ -43,15 +45,28 @@ export function Todos() {
     }
   }, [filterText, refetch]);
 
+  // each project to have its own list of todos
   const separatedProjects = useMemo(() => {
-    const ordered: any = {};
+    const ordered: { [key: string]: Array<Todo> } = {};
     projects?.forEach((p) => {
+      if (selected.length > 0 && !selected.includes(p.projectId)) {
+        return;
+      }
       if (!ordered[p.projectId]) {
         ordered[p.projectId] = [];
       }
       ordered[p.projectId].push(p);
     });
     return ordered;
+  }, [projects, selected]);
+
+  // get the project list for display and selection
+  // we want to use separatedProjects const to retrieve the project id and name since it's already broken up into object
+  // as { projectId: [todos] } key value pairs
+  const projectList = useMemo(() => {
+    const unique = new Set(projects?.map((p) => p.projectId));
+    const final = Array.from(unique).map((p) => separatedProjects[p][0]);
+    return final;
   }, [projects]);
 
   const dropItem = useCallback((projectId: number, position: number) => {
@@ -60,12 +75,17 @@ export function Todos() {
 
   return (
     <>
+      <ProjectList
+        selected={selected}
+        setSelected={setSelected}
+        projects={projectList}
+      />
+
       <Filter abortControllerRef={ref} setFilterText={setFilterText} />
       <div className="flex flex-row">
         {Object.keys(separatedProjects).map((p) => (
           <CardList
             key={p}
-            current={current}
             setCurrent={setCurrent}
             items={separatedProjects[p]}
             remove={remove}
