@@ -11,6 +11,7 @@ interface CardListProps {
   items: Array<Todo>;
   remove: (id: string) => void;
   add: (v: Todo) => void;
+  showList: boolean;
 }
 
 export default function CardList({
@@ -19,6 +20,7 @@ export default function CardList({
   items,
   remove,
   add,
+  showList,
 }: CardListProps) {
   const [dragging, setDragging] = useState(false);
   const [addTodo, setAddTodo] = useState(false);
@@ -37,10 +39,10 @@ export default function CardList({
           <div className="text-xl font-bold uppercase text-orange-700">
             {items[0].projectName}
           </div>
-          {!addTodo && (
+          {!addTodo && showList && (
             <PlusButton onClick={() => setAddTodo(true)} label="Add New Task" />
           )}
-          {addTodo && (
+          {addTodo && showList && (
             <div
               ref={ref}
               className="mt-4 min-h-[60px] min-w-[150px] cursor-pointer rounded-lg border border-gray-300 bg-white p-3 shadow-md"
@@ -52,24 +54,26 @@ export default function CardList({
               />
             </div>
           )}
-          <div className="max-h-screen overflow-y-auto">
-            <div className="flex flex-col gap-2 pt-2">
-              {items.map((item: Todo, i: number) => (
-                <CardItem
-                  key={item.id}
-                  item={item}
-                  i={i}
-                  dragging={dragging}
-                  setDragging={setDragging}
-                  items={items}
-                  remove={remove}
-                  setCurrent={setCurrent}
-                  dropItem={dropItem}
-                  listId={items[0].projectId}
-                />
-              ))}
+          {showList && (
+            <div className="max-h-screen overflow-y-auto">
+              <div className="flex flex-col gap-2 pt-2">
+                {items.map((item: Todo, i: number) => (
+                  <CardItem
+                    key={item.id}
+                    item={item}
+                    i={i}
+                    dragging={dragging}
+                    setDragging={setDragging}
+                    items={items}
+                    remove={remove}
+                    setCurrent={setCurrent}
+                    dropItem={dropItem}
+                    listId={items[0].projectId}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

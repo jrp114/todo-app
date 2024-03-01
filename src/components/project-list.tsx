@@ -23,7 +23,7 @@ export function ProjectList(props: ProjectListProps) {
         <div
           key={p.projectId || 0}
           className={classNames('m-1 cursor-pointer border p-1', {
-            'line-through': props.selected.includes(p.projectId),
+            'text-gray-400': props.selected.includes(p.projectId),
           })}
           onClick={() => {
             if (props.selected.includes(p.projectId)) {

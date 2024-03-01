@@ -87,20 +87,17 @@ export function Todos() {
 
       <Filter abortControllerRef={ref} setFilterText={setFilterText} />
       <div className="flex flex-row">
-        {Object.keys(separatedProjects).map((p) => {
-          if (!selected.includes(Number(p))) {
-            return (
-              <CardList
-                key={p}
-                setCurrent={setCurrent}
-                items={separatedProjects[p]}
-                remove={remove}
-                dropItem={dropItem}
-                add={addTodo}
-              />
-            );
-          }
-        })}
+        {Object.keys(separatedProjects).map((p) => (
+          <CardList
+            key={p}
+            setCurrent={setCurrent}
+            items={separatedProjects[p]}
+            remove={remove}
+            dropItem={dropItem}
+            add={addTodo}
+            showList={!selected.includes(Number(p))}
+          />
+        ))}
       </div>
     </>
   );
