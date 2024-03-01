@@ -6,6 +6,7 @@ import {
   useTodosQuery,
   useUpdateTodoMutation,
 } from '../api';
+import useAddProjectMutation from '../api/useAddProjectMutation';
 import { CardList, Filter } from '../components';
 import { ProjectList } from '../components/project-list';
 
@@ -33,6 +34,7 @@ export function Todos() {
   const { refetch, filter, ref } = useTodosQuery(handleSetProjects, filterText);
 
   const { mutate: addTodo } = useAddTodoMutation(refetch);
+  const { mutate: addProject } = useAddProjectMutation(refetch);
   const { mutate: remove } = useRemoveTodoMutation(refetch);
   const { mutate } = useUpdateTodoMutation(refetch, current);
 
@@ -49,9 +51,6 @@ export function Todos() {
   const separatedProjects = useMemo(() => {
     const ordered: { [key: string]: Array<Todo> } = {};
     projects?.forEach((p) => {
-      if (selected.length > 0 && !selected.includes(p.projectId)) {
-        return;
-      }
       if (!ordered[p.projectId]) {
         ordered[p.projectId] = [];
       }
@@ -73,26 +72,35 @@ export function Todos() {
     mutate({ projectId, position });
   }, []);
 
+  const handleProjectAdd = useCallback((v: any) => {
+    addProject(v);
+  }, []);
+
   return (
     <>
       <ProjectList
         selected={selected}
         setSelected={setSelected}
         projects={projectList}
+        add={handleProjectAdd}
       />
 
       <Filter abortControllerRef={ref} setFilterText={setFilterText} />
       <div className="flex flex-row">
-        {Object.keys(separatedProjects).map((p) => (
-          <CardList
-            key={p}
-            setCurrent={setCurrent}
-            items={separatedProjects[p]}
-            remove={remove}
-            dropItem={dropItem}
-            add={addTodo}
-          />
-        ))}
+        {Object.keys(separatedProjects).map((p) => {
+          if (!selected.includes(Number(p))) {
+            return (
+              <CardList
+                key={p}
+                setCurrent={setCurrent}
+                items={separatedProjects[p]}
+                remove={remove}
+                dropItem={dropItem}
+                add={addTodo}
+              />
+            );
+          }
+        })}
       </div>
     </>
   );
