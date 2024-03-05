@@ -12,15 +12,15 @@ export default function AuthProvider({ children }: AuthContextProps) {
 
   useEffect(() => {
     window.addEventListener('storage', () => {
-      if (!localStorage.getItem('todo-app-session')) {
+      if (!localStorage.getItem('task-app-session')) {
         navigate('/login');
       }
     });
   }, []);
 
   const session = useMemo(() => {
-    return JSON.parse(localStorage.getItem('todo-app-session') as string);
-  }, [localStorage.getItem('todo-app-session')]);
+    return JSON.parse(localStorage.getItem('task-app-session') as string);
+  }, [localStorage.getItem('task-app-session')]);
 
   const state = useMemo(() => {
     return {

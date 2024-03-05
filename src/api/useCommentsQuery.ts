@@ -7,7 +7,7 @@ export default function useCommentsQuery(id?: number) {
   const { data, refetch } = useQuery('comments', {
     queryFn: () =>
       axios
-        .get(`${import.meta.env.VITE_APP_API_URL}/comments?todoId=${id}`, {
+        .get(`${import.meta.env.VITE_APP_API_URL}/comments?taskId=${id}`, {
           headers: {
             Authorization: `Bearer ${session.token}`,
           },

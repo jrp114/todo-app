@@ -1,21 +1,21 @@
 import useAddCommentMutation from './useAddCommentMutation';
-import useAddTodoMutation from './useAddTodoMutation';
+import useAddTaskMutation from './useAddTaskMutation';
 import useCommentsQuery from './useCommentsQuery';
 import useLoginMutation from './useLoginMutation';
 import useRegisterMutation from './useRegisterMutation';
-import useRemoveTodoMutation from './useRemoveTodoMutation';
-import useTodosQuery from './useTodosQuery';
+import useRemoveTaskMutation from './useRemoveTaskMutation';
+import useTasksQuery from './useTasksQuery';
 import useUpdateCommentMutation from './useUpdateCommentMutation';
-import useUpdateTodoMutation from './useUpdateTodoMutation';
+import useUpdateTaskMutation from './useUpdateTaskMutation';
 
 export {
   useAddCommentMutation,
-  useAddTodoMutation,
+  useAddTaskMutation,
   useCommentsQuery,
   useLoginMutation,
   useRegisterMutation,
-  useRemoveTodoMutation,
-  useTodosQuery,
+  useRemoveTaskMutation,
+  useTasksQuery,
   useUpdateCommentMutation,
-  useUpdateTodoMutation,
+  useUpdateTaskMutation,
 };

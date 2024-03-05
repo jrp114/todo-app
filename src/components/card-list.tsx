@@ -1,16 +1,16 @@
 import { useRef, useState } from 'react';
-import { Todo } from '../feature-main/main';
+import { Task } from '../feature-main/main';
 import CardItem from './card-item';
 import { PlusButton } from './plus-button';
-import TodosForm from './todos-form';
+import TasksForm from './tasks-form';
 import { useOutsideClick } from './useOutsideClick';
 
 interface CardListProps {
   dropItem: (projectId: number, position: number) => void;
-  setCurrent: (current: Todo) => void;
-  items: Array<Todo>;
+  setCurrent: (current: Task) => void;
+  items: Array<Task>;
   remove: (id: string) => void;
-  add: (v: Todo) => void;
+  add: (v: Task) => void;
   showList: boolean;
 }
 
@@ -23,9 +23,9 @@ export default function CardList({
   showList,
 }: CardListProps) {
   const [dragging, setDragging] = useState(false);
-  const [addTodo, setAddTodo] = useState(false);
+  const [addTask, setAddTask] = useState(false);
   const ref = useRef<any>();
-  useOutsideClick(ref, () => setAddTodo(false));
+  useOutsideClick(ref, () => setAddTask(false));
 
   return (
     <div className="p-5">
@@ -39,16 +39,16 @@ export default function CardList({
           <div className="text-xl font-bold uppercase text-orange-700">
             {items[0].projectName}
           </div>
-          {!addTodo && showList && (
-            <PlusButton onClick={() => setAddTodo(true)} label="Add New Task" />
+          {!addTask && showList && (
+            <PlusButton onClick={() => setAddTask(true)} label="Add New Task" />
           )}
-          {addTodo && showList && (
+          {addTask && showList && (
             <div
               ref={ref}
               className="mt-4 min-h-[60px] min-w-[150px] cursor-pointer rounded-lg border border-gray-300 bg-white p-3 shadow-md"
             >
-              <TodosForm
-                done={() => setAddTodo(false)}
+              <TasksForm
+                done={() => setAddTask(false)}
                 add={add}
                 listId={items[0].projectId}
               />
@@ -57,7 +57,7 @@ export default function CardList({
           {showList && (
             <div className="max-h-screen overflow-y-auto">
               <div className="flex flex-col gap-2 pt-2">
-                {items.map((item: Todo, i: number) => (
+                {items.map((item: Task, i: number) => (
                   <CardItem
                     key={item.id}
                     item={item}

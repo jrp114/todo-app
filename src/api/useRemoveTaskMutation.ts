@@ -7,7 +7,7 @@ import {
 } from 'react-query';
 import { useAuthContext } from '../auth-context';
 
-export default function useRemoveTodoMutation(
+export default function useRemoveTaskMutation(
   refetch: <TPageData>(
     options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
   ) => Promise<
@@ -17,7 +17,7 @@ export default function useRemoveTodoMutation(
   const { session } = useAuthContext();
   const { mutate } = useMutation({
     mutationFn: (id: string) =>
-      axios.delete(`${import.meta.env.VITE_APP_API_URL}/todos/${id}`, {
+      axios.delete(`${import.meta.env.VITE_APP_API_URL}/tasks/${id}`, {
         headers: {
           Authorization: `Bearer ${session.token}`,
         },

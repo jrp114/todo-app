@@ -14,7 +14,7 @@ export default function useAddCommentMutation(successHandler: () => void) {
       axios.post(
         `${import.meta.env.VITE_APP_API_URL}/comments`,
         {
-          todo_id: id,
+          taskId: id,
           text,
         },
         {

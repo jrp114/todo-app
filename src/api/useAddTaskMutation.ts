@@ -6,9 +6,9 @@ import {
   useMutation,
 } from 'react-query';
 import { useAuthContext } from '../auth-context';
-import { Todo } from '../feature-main/main';
+import { Task } from '../feature-main/main';
 
-export default function useAddTodoMutation(
+export default function useAddTaskMutation(
   refetch: <TPageData>(
     options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
   ) => Promise<
@@ -17,9 +17,9 @@ export default function useAddTodoMutation(
 ) {
   const { session } = useAuthContext();
   const { mutate } = useMutation({
-    mutationFn: (t: Todo) =>
+    mutationFn: (t: Task) =>
       axios.post(
-        `${import.meta.env.VITE_APP_API_URL}/todos`,
+        `${import.meta.env.VITE_APP_API_URL}/tasks`,
         {
           ...t,
         },

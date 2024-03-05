@@ -1,16 +1,16 @@
 import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Todo } from '../feature-main/main';
+import { Task } from '../feature-main/main';
 import { Button } from './button';
 import { InputField } from './input-field';
 
-interface TodosFormProps {
+interface TasksFormProps {
   done: () => void;
-  add: (v: Todo) => void;
+  add: (v: Task) => void;
   listId: number;
 }
 
-export default function TodosForm({ done, add, listId }: TodosFormProps) {
+export default function TasksForm({ done, add, listId }: TasksFormProps) {
   const [step, setStep] = useState(0);
   const [tags, setTags] = useState<Array<string>>([]);
   const {
@@ -22,7 +22,7 @@ export default function TodosForm({ done, add, listId }: TodosFormProps) {
     clearErrors,
     getValues,
     resetField,
-  } = useForm<Todo & { tag: string }>();
+  } = useForm<Task & { tag: string }>();
   const addTag = useCallback((tag: string) => {
     const temp = tags;
     temp.push(tag);

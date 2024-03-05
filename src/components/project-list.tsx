@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { useRef, useState } from 'react';
-import { Todo } from '../feature-main/main';
+import { Task } from '../feature-main/main';
 import { PlusButton } from './plus-button';
 import ProjectsForm from './projects-form';
 import { useOutsideClick } from './useOutsideClick';
@@ -8,7 +8,7 @@ import { useOutsideClick } from './useOutsideClick';
 interface ProjectListProps {
   selected: Array<number>;
   setSelected: (selected: Array<number>) => void;
-  projects: Array<Todo>;
+  projects: Array<Task>;
   add: (v: any) => void;
 }
 

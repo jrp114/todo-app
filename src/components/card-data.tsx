@@ -7,12 +7,12 @@ import {
   useCommentsQuery,
   useUpdateCommentMutation,
 } from '../api';
-import { Todo } from '../feature-main/main';
+import { Task } from '../feature-main/main';
 import { Button } from './button';
 import { InputField } from './input-field';
 
 interface CardDetailProps {
-  item: Todo;
+  item: Task;
 }
 
 interface Comment {

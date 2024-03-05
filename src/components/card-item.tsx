@@ -1,18 +1,18 @@
 import classNames from 'classnames';
 import { useRef, useState } from 'react';
-import { Todo } from '../feature-main/main';
+import { Task } from '../feature-main/main';
 import { useModalContext } from '../modal-context';
 import { CardDetail } from './card-data';
 import { Tag } from './tag';
 
 interface CardItemProps {
-  item: Todo;
+  item: Task;
   i: number;
   dragging: boolean;
   setDragging: (dragging: boolean) => void;
-  items: Array<Todo>;
+  items: Array<Task>;
   remove: (id: string) => void;
-  setCurrent: (current: Todo) => void;
+  setCurrent: (current: Task) => void;
   dropItem: (projectId: number, position: number) => void;
   listId: number;
 }

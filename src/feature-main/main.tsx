@@ -1,16 +1,16 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Maybe } from 'yup';
 import {
-  useAddTodoMutation,
-  useRemoveTodoMutation,
-  useTodosQuery,
-  useUpdateTodoMutation,
+  useAddTaskMutation,
+  useRemoveTaskMutation,
+  useTasksQuery,
+  useUpdateTaskMutation,
 } from '../api';
 import useAddProjectMutation from '../api/useAddProjectMutation';
 import { CardList, Filter } from '../components';
 import { ProjectList } from '../components/project-list';
 
-export interface Todo {
+export interface Task {
   id: number;
   name: string;
   description: string;
@@ -21,9 +21,9 @@ export interface Todo {
   projectId: number;
 }
 
-export function Todos() {
-  const [current, setCurrent] = useState<Maybe<Todo>>(undefined);
-  const [projects, setProjects] = useState<Array<Todo>>([]);
+export function Tasks() {
+  const [current, setCurrent] = useState<Maybe<Task>>(undefined);
+  const [projects, setProjects] = useState<Array<Task>>([]);
   const [filterText, setFilterText] = useState<string>('');
   const [selected, setSelected] = useState<Array<number>>([]);
 
@@ -31,12 +31,12 @@ export function Todos() {
     setProjects(p);
   }, []);
 
-  const { refetch, filter, ref } = useTodosQuery(handleSetProjects, filterText);
+  const { refetch, filter, ref } = useTasksQuery(handleSetProjects, filterText);
 
-  const { mutate: addTodo } = useAddTodoMutation(refetch);
+  const { mutate: addTask } = useAddTaskMutation(refetch);
   const { mutate: addProject } = useAddProjectMutation(refetch);
-  const { mutate: remove } = useRemoveTodoMutation(refetch);
-  const { mutate } = useUpdateTodoMutation(refetch, current);
+  const { mutate: remove } = useRemoveTaskMutation(refetch);
+  const { mutate } = useUpdateTaskMutation(refetch, current);
 
   useEffect(() => {
     // we want to show everything if no filter is defined
@@ -47,9 +47,9 @@ export function Todos() {
     }
   }, [filterText, refetch]);
 
-  // each project to have its own list of todos
+  // each project to have its own list of tasks
   const separatedProjects = useMemo(() => {
-    const ordered: { [key: string]: Array<Todo> } = {};
+    const ordered: { [key: string]: Array<Task> } = {};
     projects?.forEach((p) => {
       if (!ordered[p.projectId]) {
         ordered[p.projectId] = [];
@@ -61,7 +61,7 @@ export function Todos() {
 
   // get the project list for display and selection
   // we want to use separatedProjects const to retrieve the project id and name since it's already broken up into object
-  // as { projectId: [todos] } key value pairs
+  // as { projectId: [tasks] } key value pairs
   const projectList = useMemo(() => {
     const unique = new Set(projects?.map((p) => p.projectId));
     const final = Array.from(unique).map((p) => separatedProjects[p][0]);
@@ -94,7 +94,7 @@ export function Todos() {
             items={separatedProjects[p]}
             remove={remove}
             dropItem={dropItem}
-            add={addTodo}
+            add={addTask}
             showList={!selected.includes(Number(p))}
           />
         ))}

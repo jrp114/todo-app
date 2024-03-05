@@ -2,22 +2,22 @@ import axios from 'axios';
 import { useMutation } from 'react-query';
 import { Maybe } from 'yup';
 import { useAuthContext } from '../auth-context';
-import { Todo } from '../feature-main/main';
+import { Task } from '../feature-main/main';
 
-interface UpdateTodoMutationFunctionArgs {
+interface UpdateTaskMutationFunctionArgs {
   projectId: number;
   position: number;
 }
 
-export default function useUpdateTodoMutation(
+export default function useUpdateTaskMutation(
   successHandler: () => void,
-  current: Maybe<Todo>,
+  current: Maybe<Task>,
 ) {
   const { session } = useAuthContext();
   const { mutate } = useMutation({
-    mutationFn: ({ projectId, position }: UpdateTodoMutationFunctionArgs) => {
+    mutationFn: ({ projectId, position }: UpdateTaskMutationFunctionArgs) => {
       return axios.put(
-        `${import.meta.env.VITE_APP_API_URL}/todos/${current?.id}`,
+        `${import.meta.env.VITE_APP_API_URL}/tasks/${current?.id}`,
         {
           ...current,
           projectId,

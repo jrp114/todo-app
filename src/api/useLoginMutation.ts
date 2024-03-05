@@ -13,7 +13,7 @@ export default function useLoginMutation() {
     mutationFn: (v: LoginMutationFunctionArgs) =>
       axios.post(`${import.meta.env.VITE_APP_API_URL}/users/login`, v),
     onSuccess: (result) => {
-      localStorage.setItem('todo-app-session', JSON.stringify(result?.data));
+      localStorage.setItem('task-app-session', JSON.stringify(result?.data));
       navigate('/');
     },
     onError: () => navigate('/login'),

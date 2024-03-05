@@ -4,7 +4,7 @@ import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../auth-context';
 
-export default function useTodosQuery(
+export default function useTasksQuery(
   successHandler: (v: any) => void,
   value?: string,
 ) {
@@ -18,12 +18,12 @@ export default function useTodosQuery(
     }
   }, [session]);
 
-  const { refetch } = useQuery('todos', {
+  const { refetch } = useQuery('tasks', {
     retry: 0,
     queryFn: session?.token
       ? () =>
           axios.get(
-            `${import.meta.env.VITE_APP_API_URL}/projects/todos?userId=${session.userId}`,
+            `${import.meta.env.VITE_APP_API_URL}/projects/tasks?userId=${session.userId}`,
             {
               headers: {
                 Authorization: `Bearer ${session.token}`,
@@ -47,7 +47,7 @@ export default function useTodosQuery(
       ref.current = new AbortController();
       const signal = ref.current.signal;
       return axios.get(
-        `${import.meta.env.VITE_APP_API_URL}/projects/todos/filter?value=${value}&userId=${session.userId}`,
+        `${import.meta.env.VITE_APP_API_URL}/projects/tasks/filter?value=${value}&userId=${session.userId}`,
         {
           signal,
           headers: {
