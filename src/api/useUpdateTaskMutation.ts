@@ -5,7 +5,7 @@ import { useAuthContext } from '../auth-context';
 import { Task } from '../feature-main/main';
 
 interface UpdateTaskMutationFunctionArgs {
-  projectId: number;
+  taskListId: number;
   position: number;
 }
 
@@ -15,14 +15,14 @@ export default function useUpdateTaskMutation(
 ) {
   const { session } = useAuthContext();
   const { mutate } = useMutation({
-    mutationFn: ({ projectId, position }: UpdateTaskMutationFunctionArgs) => {
+    mutationFn: ({ taskListId, position }: UpdateTaskMutationFunctionArgs) => {
       return axios.put(
         `${import.meta.env.VITE_APP_API_URL}/tasks/${current?.id}`,
         {
           ...current,
-          projectId,
+          taskListId,
           position,
-          origin: current?.projectId,
+          origin: current?.taskListId,
           originalPosition: current?.position,
         },
         {

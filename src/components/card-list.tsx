@@ -6,7 +6,7 @@ import TasksForm from './tasks-form';
 import { useOutsideClick } from './useOutsideClick';
 
 interface CardListProps {
-  dropItem: (projectId: number, position: number) => void;
+  dropItem: (taskListId: number, position: number) => void;
   setCurrent: (current: Task) => void;
   items: Array<Task>;
   remove: (id: string) => void;
@@ -37,7 +37,7 @@ export default function CardList({
       >
         <div className="rounded-lg bg-gray-100 p-3">
           <div className="text-xl font-bold uppercase text-orange-700">
-            {items[0].projectName}
+            {items[0].taskListName}
           </div>
           {!addTask && showList && (
             <PlusButton onClick={() => setAddTask(true)} label="Add New Task" />
@@ -50,7 +50,7 @@ export default function CardList({
               <TasksForm
                 done={() => setAddTask(false)}
                 add={add}
-                listId={items[0].projectId}
+                listId={items[0].taskListId}
               />
             </div>
           )}
@@ -68,7 +68,7 @@ export default function CardList({
                     remove={remove}
                     setCurrent={setCurrent}
                     dropItem={dropItem}
-                    listId={items[0].projectId}
+                    listId={items[0].taskListId}
                   />
                 ))}
               </div>

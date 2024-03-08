@@ -17,8 +17,8 @@ export interface Task {
   status: string;
   tags: Array<string>;
   position: number;
-  projectName: string;
-  projectId: number;
+  taskListName: string;
+  taskListId: number;
 }
 
 export function Tasks() {
@@ -51,25 +51,25 @@ export function Tasks() {
   const separatedProjects = useMemo(() => {
     const ordered: { [key: string]: Array<Task> } = {};
     projects?.forEach((p) => {
-      if (!ordered[p.projectId]) {
-        ordered[p.projectId] = [];
+      if (!ordered[p.taskListId]) {
+        ordered[p.taskListId] = [];
       }
-      ordered[p.projectId].push(p);
+      ordered[p.taskListId].push(p);
     });
     return ordered;
   }, [projects, selected]);
 
   // get the project list for display and selection
   // we want to use separatedProjects const to retrieve the project id and name since it's already broken up into object
-  // as { projectId: [tasks] } key value pairs
+  // as { taskListId: [tasks] } key value pairs
   const projectList = useMemo(() => {
-    const unique = new Set(projects?.map((p) => p.projectId));
+    const unique = new Set(projects?.map((p) => p.taskListId));
     const final = Array.from(unique).map((p) => separatedProjects[p][0]);
     return final;
   }, [projects]);
 
-  const dropItem = useCallback((projectId: number, position: number) => {
-    mutate({ projectId, position });
+  const dropItem = useCallback((taskListId: number, position: number) => {
+    mutate({ taskListId, position });
   }, []);
 
   const handleProjectAdd = useCallback((v: any) => {

@@ -23,7 +23,7 @@ export default function useTasksQuery(
     queryFn: session?.token
       ? () =>
           axios.get(
-            `${import.meta.env.VITE_APP_API_URL}/projects/tasks?userId=${session.userId}`,
+            `${import.meta.env.VITE_APP_API_URL}/tasklists/tasks?userId=${session.userId}`,
             {
               headers: {
                 Authorization: `Bearer ${session.token}`,
@@ -47,7 +47,7 @@ export default function useTasksQuery(
       ref.current = new AbortController();
       const signal = ref.current.signal;
       return axios.get(
-        `${import.meta.env.VITE_APP_API_URL}/projects/tasks/filter?value=${value}&userId=${session.userId}`,
+        `${import.meta.env.VITE_APP_API_URL}/tasklists/tasks/filter?value=${value}&userId=${session.userId}`,
         {
           signal,
           headers: {

@@ -13,7 +13,7 @@ interface CardItemProps {
   items: Array<Task>;
   remove: (id: string) => void;
   setCurrent: (current: Task) => void;
-  dropItem: (projectId: number, position: number) => void;
+  dropItem: (taskListId: number, position: number) => void;
   listId: number;
 }
 

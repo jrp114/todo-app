@@ -21,24 +21,24 @@ export function ProjectList(props: ProjectListProps) {
     <div className="flex flex-row">
       {props.projects.map((p) => (
         <div
-          key={p.projectId || 0}
+          key={p.taskListId || 0}
           className={classNames('m-1 cursor-pointer border p-1', {
-            'text-gray-400': props.selected.includes(p.projectId),
+            'text-gray-400': props.selected.includes(p.taskListId),
           })}
           onClick={() => {
-            if (props.selected.includes(p.projectId)) {
+            if (props.selected.includes(p.taskListId)) {
               props.setSelected(
-                props.selected.filter((s) => s !== p.projectId),
+                props.selected.filter((s) => s !== p.taskListId),
               );
             } else {
-              props.setSelected([...props.selected, p.projectId]);
+              props.setSelected([...props.selected, p.taskListId]);
             }
           }}
         >
-          {p.projectName}
+          {p.taskListName}
         </div>
       ))}
-      <PlusButton label="Add Project" onClick={() => setProjectForm(true)} />
+      <PlusButton label="Add Task List" onClick={() => setProjectForm(true)} />
       {projectForm && (
         <div ref={ref}>
           <ProjectsForm

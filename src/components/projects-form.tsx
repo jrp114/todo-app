@@ -1,15 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import useGetProjectsQuery from '../api/useGetProjectsQuery';
+import { useAuthContext } from '../auth-context';
 import { Button } from './button';
 import { InputField } from './input-field';
 
 interface ProjectsFormProps {
-  // done: () => void;
   add: (v: any) => void;
 }
 
 export default function ProjectsForm({ add }: ProjectsFormProps) {
   const [step, setStep] = useState(0);
+  const [projects, setProjects] = useState<any>([]);
   const {
     handleSubmit,
     register,
@@ -18,6 +20,13 @@ export default function ProjectsForm({ add }: ProjectsFormProps) {
     setError,
     clearErrors,
   } = useForm<any>();
+  const { session } = useAuthContext();
+
+  const { refetch } = useGetProjectsQuery(session?.accountId);
+
+  useEffect(() => {
+    refetch().then((result) => setProjects(result.data));
+  }, []);
 
   return (
     <div>
@@ -29,21 +38,34 @@ export default function ProjectsForm({ add }: ProjectsFormProps) {
         })}
         className="flex flex-row gap-1"
       >
+        {/* TODO: Create a Dropdown component */}
         {step === 0 && (
+          <select
+            {...register('projectId', { required: true })}
+            className="border"
+          >
+            {projects.map((p: any) => (
+              <option key={p.id} value={p.id}>
+                {p.name}
+              </option>
+            ))}
+          </select>
+        )}
+        {step === 1 && (
           <InputField
             register={register('name', { required: true })}
             label="Enter a name"
             classes="p-1"
           />
         )}
-        {step === 1 && (
+        {step === 2 && (
           <textarea
             placeholder="Enter a description"
             {...register('description')}
             className="border "
           />
         )}
-        {step !== 1 && (
+        {step !== 2 && (
           <Button
             variant="secondary"
             onClick={() => {
@@ -58,7 +80,7 @@ export default function ProjectsForm({ add }: ProjectsFormProps) {
             Next
           </Button>
         )}
-        {step === 1 && (
+        {step === 2 && (
           <Button variant="secondary" type="submit">
             Submit
           </Button>

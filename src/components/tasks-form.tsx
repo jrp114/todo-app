@@ -37,7 +37,7 @@ export default function TasksForm({ done, add, listId }: TasksFormProps) {
           add({
             ...v,
             tags,
-            projectId: listId,
+            taskListId: listId,
           });
           setStep(0);
           reset();
