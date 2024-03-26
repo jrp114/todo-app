@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Maybe } from 'yup';
@@ -9,20 +8,23 @@ import {
 } from '../api';
 import { Task } from '../feature-main/main';
 import { Button } from './button';
+import { Comment } from './comment';
 import { InputField } from './input-field';
+import { Tag } from './tag';
 
 interface CardDetailProps {
   item: Task;
 }
 
-interface Comment {
+export interface CommentType {
   id: number;
   text: string;
 }
 
 export function CardDetail(props: CardDetailProps) {
-  const [comments, setComments] = useState<Array<Comment>>([]);
+  const [comments, setComments] = useState<Array<CommentType>>([]);
   const [edit, setEdit] = useState<Maybe<number>>(undefined);
+  const [hover, setHover] = useState<Maybe<number>>(undefined);
   const { register, handleSubmit, resetField } = useForm();
   const { data, refetch } = useCommentsQuery(props.item.id);
   const { mutate: addComment } = useAddCommentMutation(refetch);
@@ -33,11 +35,9 @@ export function CardDetail(props: CardDetailProps) {
   }, [data]);
 
   return (
-    <div className="flex h-fit max-w-xs flex-col items-end justify-between">
-      <div className="flex w-full flex-row justify-center text-2xl">
-        {props.item?.name}
-      </div>
-      <div className="flex w-full flex-col items-end justify-between gap-16">
+    <div className="flex h-[600px] w-[800px] flex-col gap-6">
+      <div className="">{props.item?.name}</div>
+      <div className="flex w-full flex-col">
         <div>
           <div className="flex-wrap text-sm italic text-red-500">
             {props.item?.description}
@@ -57,44 +57,22 @@ export function CardDetail(props: CardDetailProps) {
               </Button>
             </form>
             {comments?.map((comment) => (
-              <div key={comment.id} className=" flex justify-end p-1">
-                <div
-                  contentEditable={edit === comment.id}
-                  onBlur={(e) => {
-                    if (e.target.innerHTML !== comment.text) {
-                      updateComment({
-                        id: comment.id,
-                        text: e.target.innerHTML,
-                      });
-                    }
-                  }}
-                  className={classNames('p-.25 w-full text-sm text-blue-400', {
-                    border: edit === comment.id,
-                  })}
-                  suppressContentEditableWarning={true}
-                >
-                  {comment.text}
-                </div>
-                <Button
-                  onClick={() => setEdit(comment.id)}
-                  size="sm"
-                  variant="secondary"
-                >
-                  Edit
-                </Button>
-              </div>
+              <Comment
+                key={comment.id}
+                comment={comment}
+                edit={edit}
+                setEdit={setEdit}
+                hover={hover}
+                setHover={setHover}
+                updateComment={updateComment}
+              />
             ))}
           </div>
         </div>
         {props.item.tags && (
-          <div className="flex flex-row flex-wrap">
+          <div className="flex flex-row flex-wrap pt-9">
             {props.item.tags?.map((tag: string, i: number) => (
-              <div
-                key={`tag-${i}`}
-                className="m-0.5 mr-1 flex-wrap border bg-white p-0.5  text-xs text-blue-500"
-              >
-                {tag}
-              </div>
+              <Tag key={`tag-${i}`} tag={tag} />
             ))}
           </div>
         )}
