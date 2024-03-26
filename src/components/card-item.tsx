@@ -40,7 +40,7 @@ export default function CardItem({
         id={item.position.toString()}
         key={item.id}
         className={classNames(
-          'min-h-[60px] min-w-[150px] cursor-pointer rounded-lg border border-gray-300 bg-white p-3 shadow-md hover:bg-gray-200',
+          'min-h-32 cursor-pointer rounded-lg border border-gray-300 bg-white p-3 shadow-md hover:bg-gray-200',
           {
             'font-bold text-green-500': dragging && index === i,
             'border border-dashed border-red-500 bg-green-100': over,

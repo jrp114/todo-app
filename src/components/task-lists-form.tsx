@@ -5,11 +5,11 @@ import { useAuthContext } from '../auth-context';
 import { Button } from './button';
 import { InputField } from './input-field';
 
-interface ProjectsFormProps {
+interface TaskListsFormProps {
   add: (v: any) => void;
 }
 
-export default function ProjectsForm({ add }: ProjectsFormProps) {
+export function TaskListsForm({ add }: TaskListsFormProps) {
   const [step, setStep] = useState(0);
   const [projects, setProjects] = useState<any>([]);
   const {

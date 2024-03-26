@@ -16,7 +16,7 @@ export function Filter(props: FilterProps) {
   }, []);
 
   return (
-    <div className="pl-5 pt-5">
+    <div>
       <InputField
         label="Filter"
         onChange={(e) => {

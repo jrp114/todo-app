@@ -8,7 +8,7 @@ import {
 } from '../api';
 import useAddProjectMutation from '../api/useAddProjectMutation';
 import { CardList, Filter } from '../components';
-import { ProjectList } from '../components/project-list';
+import { TaskList } from '../components/task-list';
 
 export interface Task {
   id: number;
@@ -77,8 +77,8 @@ export function Tasks() {
   }, []);
 
   return (
-    <>
-      <ProjectList
+    <div className="m-5 flex flex-col gap-4">
+      <TaskList
         selected={selected}
         setSelected={setSelected}
         projects={projectList}
@@ -86,7 +86,7 @@ export function Tasks() {
       />
 
       <Filter abortControllerRef={ref} setFilterText={setFilterText} />
-      <div className="flex flex-row">
+      <div className="flex flex-row gap-4">
         {Object.keys(separatedProjects).map((p) => (
           <CardList
             key={p}
@@ -95,10 +95,10 @@ export function Tasks() {
             remove={remove}
             dropItem={dropItem}
             add={addTask}
-            showList={!selected.includes(Number(p))}
+            showList={selected.includes(Number(p)) || selected.length === 0}
           />
         ))}
       </div>
-    </>
+    </div>
   );
 }
