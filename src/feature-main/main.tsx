@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Maybe } from 'yup';
 import {
+  useAddTaskListMutation,
   useAddTaskMutation,
   useRemoveTaskMutation,
   useTasksQuery,
   useUpdateTaskMutation,
 } from '../api';
-import useAddProjectMutation from '../api/useAddProjectMutation';
 import { CardList, Filter } from '../components';
 import { TaskList } from '../components/task-list';
 
@@ -23,18 +23,18 @@ export interface Task {
 
 export function Tasks() {
   const [current, setCurrent] = useState<Maybe<Task>>(undefined);
-  const [projects, setProjects] = useState<Array<Task>>([]);
+  const [tasks, setTasks] = useState<Array<Task>>([]);
   const [filterText, setFilterText] = useState<string>('');
   const [selected, setSelected] = useState<Array<number>>([]);
 
-  const handleSetProjects = useCallback((p: Array<any>) => {
-    setProjects(p);
+  const handleSetTasks = useCallback((p: Array<any>) => {
+    setTasks(p);
   }, []);
 
-  const { refetch, filter, ref } = useTasksQuery(handleSetProjects, filterText);
+  const { refetch, filter, ref } = useTasksQuery(handleSetTasks, filterText);
 
   const { mutate: addTask } = useAddTaskMutation(refetch);
-  const { mutate: addProject } = useAddProjectMutation(refetch);
+  const { mutate: addTaskList } = useAddTaskListMutation(refetch);
   const { mutate: remove } = useRemoveTaskMutation(refetch);
   const { mutate } = useUpdateTaskMutation(refetch, current);
 
@@ -47,33 +47,33 @@ export function Tasks() {
     }
   }, [filterText, refetch]);
 
-  // each project to have its own list of tasks
-  const separatedProjects = useMemo(() => {
+  // each task list to have its own list of tasks
+  const separatedTasks = useMemo(() => {
     const ordered: { [key: string]: Array<Task> } = {};
-    projects?.forEach((p) => {
+    tasks?.forEach((p) => {
       if (!ordered[p.taskListId]) {
         ordered[p.taskListId] = [];
       }
       ordered[p.taskListId].push(p);
     });
     return ordered;
-  }, [projects, selected]);
+  }, [tasks, selected]);
 
-  // get the project list for display and selection
-  // we want to use separatedProjects const to retrieve the project id and name since it's already broken up into object
+  // get the task list for display and selection
+  // we want to use separatedTaskLists const to retrieve the task list id and name since it's already broken up into object
   // as { taskListId: [tasks] } key value pairs
-  const projectList = useMemo(() => {
-    const unique = new Set(projects?.map((p) => p.taskListId));
-    const final = Array.from(unique).map((p) => separatedProjects[p][0]);
+  const taskLists = useMemo(() => {
+    const unique = new Set(tasks?.map((p) => p.taskListId));
+    const final = Array.from(unique).map((p) => separatedTasks[p][0]);
     return final;
-  }, [projects]);
+  }, [tasks]);
 
   const dropItem = useCallback((taskListId: number, position: number) => {
     mutate({ taskListId, position });
   }, []);
 
-  const handleProjectAdd = useCallback((v: any) => {
-    addProject(v);
+  const handleTaskListAdd = useCallback((v: any) => {
+    addTaskList(v);
   }, []);
 
   return (
@@ -81,17 +81,17 @@ export function Tasks() {
       <TaskList
         selected={selected}
         setSelected={setSelected}
-        projects={projectList}
-        add={handleProjectAdd}
+        taskLists={taskLists}
+        add={handleTaskListAdd}
       />
 
       <Filter abortControllerRef={ref} setFilterText={setFilterText} />
       <div className="flex flex-row gap-4">
-        {Object.keys(separatedProjects).map((p) => (
+        {Object.keys(separatedTasks).map((p) => (
           <CardList
             key={p}
             setCurrent={setCurrent}
-            items={separatedProjects[p]}
+            items={separatedTasks[p]}
             remove={remove}
             dropItem={dropItem}
             add={addTask}

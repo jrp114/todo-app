@@ -8,7 +8,7 @@ import { useOutsideClick } from './useOutsideClick';
 interface TaskListProps {
   selected: Array<number>;
   setSelected: (selected: Array<number>) => void;
-  projects: Array<Task>;
+  taskLists: Array<Task>;
   add: (v: any) => void;
 }
 
@@ -23,23 +23,23 @@ export function TaskList(props: TaskListProps) {
         Task Lists
       </div>
       <div className="flex flex-row items-center gap-2">
-        {props.projects.map((p) => (
+        {props.taskLists.map((tl) => (
           <div
-            key={p.taskListId || 0}
+            key={tl.taskListId || 0}
             className={classNames('cursor-pointer border p-2', {
-              'bg-black text-white': props.selected.includes(p.taskListId),
+              'bg-black text-white': props.selected.includes(tl.taskListId),
             })}
             onClick={() => {
-              if (props.selected.includes(p.taskListId)) {
+              if (props.selected.includes(tl.taskListId)) {
                 props.setSelected(
-                  props.selected.filter((s) => s !== p.taskListId),
+                  props.selected.filter((s) => s !== tl.taskListId),
                 );
               } else {
-                props.setSelected([...props.selected, p.taskListId]);
+                props.setSelected([...props.selected, tl.taskListId]);
               }
             }}
           >
-            {p.taskListName}
+            {tl.taskListName}
           </div>
         ))}
         <Button
