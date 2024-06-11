@@ -7,6 +7,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { Maybe } from 'yup';
 import { useAuthContext } from './auth-context';
 import { Button } from './components/button';
 import { useOutsideClick } from './components/useOutsideClick';
@@ -23,6 +24,7 @@ interface Action {
 interface SetModalProps {
   message: React.ReactNode | string;
   actions: Array<Action>;
+  noCancelButton?: boolean;
 }
 
 const ModalContext = createContext<any>(undefined);
@@ -31,6 +33,7 @@ export const ModalProvider = ({ children }: ModalContextProps) => {
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState<React.ReactNode | string>('');
   const [actions, setActions] = useState<Array<Action>>([]);
+  const [cancel, showCancel] = useState<Maybe<Boolean>>(false);
   const { session } = useAuthContext();
   const outer = useRef<any>();
   useOutsideClick(outer, () => setShow(false));
@@ -40,11 +43,15 @@ export const ModalProvider = ({ children }: ModalContextProps) => {
       setShow(false);
     }
   }, [session]);
-  const setModal = useCallback(({ message, actions }: SetModalProps) => {
-    setActions(actions);
-    setShow(true);
-    setMessage(message);
-  }, []);
+  const setModal = useCallback(
+    ({ message, actions, noCancelButton }: SetModalProps) => {
+      setActions(actions);
+      setShow(true);
+      setMessage(message);
+      showCancel(!noCancelButton);
+    },
+    [],
+  );
   const state = useMemo(() => {
     return {
       setModal,
@@ -67,7 +74,7 @@ export const ModalProvider = ({ children }: ModalContextProps) => {
               {message}
               <div className="flex justify-end gap-x-4 pt-4">
                 {/* action buttons */}
-                {actions.map((action: Action, i: number) => (
+                {actions?.map((action: Action, i: number) => (
                   <Button
                     key={`action-${i}`}
                     variant="primary"
@@ -78,9 +85,11 @@ export const ModalProvider = ({ children }: ModalContextProps) => {
                     {action.name}
                   </Button>
                 ))}
-                <Button variant="secondary" onClick={() => setShow(false)}>
-                  Cancel
-                </Button>
+                {cancel && (
+                  <Button variant="secondary" onClick={() => setShow(false)}>
+                    Cancel
+                  </Button>
+                )}
               </div>
             </div>
           </div>

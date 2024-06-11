@@ -1,8 +1,9 @@
 import axios from 'axios';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../auth-context';
+import useAbortController from '../components/useAbortController';
 
 export default function useTasksQuery(
   successHandler: (v: any) => void,
@@ -10,7 +11,7 @@ export default function useTasksQuery(
 ) {
   const { session } = useAuthContext();
   const navigate = useNavigate();
-  const ref = useRef<any>();
+  const { ref, signal } = useAbortController();
 
   useEffect(() => {
     if (!session) {
@@ -44,8 +45,6 @@ export default function useTasksQuery(
       if (!value) {
         return;
       }
-      ref.current = new AbortController();
-      const signal = ref.current.signal;
       return axios.get(
         `${import.meta.env.VITE_APP_API_URL}/tasklists/tasks/filter?value=${value}&userId=${session.userId}`,
         {

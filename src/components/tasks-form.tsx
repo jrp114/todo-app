@@ -50,13 +50,16 @@ export default function TasksForm({ done, add, listId }: TasksFormProps) {
             register={register('name', { required: true })}
             label="Enter a name"
             classes="p-1"
+            error={errors.name ? 'Name is required' : undefined}
           />
         )}
         {step === 1 && (
-          <textarea
-            placeholder="Enter a description"
-            {...register('description', { required: true })}
-            className="border "
+          <InputField
+            register={register('description', { required: true })}
+            label="Description"
+            classes="p-1"
+            textarea
+            error={errors.description ? 'Description is required' : undefined}
           />
         )}
         {step === 2 && (
@@ -76,6 +79,7 @@ export default function TasksForm({ done, add, listId }: TasksFormProps) {
                 clearErrors();
               } else {
                 setError('name', {});
+                setError('description', {});
               }
             }}
           >
@@ -88,9 +92,6 @@ export default function TasksForm({ done, add, listId }: TasksFormProps) {
           </Button>
         )}
       </form>
-      {(errors.name || errors.description) && (
-        <span className="text-red-500">Required</span>
-      )}
     </div>
   );
 }

@@ -19,7 +19,7 @@ const schema = yup.object().shape({
     .oneOf([yup.ref('password')], 'Passwords must match'),
 });
 
-export function Register() {
+export default function Register() {
   const {
     register,
     handleSubmit,

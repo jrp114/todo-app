@@ -56,13 +56,16 @@ export function TaskListsForm({ add }: TaskListsFormProps) {
             register={register('name', { required: true })}
             label="Enter a name"
             classes="p-1"
+            error={errors.name ? 'Name is required' : undefined}
           />
         )}
         {step === 2 && (
-          <textarea
-            placeholder="Enter a description"
-            {...register('description')}
-            className="border "
+          <InputField
+            register={register('description')}
+            label="Description"
+            classes="p-1"
+            textarea
+            error={errors.description ? 'Description is required' : undefined}
           />
         )}
         {step !== 2 && (
@@ -86,7 +89,6 @@ export function TaskListsForm({ add }: TaskListsFormProps) {
           </Button>
         )}
       </form>
-      {errors.name && <span className="text-red-500">Required</span>}
     </div>
   );
 }

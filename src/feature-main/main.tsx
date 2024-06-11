@@ -7,8 +7,11 @@ import {
   useTasksQuery,
   useUpdateTaskMutation,
 } from '../api';
-import { CardList, Filter } from '../components';
+import useAddProjectMutation from '../api/useAddProjectMutation';
+import { Button, CardList, Filter } from '../components';
+import { ProjectsForm } from '../components/project-form';
 import { TaskList } from '../components/task-list';
+import { useModalContext } from '../modal-context';
 
 export interface Task {
   id: number;
@@ -21,20 +24,22 @@ export interface Task {
   taskListId: number;
 }
 
-export function Tasks() {
+export default function Tasks() {
   const [current, setCurrent] = useState<Maybe<Task>>(undefined);
   const [tasks, setTasks] = useState<Array<Task>>([]);
   const [filterText, setFilterText] = useState<string>('');
   const [selected, setSelected] = useState<Array<number>>([]);
+  const { setModal } = useModalContext();
 
   const handleSetTasks = useCallback((p: Array<any>) => {
     setTasks(p);
   }, []);
 
-  const { refetch, filter, ref } = useTasksQuery(handleSetTasks, filterText);
+  const { refetch, filter } = useTasksQuery(handleSetTasks, filterText);
 
   const { mutate: addTask } = useAddTaskMutation(refetch);
   const { mutate: addTaskList } = useAddTaskListMutation(refetch);
+  const { mutate: addProject } = useAddProjectMutation(refetch);
   const { mutate: remove } = useRemoveTaskMutation(refetch);
   const { mutate } = useUpdateTaskMutation(refetch, current);
 
@@ -76,8 +81,27 @@ export function Tasks() {
     addTaskList(v);
   }, []);
 
+  const handleProjectAdd = useCallback((v: any) => {
+    addProject(v);
+  }, []);
+
   return (
     <div className="m-5 flex flex-col gap-4">
+      <div>
+        <Button
+          variant="transparent"
+          icon="plus"
+          onClick={() =>
+            setModal({
+              message: <ProjectsForm add={handleProjectAdd} />,
+              noCancelButton: true,
+            })
+          }
+        >
+          Add Project
+        </Button>
+      </div>
+
       <TaskList
         selected={selected}
         setSelected={setSelected}
@@ -85,7 +109,7 @@ export function Tasks() {
         add={handleTaskListAdd}
       />
 
-      <Filter abortControllerRef={ref} setFilterText={setFilterText} />
+      <Filter setFilterText={setFilterText} />
       <div className="flex flex-row gap-4">
         {Object.keys(separatedTasks).map((p) => (
           <CardList

@@ -1,8 +1,9 @@
-import { MutableRefObject, useCallback } from 'react';
+import { useCallback } from 'react';
 import { InputField } from './input-field';
+import useAbortController from './useAbortController';
 
 interface FilterProps {
-  abortControllerRef: MutableRefObject<AbortController>;
+  // abortControllerRef: MutableRefObject<AbortController>;
   setFilterText: (filterText: string) => void;
 }
 
@@ -15,6 +16,8 @@ export function Filter(props: FilterProps) {
     };
   }, []);
 
+  const { ref } = useAbortController();
+
   return (
     <div>
       <InputField
@@ -22,8 +25,8 @@ export function Filter(props: FilterProps) {
         onChange={(e) => {
           // in case the previous network request is ongoing
           // when the next one fires we want to abort
-          if (props.abortControllerRef?.current) {
-            props.abortControllerRef.current.abort();
+          if (ref?.current) {
+            ref.current.abort();
           }
           debounce(async () => {
             props.setFilterText(e.target.value);

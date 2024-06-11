@@ -13,9 +13,9 @@ interface TaskListProps {
 }
 
 export function TaskList(props: TaskListProps) {
-  const [projectForm, setProjectForm] = useState(false);
+  const [taskListForm, setTaskListForm] = useState(false);
   const ref = useRef<any>();
-  useOutsideClick(ref, () => setProjectForm(false));
+  useOutsideClick(ref, () => setTaskListForm(false));
 
   return (
     <div>
@@ -43,16 +43,16 @@ export function TaskList(props: TaskListProps) {
           </div>
         ))}
         <Button
-          onClick={() => setProjectForm(!projectForm)}
-          icon={projectForm ? 'minus' : 'plus'}
+          onClick={() => setTaskListForm(!taskListForm)}
+          icon={taskListForm ? 'minus' : 'plus'}
           variant="transparent"
         />
-        {projectForm && (
+        {taskListForm && (
           <div ref={ref}>
             <TaskListsForm
               add={(v) => {
                 props.add(v);
-                setProjectForm(false);
+                setTaskListForm(false);
               }}
             />
           </div>

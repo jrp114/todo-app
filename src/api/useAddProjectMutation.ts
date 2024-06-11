@@ -7,7 +7,7 @@ import {
 } from 'react-query';
 import { useAuthContext } from '../auth-context';
 
-export default function useAddTaskListMutation(
+export default function useAddProjectMutation(
   refetch: <TPageData>(
     options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
   ) => Promise<
@@ -18,10 +18,10 @@ export default function useAddTaskListMutation(
   const { mutate } = useMutation({
     mutationFn: (p: any) =>
       axios.post(
-        `${import.meta.env.VITE_APP_API_URL}/tasklists`,
+        `${import.meta.env.VITE_APP_API_URL}/projects`,
         {
           ...p,
-          userId: session.userId,
+          accountId: session.accountId,
         },
         {
           headers: {
