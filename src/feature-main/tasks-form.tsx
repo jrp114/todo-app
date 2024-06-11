@@ -1,17 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import useGetProjectsQuery from '../api/useGetProjectsQuery';
-import { useAuthContext } from '../auth-context';
-import { Button } from './button';
-import { InputField } from './input-field';
+import { Button, InputField } from '../components';
+import { Task } from '../types';
 
-interface TaskListsFormProps {
-  add: (v: any) => void;
+interface TasksFormProps {
+  done: () => void;
+  add: (v: Task) => void;
+  listId: number;
 }
 
-export function TaskListsForm({ add }: TaskListsFormProps) {
+export default function TasksForm({ done, add, listId }: TasksFormProps) {
   const [step, setStep] = useState(0);
-  const [projects, setProjects] = useState<any>([]);
+  const [tags, setTags] = useState<Array<string>>([]);
   const {
     handleSubmit,
     register,
@@ -19,39 +19,32 @@ export function TaskListsForm({ add }: TaskListsFormProps) {
     formState: { errors, isValid },
     setError,
     clearErrors,
-  } = useForm<any>();
-  const { session } = useAuthContext();
-
-  const { refetch } = useGetProjectsQuery(session?.accountId);
-
-  useEffect(() => {
-    refetch().then((result) => setProjects(result.data));
+    getValues,
+    resetField,
+  } = useForm<Task & { tag: string }>();
+  const addTag = useCallback((tag: string) => {
+    const temp = tags;
+    temp.push(tag);
+    setTags(temp);
+    resetField('tag');
   }, []);
 
   return (
     <div>
       <form
         onSubmit={handleSubmit((v) => {
-          add(v);
+          add({
+            ...v,
+            tags,
+            taskListId: listId,
+          });
           setStep(0);
           reset();
+          done();
         })}
         className="flex flex-row gap-1"
       >
-        {/* TODO: Create a Dropdown component */}
         {step === 0 && (
-          <select
-            {...register('projectId', { required: true })}
-            className="border"
-          >
-            {projects.map((p: any) => (
-              <option key={p.id} value={p.id}>
-                {p.name}
-              </option>
-            ))}
-          </select>
-        )}
-        {step === 1 && (
           <InputField
             register={register('name', { required: true })}
             label="Enter a name"
@@ -59,14 +52,22 @@ export function TaskListsForm({ add }: TaskListsFormProps) {
             error={errors.name ? 'Name is required' : undefined}
           />
         )}
-        {step === 2 && (
+        {step === 1 && (
           <InputField
-            register={register('description')}
+            register={register('description', { required: true })}
             label="Description"
             classes="p-1"
             textarea
             error={errors.description ? 'Description is required' : undefined}
           />
+        )}
+        {step === 2 && (
+          <InputField register={register('tag')} label="Tag" classes="p-1" />
+        )}
+        {step === 2 && (
+          <Button variant="primary" onClick={() => addTag(getValues('tag'))}>
+            Add Tag
+          </Button>
         )}
         {step !== 2 && (
           <Button
@@ -77,6 +78,7 @@ export function TaskListsForm({ add }: TaskListsFormProps) {
                 clearErrors();
               } else {
                 setError('name', {});
+                setError('description', {});
               }
             }}
           >

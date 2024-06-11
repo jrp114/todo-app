@@ -1,9 +1,8 @@
 import classNames from 'classnames';
 import { useRef, useState } from 'react';
-import { Task } from '../feature-main/main';
-import { Button } from './button';
+import { Button, useOutsideClick } from '../components';
+import { Task } from '../types';
 import { TaskListsForm } from './task-lists-form';
-import { useOutsideClick } from './useOutsideClick';
 
 interface TaskListProps {
   selected: Array<number>;

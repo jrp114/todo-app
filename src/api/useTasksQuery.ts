@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../auth-context';
-import useAbortController from '../components/useAbortController';
+import { useAbortController } from '../components';
 
 export default function useTasksQuery(
   successHandler: (v: any) => void,

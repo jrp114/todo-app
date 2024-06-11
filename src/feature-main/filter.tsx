@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
-import { InputField } from './input-field';
-import useAbortController from './useAbortController';
+import { InputField } from '../components';
+import useAbortController from '../components/useAbortController';
 
 interface FilterProps {
   // abortControllerRef: MutableRefObject<AbortController>;

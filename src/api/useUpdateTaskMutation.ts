@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useMutation } from 'react-query';
 import { Maybe } from 'yup';
 import { useAuthContext } from '../auth-context';
-import { Task } from '../feature-main/main';
+import { Task } from '../types';
 
 interface UpdateTaskMutationFunctionArgs {
   taskListId: number;

@@ -1,9 +1,8 @@
 import { useRef, useState } from 'react';
-import { Task } from '../feature-main/main';
-import { Button } from './button';
+import { Button, useOutsideClick } from '../components';
+import { Task } from '../types';
 import CardItem from './card-item';
 import TasksForm from './tasks-form';
-import { useOutsideClick } from './useOutsideClick';
 
 interface CardListProps {
   dropItem: (taskListId: number, position: number) => void;

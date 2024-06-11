@@ -6,7 +6,7 @@ import {
   useMutation,
 } from 'react-query';
 import { useAuthContext } from '../auth-context';
-import { Task } from '../feature-main/main';
+import { Task } from '../types';
 
 export default function useAddTaskMutation(
   refetch: <TPageData>(

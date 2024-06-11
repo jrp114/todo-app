@@ -9,8 +9,7 @@ import React, {
 } from 'react';
 import { Maybe } from 'yup';
 import { useAuthContext } from './auth-context';
-import { Button } from './components/button';
-import { useOutsideClick } from './components/useOutsideClick';
+import { Button, useOutsideClick } from './components';
 
 interface ModalContextProps {
   children: React.ReactNode;

@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { useRef, useState } from 'react';
-import { Task } from '../feature-main/main';
 import { useModalContext } from '../modal-context';
+import { Task } from '../types';
 import { CardDetail } from './card-data';
 import { Tag } from './tag';
 

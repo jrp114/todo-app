@@ -1,9 +1,6 @@
 import { RefObject, useEffect } from 'react';
 
-export const useOutsideClick = (
-  ref: RefObject<HTMLElement>,
-  callback: () => void,
-) => {
+const useOutsideClick = (ref: RefObject<HTMLElement>, callback: () => void) => {
   useEffect(() => {
     const handleClose = (e: any) => {
       if (
@@ -19,3 +16,5 @@ export const useOutsideClick = (
   }, [ref]);
   return;
 };
+
+export default useOutsideClick;

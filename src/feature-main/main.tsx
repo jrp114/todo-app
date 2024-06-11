@@ -8,21 +8,13 @@ import {
   useUpdateTaskMutation,
 } from '../api';
 import useAddProjectMutation from '../api/useAddProjectMutation';
-import { Button, CardList, Filter } from '../components';
-import { ProjectsForm } from '../components/project-form';
-import { TaskList } from '../components/task-list';
+import { Button } from '../components';
 import { useModalContext } from '../modal-context';
-
-export interface Task {
-  id: number;
-  name: string;
-  description: string;
-  status: string;
-  tags: Array<string>;
-  position: number;
-  taskListName: string;
-  taskListId: number;
-}
+import { Task } from '../types';
+import CardList from './card-list';
+import { Filter } from './filter';
+import { ProjectsForm } from './project-form';
+import { TaskList } from './task-list';
 
 export default function Tasks() {
   const [current, setCurrent] = useState<Maybe<Task>>(undefined);

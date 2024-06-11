@@ -6,10 +6,9 @@ import {
   useCommentsQuery,
   useUpdateCommentMutation,
 } from '../api';
-import { Task } from '../feature-main/main';
-import { Button } from './button';
+import { Button, InputField } from '../components';
+import { Task } from '../types';
 import { Comment } from './comment';
-import { InputField } from './input-field';
 import { Tag } from './tag';
 
 interface CardDetailProps {

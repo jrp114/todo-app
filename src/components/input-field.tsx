@@ -8,9 +8,9 @@ interface InputFieldProps {
   textarea?: boolean;
 }
 
-export function InputField(props: InputFieldProps) {
+function InputField(props: InputFieldProps) {
   return (
-    <span className="flex flex-col">
+    <span className="flex w-full flex-col">
       {!props.textarea ? (
         <input
           {...props.register}
@@ -30,3 +30,5 @@ export function InputField(props: InputFieldProps) {
     </span>
   );
 }
+
+export default InputField;

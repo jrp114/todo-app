@@ -9,7 +9,7 @@ interface ButtonProps {
   icon?: 'plus' | 'minus';
 }
 
-export function Button({
+function Button({
   type = 'button',
   onClick,
   variant = 'primary',
@@ -43,3 +43,5 @@ export function Button({
     </button>
   );
 }
+
+export default Button;
