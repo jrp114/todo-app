@@ -1,3 +1,4 @@
+import { Task } from '@types';
 import axios, { AxiosResponse } from 'axios';
 import {
   QueryObserverResult,
@@ -6,7 +7,6 @@ import {
   useMutation,
 } from 'react-query';
 import { useAuthContext } from '../auth-context';
-import { Task } from '../types';
 
 export default function useAddTaskMutation(
   refetch: <TPageData>(

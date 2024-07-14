@@ -1,23 +1,12 @@
-import useAddCommentMutation from './useAddCommentMutation';
-import useAddTaskListMutation from './useAddTaskListMutation';
-import useAddTaskMutation from './useAddTaskMutation';
-import useCommentsQuery from './useCommentsQuery';
-import useLoginMutation from './useLoginMutation';
-import useRegisterMutation from './useRegisterMutation';
-import useRemoveTaskMutation from './useRemoveTaskMutation';
-import useTasksQuery from './useTasksQuery';
-import useUpdateCommentMutation from './useUpdateCommentMutation';
-import useUpdateTaskMutation from './useUpdateTaskMutation';
-
-export {
-  useAddCommentMutation,
-  useAddTaskListMutation,
-  useAddTaskMutation,
-  useCommentsQuery,
-  useLoginMutation,
-  useRegisterMutation,
-  useRemoveTaskMutation,
-  useTasksQuery,
-  useUpdateCommentMutation,
-  useUpdateTaskMutation,
-};
+export { default as useAddCommentMutation } from './useAddCommentMutation';
+export { default as useAddProjectMutation } from './useAddProjectMutation';
+export { default as useAddTaskListMutation } from './useAddTaskListMutation';
+export { default as useAddTaskMutation } from './useAddTaskMutation';
+export { default as useCommentsQuery } from './useCommentsQuery';
+export { default as useGetProjectsQuery } from './useGetProjectsQuery';
+export { default as useLoginMutation } from './useLoginMutation';
+export { default as useRegisterMutation } from './useRegisterMutation';
+export { default as useRemoveTaskMutation } from './useRemoveTaskMutation';
+export { default as useTasksQuery } from './useTasksQuery';
+export { default as useUpdateCommentMutation } from './useUpdateCommentMutation';
+export { default as useUpdateTaskMutation } from './useUpdateTaskMutation';

@@ -1,7 +1,7 @@
+import { useLoginMutation } from '@api';
+import { LoginMutationFunctionArgs } from '@api/useLoginMutation';
+import { Button, InputField } from '@components';
 import { useForm } from 'react-hook-form';
-import { useLoginMutation } from '../api';
-import { LoginMutationFunctionArgs } from '../api/useLoginMutation';
-import { Button, InputField } from '../components';
 
 export function Login() {
   const { register, handleSubmit } = useForm<LoginMutationFunctionArgs>();

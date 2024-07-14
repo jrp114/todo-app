@@ -1,16 +1,16 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Maybe } from 'yup';
 import {
+  useAddProjectMutation,
   useAddTaskListMutation,
   useAddTaskMutation,
   useRemoveTaskMutation,
   useTasksQuery,
   useUpdateTaskMutation,
-} from '../api';
-import useAddProjectMutation from '../api/useAddProjectMutation';
-import { Button } from '../components';
+} from '@api';
+import { Button } from '@components';
+import { Task } from '@types';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Maybe } from 'yup';
 import { useModalContext } from '../modal-context';
-import { Task } from '../types';
 import CardList from './card-list';
 import { Filter } from './filter';
 import { ProjectsForm } from './project-form';

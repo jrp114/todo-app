@@ -1,10 +1,10 @@
+import { useRegisterMutation } from '@api';
+import { RegisterMutationFunctionArgs } from '@api/useRegisterMutation';
+import { Button, InputField } from '@components';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
-import { useRegisterMutation } from '../api';
-import { RegisterMutationFunctionArgs } from '../api/useRegisterMutation';
-import { Button, InputField } from '../components';
 
 const schema = yup.object().shape({
   // TODO: add validation for the account name

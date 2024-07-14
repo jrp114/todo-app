@@ -5,9 +5,9 @@ import AuthProvider from './auth-context';
 import { ModalProvider } from './modal-context';
 import './styles/App.css';
 
-const LoginPage = lazy(() => import('./feature-login/login'));
-const RegisterPage = lazy(() => import('./feature-register/register'));
-const TasksPage = lazy(() => import('./feature-main/main'));
+const LoginPage = lazy(() => import('@feature-login/login'));
+const RegisterPage = lazy(() => import('@feature-register/register'));
+const TasksPage = lazy(() => import('@feature-main/main'));
 
 function App() {
   const queryClient = new QueryClient();

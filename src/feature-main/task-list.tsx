@@ -1,7 +1,7 @@
+import { Button, useOutsideClick } from '@components';
+import { Task } from '@types';
 import classNames from 'classnames';
 import { useRef, useState } from 'react';
-import { Button, useOutsideClick } from '../components';
-import { Task } from '../types';
 import { TaskListsForm } from './task-lists-form';
 
 interface TaskListProps {

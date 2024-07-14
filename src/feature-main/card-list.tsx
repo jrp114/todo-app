@@ -1,6 +1,6 @@
+import { Button, useOutsideClick } from '@components';
+import { Task } from '@types';
 import { useRef, useState } from 'react';
-import { Button, useOutsideClick } from '../components';
-import { Task } from '../types';
 import CardItem from './card-item';
 import TasksForm from './tasks-form';
 

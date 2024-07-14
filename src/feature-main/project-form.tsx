@@ -1,6 +1,6 @@
+import { Button, InputField } from '@components';
 import { useForm } from 'react-hook-form';
 import { useAuthContext } from '../auth-context';
-import { Button, InputField } from '../components';
 import { useModalContext } from '../modal-context';
 
 interface ProjectsFormProps {

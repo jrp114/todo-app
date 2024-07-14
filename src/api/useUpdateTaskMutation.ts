@@ -1,8 +1,8 @@
+import { Task } from '@types';
 import axios from 'axios';
 import { useMutation } from 'react-query';
 import { Maybe } from 'yup';
 import { useAuthContext } from '../auth-context';
-import { Task } from '../types';
 
 interface UpdateTaskMutationFunctionArgs {
   taskListId: number;

@@ -1,8 +1,8 @@
+import { useGetProjectsQuery } from '@api';
+import { Button, InputField } from '@components';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import useGetProjectsQuery from '../api/useGetProjectsQuery';
 import { useAuthContext } from '../auth-context';
-import { Button, InputField } from '../components';
 
 interface TaskListsFormProps {
   add: (v: any) => void;

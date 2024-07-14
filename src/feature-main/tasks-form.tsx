@@ -1,7 +1,7 @@
+import { Button, InputField } from '@components';
+import { Task } from '@types';
 import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Button, InputField } from '../components';
-import { Task } from '../types';
 
 interface TasksFormProps {
   done: () => void;

@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { Maybe } from 'yup';
 import {
   useAddCommentMutation,
   useCommentsQuery,
   useUpdateCommentMutation,
-} from '../api';
-import { Button, InputField } from '../components';
-import { Task } from '../types';
+} from '@api';
+import { Button, InputField } from '@components';
+import { Task } from '@types';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { Maybe } from 'yup';
 import { Comment } from './comment';
 import { Tag } from './tag';
 
