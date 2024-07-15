@@ -42,8 +42,9 @@ export default function CardItem({
         className={classNames(
           'min-h-32 cursor-pointer rounded-lg border border-gray-300 bg-white p-3 shadow-md hover:bg-gray-200',
           {
-            'font-bold text-green-500': dragging && index === i,
-            'border border-dashed border-red-500 bg-green-100': over,
+            'border-green-500 font-bold text-green-500':
+              dragging && index === i,
+            'border-4 border-dashed border-red-500 bg-green-100': over,
           },
         )}
         draggable
