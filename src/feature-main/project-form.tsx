@@ -1,4 +1,4 @@
-import { Button, InputField } from '@components';
+import { Form, InputField } from '@components';
 import { useForm } from 'react-hook-form';
 import { useAuthContext } from '../auth-context';
 import { useModalContext } from '../modal-context';
@@ -16,12 +16,13 @@ export function ProjectsForm({ add }: ProjectsFormProps) {
     setError,
   } = useForm<any>();
   const { session } = useAuthContext();
-  const modal = useModalContext();
+  const { setModal } = useModalContext();
 
   return (
-    <div className="w-96 p-4">
-      <form
-        onSubmit={handleSubmit((v) => {
+    <div className="w-96 py-4">
+      <Form
+        submitText="Add"
+        handleSubmit={handleSubmit((v: any) => {
           console.log(v);
           if (oninvalid) {
             setError('name', { message: 'Required' });
@@ -32,9 +33,8 @@ export function ProjectsForm({ add }: ProjectsFormProps) {
             accountId: session?.accountId,
           });
           reset();
-          modal.setShowModal(false);
+          setModal({ show: false });
         })}
-        className="flex flex-col gap-4"
       >
         <InputField
           register={register('name', { required: true })}
@@ -48,10 +48,7 @@ export function ProjectsForm({ add }: ProjectsFormProps) {
           classes="p-3"
           textarea
         />
-        <Button size="sm" type="submit">
-          Add
-        </Button>
-      </form>
+      </Form>
     </div>
   );
 }

@@ -1,6 +1,7 @@
-import { Button, useOutsideClick } from '@components';
+import { Button } from '@components';
+import { useModalContext } from '@modal-context';
 import { Task } from '@types';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import CardItem from './card-item';
 import TasksForm from './tasks-form';
 
@@ -22,9 +23,7 @@ export default function CardList({
   showList,
 }: CardListProps) {
   const [dragging, setDragging] = useState(false);
-  const [addTask, setAddTask] = useState(false);
-  const ref = useRef<any>();
-  useOutsideClick(ref, () => setAddTask(false));
+  const { setModal } = useModalContext();
 
   return (
     showList && (
@@ -39,16 +38,20 @@ export default function CardList({
             <div className="text-xl font-bold uppercase text-orange-700">
               {items[0].taskListName}
             </div>
-            {!addTask && (
-              <Button
-                onClick={() => setAddTask(!addTask)}
-                icon="plus"
-                variant="transparent"
-              >
-                Add New Task
-              </Button>
-            )}
-            {addTask && (
+            <Button
+              onClick={() =>
+                setModal({
+                  header: 'Add New Task',
+                  message: <TasksForm add={add} listId={items[0].taskListId} />,
+                  noCancelButton: true,
+                })
+              }
+              icon="plus"
+              variant="transparent"
+            >
+              Add New Task
+            </Button>
+            {/* {addTask && (
               <div
                 ref={ref}
                 className="mt-4 min-h-[60px] min-w-[150px] cursor-pointer rounded-lg border border-gray-300 bg-white p-3 shadow-md"
@@ -59,7 +62,7 @@ export default function CardList({
                   listId={items[0].taskListId}
                 />
               </div>
-            )}
+            )} */}
             <div className="flex flex-col gap-2 pt-2">
               {items.map((item: Task, i: number) => (
                 <CardItem

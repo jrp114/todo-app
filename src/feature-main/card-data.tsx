@@ -44,7 +44,7 @@ export function CardDetail(props: CardDetailProps) {
           <div className="mt-3 text-sm">
             <label>Comments</label>
             <form
-              onSubmit={handleSubmit((v) => {
+              onSubmit={handleSubmit((v: any) => {
                 addComment({ id: props.item.id, text: v.comment });
                 resetField('comment');
               })}

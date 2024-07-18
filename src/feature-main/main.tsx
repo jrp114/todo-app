@@ -85,6 +85,7 @@ export default function Tasks() {
           icon="plus"
           onClick={() =>
             setModal({
+              header: 'Add New Project',
               message: <ProjectsForm add={handleProjectAdd} />,
               noCancelButton: true,
             })

@@ -28,7 +28,7 @@ export default function CardItem({
   dropItem,
   listId,
 }: CardItemProps) {
-  const { setModal, setShowModal } = useModalContext();
+  const { setModal } = useModalContext();
   const [index, setIndex] = useState<number | null>(null);
   const [over, setOver] = useState(false);
   const [dropArea, setDropArea] = useState<number>(0);
@@ -82,7 +82,7 @@ export default function CardItem({
                         name: 'Delete',
                         handle: () => {
                           item.id && remove(item.id.toString());
-                          setShowModal(false);
+                          setModal({ show: false });
                         },
                       },
                     ],

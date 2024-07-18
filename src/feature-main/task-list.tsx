@@ -1,7 +1,7 @@
-import { Button, useOutsideClick } from '@components';
+import { Button } from '@components';
+import { useModalContext } from '@modal-context';
 import { Task } from '@types';
 import classNames from 'classnames';
-import { useRef, useState } from 'react';
 import { TaskListsForm } from './task-lists-form';
 
 interface TaskListProps {
@@ -12,9 +12,7 @@ interface TaskListProps {
 }
 
 export function TaskList(props: TaskListProps) {
-  const [taskListForm, setTaskListForm] = useState(false);
-  const ref = useRef<any>();
-  useOutsideClick(ref, () => setTaskListForm(false));
+  const { setModal } = useModalContext();
 
   return (
     <div>
@@ -42,20 +40,22 @@ export function TaskList(props: TaskListProps) {
           </div>
         ))}
         <Button
-          onClick={() => setTaskListForm(!taskListForm)}
-          icon={taskListForm ? 'minus' : 'plus'}
+          onClick={() =>
+            setModal({
+              header: 'Add New Task List',
+              message: (
+                <TaskListsForm
+                  add={(v) => {
+                    props.add(v);
+                  }}
+                />
+              ),
+              noCancelButton: true,
+            })
+          }
+          icon="plus"
           variant="transparent"
         />
-        {taskListForm && (
-          <div ref={ref}>
-            <TaskListsForm
-              add={(v) => {
-                props.add(v);
-                setTaskListForm(false);
-              }}
-            />
-          </div>
-        )}
       </div>
     </div>
   );

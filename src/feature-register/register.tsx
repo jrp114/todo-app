@@ -46,7 +46,7 @@ export default function Register() {
           onSubmit={handleSubmit((v) => {
             mutate(v as RegisterMutationFunctionArgs);
           })}
-          className="flex flex-col items-center justify-center gap-4"
+          className="flex flex-col gap-4"
         >
           {/* TODO: add field for account name */}
           <InputField

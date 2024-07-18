@@ -15,7 +15,7 @@ export function Login() {
           onSubmit={handleSubmit((v) => {
             mutate(v);
           })}
-          className="flex flex-col items-center justify-center gap-4"
+          className="flex flex-col gap-4"
         >
           <InputField
             register={register('email', { required: true })}
